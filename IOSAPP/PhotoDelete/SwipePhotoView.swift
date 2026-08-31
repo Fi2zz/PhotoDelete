@@ -668,7 +668,6 @@ struct SwipePhotoView: View {
                     if usesSidebar {
                         HStack(spacing: 0) {
                             VStack(spacing: 0) {
-                                navigationHeader
                                 photoArea
                                     .overlay(alignment: .top) {
                                         if let feedbackToast {
@@ -691,13 +690,7 @@ struct SwipePhotoView: View {
                         }
                     } else {
                         VStack(spacing: 0) {
-                            navigationHeader
                             photoArea
-                                .overlay(alignment: .bottomLeading) {
-                                    albumShortcutRevealButton
-                                        .padding(.leading, PhotoDeleteStyle.screenHorizontalPadding)
-                                        .padding(.bottom, 12)
-                                }
                             bottomControls
                         }
                     }
@@ -833,29 +826,6 @@ struct SwipePhotoView: View {
             sessionVideoMuted = muted
             didApplySessionPlaybackPreference = true
         }
-    }
-
-    // MARK: - 导航栏
-    private var navigationHeader: some View {
-        Group {
-            if totalPhotosCount > 0 {
-                ProgressView(value: progressFraction)
-                    .progressViewStyle(LinearProgressViewStyle(tint: PhotoDeleteStyle.accent))
-                    .frame(height: 4)
-                    .clipShape(Capsule(style: .continuous))
-                    .animation(.easeOut(duration: 0.22), value: organizedProgress)
-            }
-        }
-        .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
-        .padding(.top, 8)
-        .padding(.bottom, 10)
-        .background(PhotoDeleteStyle.background.opacity(0.86))
-        .overlay(
-            Rectangle()
-                .fill(PhotoDeleteStyle.hairline)
-                .frame(height: 1),
-            alignment: .bottom
-        )
     }
 
     // MARK: - 照片区域
@@ -1365,13 +1335,7 @@ struct SwipePhotoView: View {
 
     // MARK: - 底部控制区域
     private var bottomControls: some View {
-        VStack(spacing: 10) {
-            if shouldShowAlbumShortcutGuidance {
-                AlbumShortcutHintBubble(onDismiss: acknowledgeAlbumShortcutHint)
-                    .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-            }
-            albumShortcutStrip(horizontalPadding: PhotoDeleteStyle.screenHorizontalPadding)
+        Group {
             if shouldShowAlbumDownSwipeHint {
                 ReviewTipBanner(
                     icon: "rectangle.stack.badge.minus",
@@ -1379,32 +1343,21 @@ struct SwipePhotoView: View {
                     onDismiss: acknowledgeAlbumDownSwipeHint
                 )
                 .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
-                .transition(.move(edge: .bottom).combined(with: .opacity))
-            }
-            if showDeleteButtonTip && canPerformPhotoAction {
-                ReviewTipBanner(
-                    icon: "trash",
-                    message: L10n.string("按底部“删除”可连续加入待删除"),
-                    onDismiss: acknowledgeDeleteButtonTip
+                .padding(.top, 8)
+                .padding(.bottom, 8)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            PhotoDeleteStyle.background.opacity(0.08),
+                            PhotoDeleteStyle.background.opacity(0.94)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .overlay(PhotoDeleteStyle.hairline.opacity(0.65).frame(height: 1), alignment: .top)
                 )
-                .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
-                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-            actionToolbar
         }
-        .padding(.top, 8)
-        .padding(.bottom, 8)
-        .background(
-            LinearGradient(
-                colors: [
-                    PhotoDeleteStyle.background.opacity(0.08),
-                    PhotoDeleteStyle.background.opacity(0.94)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .overlay(PhotoDeleteStyle.hairline.opacity(0.65).frame(height: 1), alignment: .top)
-        )
     }
 
     private var landscapeSidebar: some View {
@@ -1707,63 +1660,6 @@ struct SwipePhotoView: View {
         AlbumShortcutLayout.usesTwoRows(albumCount: albumShortcutAlbums.count)
     }
 
-    private var actionToolbar: some View {
-        HStack(spacing: 0) {
-            Spacer(minLength: 0)
-            ActionButton(icon: "arrow.uturn.backward", title: "撤销", color: PhotoDeleteStyle.secondaryText, style: .quiet) {
-                handleUndoAction()
-                resetCardPosition()
-            }
-            Spacer(minLength: 0)
-            ActionButton(
-                icon: isCurrentPhotoFavorited ? "heart.slash" : "heart",
-                title: isCurrentPhotoFavorited ? "取消收藏" : "收藏",
-                color: PhotoDeleteStyle.iconTint(for: "favorite")
-            ) {
-                handleFavoriteAction()
-                resetCardPosition()
-            }
-            Spacer(minLength: 0)
-            ActionButton(
-                icon: isCurrentPhotoQueuedForDelete ? "xmark" : "trash",
-                title: isCurrentPhotoQueuedForDelete ? "取消" : "删除",
-                color: isCurrentPhotoQueuedForDelete ? PhotoDeleteStyle.secondaryText : PhotoDeleteStyle.destructive
-            ) {
-                handleDeleteAction()
-                resetCardPosition()
-            }
-            Spacer(minLength: 0)
-            ActionButton(
-                icon: isPreparingShare ? "hourglass" : "square.and.arrow.up",
-                title: isPreparingShare ? "准备中" : "分享",
-                color: PhotoDeleteStyle.accent
-            ) {
-                handleShareAction()
-                resetCardPosition()
-            }
-            Spacer(minLength: 0)
-            ActionButton(icon: "checkmark", title: "完成", color: PhotoDeleteStyle.positive, style: .solid) {
-                handleFinishAction()
-                resetCardPosition()
-            }
-            Spacer(minLength: 0)
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(
-            RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .fill(PhotoDeleteStyle.surface.opacity(0.86))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 30, style: .continuous)
-                        .stroke(PhotoDeleteStyle.hairline, lineWidth: 1)
-                )
-        )
-        .shadow(color: PhotoDeleteStyle.floatingShadow, radius: 8, x: 0, y: 3)
-        .padding(.horizontal, 18)
-        .disabled(!canPerformPhotoAction)
-        .opacity(canPerformPhotoAction ? 1 : 0.45)
-    }
-
     // MARK: - 手势处理
     private var shouldShowInitialPreparingState: Bool {
         !didInitializeSession &&
@@ -1901,13 +1797,6 @@ struct SwipePhotoView: View {
         )
     }
 
-    private var shouldShowAlbumShortcutRevealButton: Bool {
-        AlbumShortcutPresentationPolicy.showsRevealButton(
-            isExpanded: albumShortcutsExpanded,
-            isAvailable: isAlbumShortcutAvailable
-        )
-    }
-
     private var isAlbumShortcutAvailable: Bool {
         AlbumShortcutVisibility.shouldShow(
             isAlbumMode: isAlbumMode,
@@ -1917,14 +1806,11 @@ struct SwipePhotoView: View {
         )
     }
 
-    @ViewBuilder
-    private var albumShortcutRevealButton: some View {
-        if shouldShowAlbumShortcutRevealButton {
-            AlbumShortcutVisibilityButton(isExpanded: false, showsTitle: true) {
-                toggleAlbumShortcutVisibility()
-            }
-            .transition(.opacity.combined(with: .scale(scale: 0.94, anchor: .bottomLeading)))
-        }
+    private var shouldShowAlbumShortcutRevealButton: Bool {
+        AlbumShortcutPresentationPolicy.showsRevealButton(
+            isExpanded: albumShortcutsExpanded,
+            isAvailable: isAlbumShortcutAvailable
+        )
     }
 
     private func toggleAlbumShortcutVisibility() {
@@ -4890,77 +4776,6 @@ enum PhotoDeleteActionButtonStyle {
     case solid
 }
 
-struct ActionButton: View {
-    let icon: String
-    let title: String
-    let color: Color
-    var style: PhotoDeleteActionButtonStyle = .soft
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 7) {
-                Image(systemName: icon)
-                    .symbolRenderingMode(.monochrome)
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundColor(iconColor)
-                    .frame(width: buttonSize, height: buttonSize)
-                    .background(buttonBackground)
-
-                Text(title.appLocalized)
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundColor(labelColor)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-            }
-            .frame(width: 60)
-        }
-        .buttonStyle(PhotoDeletePressScaleButtonStyle())
-    }
-
-    private var buttonSize: CGFloat {
-        style == .quiet ? 42 : 46
-    }
-
-    private var iconColor: Color {
-        style == .solid ? .white : color
-    }
-
-    private var labelColor: Color {
-        style == .solid ? PhotoDeleteStyle.primaryText : PhotoDeleteStyle.secondaryText
-    }
-
-    private var buttonBackground: some View {
-        Circle()
-            .fill(backgroundFill)
-            .overlay(
-                Circle()
-                    .stroke(strokeColor, lineWidth: 1)
-            )
-    }
-
-    private var backgroundFill: Color {
-        switch style {
-        case .quiet:
-            return PhotoDeleteStyle.elevatedSurface.opacity(0.72)
-        case .soft:
-            return color.opacity(0.13)
-        case .solid:
-            return color
-        }
-    }
-
-    private var strokeColor: Color {
-        switch style {
-        case .quiet:
-            return PhotoDeleteStyle.hairline
-        case .soft:
-            return color.opacity(0.18)
-        case .solid:
-            return color.opacity(0.0)
-        }
-    }
-}
 
 private struct SessionMuteToggleButton: View {
     let isMuted: Bool

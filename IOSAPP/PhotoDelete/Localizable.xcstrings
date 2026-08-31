@@ -11615,46 +11615,6 @@
         }
       }
     },
-    "按底部“删除”可连续加入待删除" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اضغط على حذف في الأسفل لإضافة الصور إلى الحذف المعلق"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unten auf „Löschen“ tippen, um Fotos zur Löschliste hinzuzufügen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap Delete to add photos to pending deletion"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下部の「削除」をタップして削除待ちに追加"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "按底部“删除”可连续加入待删除"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按底部「刪除」可連續加入待刪除"
-          }
-        }
-      }
-    },
     "按当天照片继续整理" : {
       "localizations" : {
         "ar" : {
