@@ -1115,10 +1115,6 @@ struct PhotoDeleteTests {
         #expect(AppAppearance.allCases.map(\.rawValue) == ["system", "light", "dark"])
     }
 
-    @Test func defaultPhotoDeleteThemeIsSage() async throws {
-        #expect(PhotoDeleteTheme.defaultTheme == .sage)
-    }
-
     @Test func appLanguageIncludesTraditionalChinese() async throws {
         #expect(AppLanguage.allCases.contains(.zhHant))
         #expect(AppLanguage.zhHant.rawValue == "zh-Hant")

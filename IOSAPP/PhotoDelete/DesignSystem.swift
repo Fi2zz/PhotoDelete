@@ -445,7 +445,6 @@ enum AppConstants {
     static let gestureUpdateNoticePendingKey = "photoDeleteGestureUpdateNoticePendingV1"
     static let reviewProgressByScopeKey = "photoDeleteReviewProgressByScope"
     static let appAppearanceKey = "photoDeleteAppAppearance"
-    static let appThemeKey = "photoDeleteAppTheme"
     static let openAlbumsTabNotificationName = Notification.Name("photoDeleteOpenAlbumsTab")
     static let isImageCompressionVisible = true
     static var privacyShortText: String {

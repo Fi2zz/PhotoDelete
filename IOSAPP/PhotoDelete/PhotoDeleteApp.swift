@@ -19,11 +19,6 @@ struct PhotoDeleteApp: App {
             forKey: AppConstants.appAppearanceKey,
             fallback: AppAppearance.system.rawValue
         )
-    @AppStorage(AppConstants.appThemeKey) private var appThemeValue =
-        PhotoDeleteLaunchDefaults.string(
-            forKey: AppConstants.appThemeKey,
-            fallback: PhotoDeleteTheme.defaultTheme.rawValue
-        )
 
     init() {
         SwipeGesturePreferences.migrateStoredDefaultsIfNeeded()
@@ -35,8 +30,8 @@ struct PhotoDeleteApp: App {
             ContentView()
                 .environment(\.locale, selectedLanguage.locale)
                 .modifier(AppLayoutDirectionModifier(language: selectedLanguage))
-                .environment(\.photoDeleteTheme, selectedTheme)
-                .tint(selectedTheme.navigationTint)
+                .environment(\.photoDeleteTheme, PhotoDeleteTheme.defaultTheme)
+                .tint(PhotoDeleteTheme.defaultTheme.navigationTint)
                 .preferredColorScheme(selectedAppearance.colorScheme)
                 .statusBarHidden(false)
         }
@@ -48,10 +43,6 @@ struct PhotoDeleteApp: App {
 
     private var selectedAppearance: AppAppearance {
         AppAppearance(rawValue: appAppearanceValue) ?? .system
-    }
-
-    private var selectedTheme: PhotoDeleteTheme {
-        PhotoDeleteTheme.normalized(appThemeValue)
     }
 }
 
@@ -133,8 +124,7 @@ private enum PhotoDeleteUITestDefaults {
             AppConstants.hasDismissedAlbumSwipeHintKey,
             AppConstants.reviewProgressByScopeKey,
             AppConstants.customAlbumOrderKey,
-            AppConstants.appAppearanceKey,
-            AppConstants.appThemeKey
+            AppConstants.appAppearanceKey
         ].forEach(defaults.removeObject)
     }
 

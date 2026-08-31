@@ -968,123 +968,6 @@
         }
       }
     },
-    "01MVP 与小产品创作" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP وبناء المنتجات الصغيرة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP und kleine Produkte entwickeln"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP and small product building"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVPと小さなプロダクト作り"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP 與小產品創作"
-          }
-        }
-      }
-    },
-    "01MVP 小产品教程" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "دليل 01MVP للمنتجات الصغيرة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP Leitfaden für kleine Produkte"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP Small Product Guide"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP 小さなプロダクトガイド"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP 小产品教程"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP 小產品教程"
-          }
-        }
-      }
-    },
-    "01MVP 是 MakerJackie 的 AI 产品实战教程，帮你把模糊想法拆成可验证的 MVP，并一步步走到开发、上线和迭代。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP هو دليل MakerJackie العملي لمنتجات AI. يساعدك على تحويل فكرة أولية إلى MVP قابل للاختبار، ثم الانتقال عبر التطوير والإطلاق والتحسين."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP ist MakerJackies praxisnaher Leitfaden für AI-Produkte. Er hilft dir, eine grobe Idee in ein testbares MVP zu verwandeln und Schritt für Schritt zu entwickeln, zu starten und zu verbessern."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP is MakerJackie's practical AI product guide. It helps you turn a rough idea into a testable MVP, then move through development, launch, and iteration."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVPはMakerJackieによる実践的なAIプロダクトガイドです。あいまいなアイデアを検証可能なMVPに分解し、開発、リリース、改善まで進められます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP 是 MakerJackie 的 AI 产品实战教程，帮你把模糊想法拆成可验证的 MVP，并一步步走到开发、上线和迭代。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP 是 MakerJackie 的 AI 產品實戰教程，幫你把模糊想法拆成可驗證的 MVP，並一步步走到開發、上線和迭代。"
-          }
-        }
-      }
-    },
     "4K 视频转为 1080p，1080p 及以下保持不变。" : {
       "localizations" : {
         "ar" : {
@@ -1446,47 +1329,6 @@
         }
       }
     },
-    "MakerJackie 记录 AI 实践、独立开发和项目实验，也把从想法到上线的小产品过程整理在 01MVP。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يكتب MakerJackie عن تجارب AI والتطوير المستقل وتجارب المنتجات، ويجمع رحلة المنتج الصغير من الفكرة إلى الإطلاق في 01MVP."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MakerJackie schreibt über KI-Praxis, Indie-Entwicklung und Produktexperimente und dokumentiert den Weg von der Idee bis zum Launch in 01MVP."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MakerJackie writes about AI practice, indie development, and product experiments, and turns the path from idea to launch into 01MVP."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MakerJackie は AI の実践、個人開発、プロジェクト実験を記録し、アイデアから公開までの小さなプロダクト作りを 01MVP にまとめています。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MakerJackie 记录 AI 实践、独立开发和项目实验，也把从想法到上线的小产品过程整理在 01MVP。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MakerJackie 記錄 AI 實踐、獨立開發和項目實驗，也把從想法到上線的小產品過程整理在 01MVP。"
-          }
-        }
-      }
-    },
     "MVP 教程" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1588,47 +1430,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OnePhoto Pro"
-          }
-        }
-      }
-    },
-    "OneZen 一念" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OneZen 一念"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OneZen 一念"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OneZen"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OneZen 一念"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "OneZen 一念"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OneZen 一念"
           }
         }
       }
@@ -1966,41 +1767,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下張"
-          }
-        }
-      }
-    },
-    "下次打开 App 时显示使用说明" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عرض الدليل عند فتح App في المرة القادمة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anleitung beim nächsten Öffnen der App anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show the guide next time the app opens"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "次回 App を開いたときにガイドを表示"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下次打開 App 時顯示使用說明"
           }
         }
       }
@@ -2502,46 +2268,6 @@
         }
       }
     },
-    "主题与外观" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "السمة والمظهر"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Design & Darstellung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theme & Appearance"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "テーマと外観"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "主题与外观"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "主題與外觀"
-          }
-        }
-      }
-    },
     "仅 %lld 张" : {
       "localizations" : {
         "ar" : {
@@ -2777,47 +2503,6 @@
         }
       }
     },
-    "从真实痛点出发，确认第一版必须解决什么，避免一开始就做成大而全。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ابدأ من مشكلة حقيقية، وحدد ما يجب أن يحله الإصدار الأول، وتجنب التوسع الزائد في البداية."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beginne mit einem echten Problem, kläre, was Version eins lösen muss, und vermeide, zu früh zu breit zu bauen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start from a real pain point, decide what version one must solve, and avoid building too broadly too early."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "実際の課題から始め、最初のバージョンで解決すべきことを見極め、最初から広げすぎないようにします。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "从真实痛点出发，确认第一版必须解决什么，避免一开始就做成大而全。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "從真實痛點出發，確認第一版必須解決什麼，避免一開始就做成大而全。"
-          }
-        }
-      }
-    },
     "从零开始，一步步走。" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2859,88 +2544,6 @@
         }
       }
     },
-    "付费会员可以获得可复用模板，也包含这个 App 的源码，方便从真实项目改起。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يحصل الأعضاء المدفوعون على قوالب كود قابلة لإعادة الاستخدام، بما في ذلك كود المصدر لهذا App، للبدء من مشروع حقيقي."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zahlende Mitglieder erhalten wiederverwendbare Codevorlagen, einschließlich des Quellcodes dieser App, um auf einem echten Projekt aufzubauen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paid members get reusable code templates, including the source code for this app, so they can start from a real project."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有料メンバーは再利用できるテンプレートに加え、この App のソースコードも入手でき、実際のプロジェクトを元に始められます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "付费会员可以获得可复用模板，也包含这个 App 的源码，方便从真实项目改起。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "付費會員可以獲得可複用模板，也包含這個 App 的源碼，方便從真實項目改起。"
-          }
-        }
-      }
-    },
-    "会员可拿代码模板" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الأعضاء يحصلون على قوالب كود"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mitglieder erhalten Codevorlagen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Members Get Code Templates"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "メンバーはコードテンプレートを入手"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "会员可拿代码模板"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "會員可拿代碼模板"
-          }
-        }
-      }
-    },
     "会把拍摄时间接近的照片放在一起，方便逐组确认。" : {
       "localizations" : {
         "ar" : {
@@ -2977,47 +2580,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "會把拍攝時間接近的照片放在一起，方便逐組確認。"
-          }
-        }
-      }
-    },
-    "作者的更多 App" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المزيد من Apps من المنشئ"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Weitere Apps des Erstellers"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "More Apps from the Creator"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作者の他の App"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "作者的更多 App"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "作者的更多 App"
           }
         }
       }
@@ -3530,47 +3092,6 @@
         }
       }
     },
-    "先把范围收小" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ضيّق النطاق أولًا"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zuerst Bereich eingrenzen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Narrow the Scope First"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "まず範囲を絞る"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先把范围收小"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "先把範圍收小"
-          }
-        }
-      }
-    },
     "先选择图片" : {
       "localizations" : {
         "ar" : {
@@ -3647,129 +3168,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "先選擇影片"
-          }
-        }
-      }
-    },
-    "免费内容适合先入门，付费会员可以继续看更完整的实战拆解。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المحتوى المجاني مناسب للبداية، ويمكن للأعضاء المدفوعين متابعة شروحات عملية أعمق."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kostenlose Inhalte eignen sich für den Einstieg. Bezahlte Mitglieder erhalten tiefere Praxisanalysen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Free content is good for getting started; paid members can keep going with deeper practical breakdowns."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無料コンテンツは入門に最適です。有料メンバーは、より詳しい実践解説を続けて見られます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免费内容适合先入门，付费会员可以继续看更完整的实战拆解。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免費內容適合先入門，付費會員可以繼續看更完整的實戰拆解。"
-          }
-        }
-      }
-    },
-    "免费和付费教程都能学" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تعلّم من الأدلة المجانية والمدفوعة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mit kostenlosen und bezahlten Guides lernen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Learn From Free and Paid Guides"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無料・有料ガイドで学ぶ"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免费和付费教程都能学"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "免費和付費教程都能學"
-          }
-        }
-      }
-    },
-    "兑换代码" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "استرداد الرمز"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Code einlösen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Redeem Code"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "コードを使う"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "兑换代码"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "兌換代碼"
           }
         }
       }
@@ -4621,47 +4019,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最近項目"
-          }
-        }
-      }
-    },
-    "冥想、呼吸与专注练习" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التأمل والتنفس والتركيز"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Meditation, Atmung und Fokus"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Meditation, breathing, and focus"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "瞑想、呼吸、集中"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "冥想、呼吸与专注练习"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "冥想、呼吸與專注練習"
           }
         }
       }
@@ -9202,41 +8559,6 @@
         }
       }
     },
-    "完成一次整理后，这里会出现月度记录。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ستظهر السجلات الشهرية هنا بعد أول تنظيف."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Monatsverläufe erscheinen hier nach deiner ersten Bereinigung."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Monthly records appear here after your first cleanup."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "初回のクリーンアップ後、ここに月別記録が表示されます。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "完成一次整理後，這裡會出現月度記錄。"
-          }
-        }
-      }
-    },
     "完成整理" : {
       "localizations" : {
         "ar" : {
@@ -13361,41 +12683,6 @@
         }
       }
     },
-    "总照片" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إجمالي الصور"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotos insgesamt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Total Photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写真の合計"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "總照片"
-          }
-        }
-      }
-    },
     "恢复购买" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -13925,47 +13212,6 @@
         }
       }
     },
-    "把想法做成能上线的小产品" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حوّل فكرة إلى منتج صغير قابل للإطلاق"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aus einer Idee ein veröffentlichbares kleines Produkt machen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn an Idea Into a Launchable Small Product"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アイデアを公開できる小さなプロダクトにする"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把想法做成能上线的小产品"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把想法做成能上線的小產品"
-          }
-        }
-      }
-    },
     "拍摄时间" : {
       "localizations" : {
         "ar" : {
@@ -14323,41 +13569,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按時間整理"
-          }
-        }
-      }
-    },
-    "按月份查看清理成果" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اعرض نتائج التنظيف حسب الشهر"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bereinigungsergebnisse nach Monat anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View cleanup results by month"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "月別にクリーンアップ結果を表示"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按月份查看清理成果"
           }
         }
       }
@@ -15760,47 +14971,6 @@
         }
       }
     },
-    "无法打开兑换页面，请稍后再试。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تعذر فتح صفحة الاسترداد. حاول مرة أخرى لاحقًا."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einlöseseite konnte nicht geöffnet werden. Versuche es später erneut."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Could not open the redemption page. Try again later."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "引き換えページを開けませんでした。後でもう一度お試しください。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法打开兑换页面，请稍后再试。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "無法打開兌換頁面，請稍後再試。"
-          }
-        }
-      }
-    },
     "无法播放这个视频" : {
       "localizations" : {
         "ar" : {
@@ -16691,86 +15861,6 @@
         }
       }
     },
-    "暖砂色" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "رملي دافئ"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Warmer Sand"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Warm Sand"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ウォームサンド"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "暖砂色"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暖砂色"
-          }
-        }
-      }
-    },
-    "更中性，突出照片内容。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أكثر حيادية مع إبقاء التركيز على محتوى الصور."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neutraler, damit der Fokus auf den Fotos bleibt."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "More neutral, keeping attention on photo content."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "よりニュートラルで、写真の内容に集中できます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "更中性，突出照片内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更中性，突出照片內容。"
-          }
-        }
-      }
-    },
     "更多 App" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16978,46 +16068,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更明顯降低位元率，適合只想騰出空間的影片。"
-          }
-        }
-      }
-    },
-    "更温暖，适合长时间整理。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أدفأ وأسهل للاستخدام أثناء جلسات التنظيف الطويلة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wärmer und angenehmer bei längeren Aufräum-Sitzungen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Warmer and easier to stay with during longer cleanup sessions."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "より温かみがあり、長時間の整理でも使いやすい表示です。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "更温暖，适合长时间整理。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更溫暖，適合長時間整理。"
           }
         }
       }
@@ -17775,41 +16825,6 @@
         }
       }
     },
-    "本机整理，不上传照片" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تنظيف على الجهاز، بدون رفع"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bereinigung auf dem Gerät, keine Uploads"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On-device cleanup, no uploads"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "デバイス上で整理、アップロードなし"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本機整理，不上傳照片"
-          }
-        }
-      }
-    },
     "本机整理数据" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -17887,46 +16902,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本次刪除"
-          }
-        }
-      }
-    },
-    "柔和一点，减少纯白界面的工具感。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أهدأ وأنعم، مع تقليل إحساس الواجهة البيضاء كأداة مجردة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Weicher und ruhiger, mit weniger nüchterner Werkzeug-Anmutung."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Softer and calmer, with less of a plain utility feel."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "よりやわらかく落ち着いた表示で、白一色のツール感を抑えます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "柔和一点，减少纯白界面的工具感。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "柔和一點，減少純白介面的工具感。"
           }
         }
       }
@@ -19375,41 +18350,6 @@
         }
       }
     },
-    "每次确认后的本机记录" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "السجلات المحلية بعد كل تأكيد"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lokale Einträge nach jeder Bestätigung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Local records after each confirmation"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "各確認後のこのデバイスの記録"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每次確認後的本機記錄"
-          }
-        }
-      }
-    },
     "每轮最多 %lld 张" : {
       "localizations" : {
         "ar" : {
@@ -20095,41 +19035,6 @@
         }
       }
     },
-    "清理次数" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "جلسات التنظيف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aufräumsitzungen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cleanup Sessions"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クリーンアップ回数"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清理次數"
-          }
-        }
-      }
-    },
     "清空" : {
       "localizations" : {
         "ar" : {
@@ -20206,46 +19111,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清空本機整理記錄？"
-          }
-        }
-      }
-    },
-    "清透蓝" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أزرق صاف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klares Blau"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clear Blue"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クリアブルー"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "清透蓝"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清透藍"
           }
         }
       }
@@ -20836,47 +19701,6 @@
         }
       }
     },
-    "独立开发者 / 爱折腾生活的玩家" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مطوّر مستقل / صانع فضولي"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unabhängiger Entwickler / neugieriger Maker"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Independent developer / curious maker"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "個人開発者 / 好奇心旺盛な作り手"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "独立开发者 / 爱折腾生活的玩家"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "獨立開發者 / 愛折騰生活的玩家"
-          }
-        }
-      }
-    },
     "用户相册" : {
       "localizations" : {
         "ar" : {
@@ -21027,46 +19851,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "畫質和體積的預設平衡，適合大多數影片。"
-          }
-        }
-      }
-    },
-    "界面色调" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لون الواجهة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oberflächenton"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Interface Tone"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "画面の色調"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "界面色调"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "介面色調"
           }
         }
       }
@@ -21580,46 +20364,6 @@
         }
       }
     },
-    "石墨灰" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "غرافيت"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Graphit"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Graphite"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "グラファイト"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "石墨灰"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "石墨灰"
-          }
-        }
-      }
-    },
     "确认删除" : {
       "localizations" : {
         "ar" : {
@@ -21656,41 +20400,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "確認刪除"
-          }
-        }
-      }
-    },
-    "确认删除或收藏后，会在本机留下清理记录。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تظهر سجلات التنظيف المحلية بعد تأكيد الحذف أو المفضلة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nach dem Bestätigen von Löschungen oder Favoriten werden lokale Aufräumprotokolle gespeichert."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Local cleanup records appear after you confirm deletions or favorites."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "削除またはお気に入りを確定すると、このデバイスに整理記録が残ります。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認刪除或收藏後，會在本機留下清理記錄。"
           }
         }
       }
@@ -22760,76 +21469,6 @@
         }
       }
     },
-    "累计整理" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إجمالي المراجعة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Insgesamt geprüft"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Total Reviewed"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認合計"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "累計整理"
-          }
-        }
-      }
-    },
-    "累计整理、删除和节省空间" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إجمالي ما تمت مراجعته وحذفه وتوفيره"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Insgesamt geprüft, gelöscht und Speicher gespart"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Total reviewed, deleted, and space saved"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認、削除、節約した容量の合計"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "累計整理、刪除和節省空間"
-          }
-        }
-      }
-    },
     "细节" : {
       "localizations" : {
         "ar" : {
@@ -22946,41 +21585,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "給刪圖評分"
-          }
-        }
-      }
-    },
-    "给自己的整理报告一点个人标记" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أضف علامة شخصية إلى تقارير التنظيف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge deinen Aufräumberichten eine persönliche Markierung hinzu"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a personal mark to your cleanup reports"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "整理レポートに自分用の印を追加"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "給自己的整理報告一點個人標記"
           }
         }
       }
@@ -23365,46 +21969,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自定義"
-          }
-        }
-      }
-    },
-    "色调会影响背景、图标、按钮和选中状态。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تؤثر الدرجة اللونية على الخلفيات والأيقونات والأزرار وحالات التحديد."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Farbton wirkt sich auf Hintergründe, Symbole, Tasten und Auswahlzustände aus."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tone affects backgrounds, icons, buttons, and selected states."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "トーンは背景、アイコン、ボタン、選択状態に反映されます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "色调会影响背景、图标、按钮和选中状态。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "色調會影響背景、圖標、按鈕和選中狀態。"
           }
         }
       }
@@ -25530,47 +24094,6 @@
         }
       }
     },
-    "适合想做自己小产品，但不知道如何定范围、用 AI 写代码、处理上线细节的人。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لمن يريدون بناء منتج صغير خاص بهم ويحتاجون إلى مساعدة في تحديد النطاق والبرمجة باستخدام AI والتعامل مع تفاصيل الإطلاق."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Für alle, die ein eigenes kleines Produkt bauen möchten, aber Hilfe bei Umfang, KI-Coding und Launch-Details brauchen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "For people who want to build their own small product but need help scoping it, coding with AI, and handling launch details."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自分の小さなプロダクトを作りたいが、範囲決め、AIでのコーディング、公開準備に不安がある人向け。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "适合想做自己小产品，但不知道如何定范围、用 AI 写代码、处理上线细节的人。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "適合想做自己小產品，但不知道如何定範圍、用 AI 寫代碼、處理上線細節的人。"
-          }
-        }
-      }
-    },
     "适合想把一个小想法真正做出来的人。" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -25828,46 +24351,6 @@
         }
       }
     },
-    "选择界面色调，以及日间、夜间或跟随系统外观。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اختر لون الواجهة، مع المظهر الفاتح أو الداكن أو مظهر النظام."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oberflächenton sowie Hell, Dunkel oder System wählen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose the interface tone, plus light, dark, or system appearance."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "画面の色調と、ライト、ダーク、システム連動を選択します。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "选择界面色调，以及日间、夜间或跟随系统外观。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選擇介面色調，以及日間、夜間或跟隨系統外觀。"
-          }
-        }
-      }
-    },
     "选择要压缩的图片，完成后显示实际文件大小。" : {
       "localizations" : {
         "en" : {
@@ -26058,76 +24541,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重試識別地名"
-          }
-        }
-      }
-    },
-    "长期清理统计" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إحصاءات التنظيف طويلة المدى"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Langfristige Bereinigungsstatistiken"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Long-term cleanup stats"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "長期クリーンアップ統計"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "長期清理統計"
-          }
-        }
-      }
-    },
-    "长期统计、月度记录和徽章" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إحصاءات طويلة المدى وسجلات شهرية وشارات"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Langzeitstatistiken, Monatsverlauf und Badges"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Long-term stats, monthly records, and badges"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "長期統計、月別記録、バッジ"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "長期統計、月度記錄和徽章"
           }
         }
       }
@@ -26687,46 +25100,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要訪問照片庫"
-          }
-        }
-      }
-    },
-    "青蓝背景，保持相册整理的清爽感。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "خلفية زرقاء تمنح ترتيب الألبومات شعورا منعشا."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein blau getönter Hintergrund für ein klares Gefühl beim Aufräumen von Alben."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A blue-toned background that keeps album cleanup feeling crisp."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "青みのある背景で、アルバム整理をすっきりした印象にします。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "青蓝背景，保持相册整理的清爽感。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "青藍背景，保持相簿整理的清爽感。"
           }
         }
       }
@@ -27343,46 +25716,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "默認跟隨 iPhone 系統語言。也可以在這裡固定刪圖的顯示語言。"
-          }
-        }
-      }
-    },
-    "鼠尾草绿" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "أخضر مريمي"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salbeigrün"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sage Green"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "セージグリーン"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "鼠尾草绿"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "鼠尾草綠"
           }
         }
       }
