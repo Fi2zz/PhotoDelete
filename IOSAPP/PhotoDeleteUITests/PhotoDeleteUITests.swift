@@ -659,27 +659,6 @@ final class PhotoDeleteUITests: XCTestCase {
         closeButton.tap()
         XCTAssertTrue(doneButton.waitForExistence(timeout: 8))
 
-        let reviewModeButton = firstExistingButton(in: app, labels: ["整理模式"])
-        XCTAssertTrue(reviewModeButton.waitForExistence(timeout: 5))
-        reviewModeButton.tap()
-        XCTAssertTrue(app.staticTexts["左右浏览"].waitForExistence(timeout: 5))
-
-        let currentVideoCell = app.descendants(matching: .any).matching(
-            NSPredicate(
-                format: "label == %@ AND value CONTAINS %@ AND value CONTAINS %@",
-                "浏览照片",
-                "当前照片",
-                "视频"
-            )
-        ).firstMatch
-        XCTAssertTrue(currentVideoCell.waitForExistence(timeout: 8))
-        currentVideoCell.tap()
-
-        let browserExpandButton = app.buttons["browser-video-full-preview-button"]
-        XCTAssertTrue(browserExpandButton.waitForExistence(timeout: 8))
-        browserExpandButton.tap()
-        XCTAssertTrue(app.navigationBars["视频预览"].waitForExistence(timeout: 8))
-        app.buttons["关闭"].tap()
         XCTAssertTrue(doneButton.waitForExistence(timeout: 8))
     }
 

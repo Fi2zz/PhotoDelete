@@ -416,7 +416,6 @@ enum AppConstants {
     static let reviewModeKey = "photoDeleteReviewMode"
     static let reviewSortOrderKey = "photoDeleteReviewSortOrder"
     static let reviewAlbumShortcutsExpandedKey = "photoDeleteReviewAlbumShortcutsExpanded"
-    static let hasSeenReviewModeHintKey = "photoDeleteHasSeenReviewModeHint"
     static let hasSeenAlbumShortcutHintKey = "photoDeleteHasSeenAlbumShortcutHintV2"
     static let hasSeenAlbumDownSwipeHintKey = "photoDeleteHasSeenAlbumDownSwipeHint"
     static let hasSeenDeleteButtonTipKey = "photoDeleteHasSeenDeleteButtonTip"

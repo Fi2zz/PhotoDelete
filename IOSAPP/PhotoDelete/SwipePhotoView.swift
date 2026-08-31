@@ -346,7 +346,6 @@ struct SwipePhotoView: View {
     @AppStorage(AppConstants.reviewModeKey) private var reviewModeValue = PhotoReviewMode.card.rawValue
     @AppStorage(AppConstants.reviewSortOrderKey) private var reviewSortOrderValue = PhotoReviewSortOrder.newestFirst.rawValue
     @AppStorage(AppConstants.reviewAlbumShortcutsExpandedKey) private var albumShortcutsExpanded = true
-    @AppStorage(AppConstants.hasSeenReviewModeHintKey) private var hasSeenReviewModeHint = false
     @AppStorage(AppConstants.hasSeenAlbumShortcutHintKey) private var hasSeenAlbumShortcutHint = false
     @AppStorage(AppConstants.hasSeenAlbumDownSwipeHintKey) private var hasSeenAlbumDownSwipeHint = false
     @AppStorage(AppConstants.hasSeenDeleteButtonTipKey) private var hasSeenDeleteButtonTip = false
@@ -361,7 +360,6 @@ struct SwipePhotoView: View {
     let selectedHistoricalToday: Bool
 
     @State private var dragOffset = CGSize.zero
-    @State private var showReviewSettings = false
     @State private var currentPhotoIndex = 0
     @State private var showCompletionMessage = false
     @State private var actionHistory: [SwipeAction] = []
@@ -383,8 +381,6 @@ struct SwipePhotoView: View {
     @State private var previewAsset: CandidatePreviewAsset?
     @State private var inlinePlayingVideoAssetID: String?
     @State private var manuallyStoppedVideoAssetID: String?
-    @State private var cardModeReviewActionCount = 0
-    @State private var showReviewModeHint = false
     @State private var showAlbumShortcutHint = false
     @State private var showDeleteButtonTip = false
     @State private var sessionDeleteActionCount = 0
@@ -410,7 +406,6 @@ struct SwipePhotoView: View {
     @State private var isPreparingShare = false
     @State private var isUndoInProgress = false
 
-    private let reviewModeHintThreshold = 5
     private let deleteButtonTipThreshold = 3
     private enum SwipeMotion {
         static let minimumDragDistance: CGFloat = 4
@@ -610,10 +605,6 @@ struct SwipePhotoView: View {
         return asset.mediaType == .video || dataManager.photoLibraryManager.isLivePhoto(asset)
     }
 
-    private var navigationHeaderSideWidth: CGFloat {
-        116
-    }
-
     private func shouldPlayVideo(for asset: PHAsset) -> Bool {
         guard asset.mediaType == .video else { return false }
         if inlinePlayingVideoAssetID == asset.localIdentifier {
@@ -729,18 +720,15 @@ struct SwipePhotoView: View {
                 }
             }
         }
-        .toolbar(.hidden, for: .navigationBar)
         .toolbar(.hidden, for: .tabBar)
-        .background(InteractivePopGestureEnabler())
+        .navigationTitle(navigationHeaderTitle)
+        .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $previewAsset) { previewAsset in
             CandidatePhotoPreviewView(
                 asset: previewAsset.asset,
                 photoLibraryManager: dataManager.photoLibraryManager,
                 locationTitle: dataManager.locationDisplayTextIfAvailable(for: previewAsset.asset)
             )
-        }
-        .sheet(isPresented: $showReviewSettings) {
-            GestureSettingsView()
         }
         .sheet(item: $sharePayload, onDismiss: cleanupSharePayload) { payload in
             SystemShareSheet(activityItems: [payload.fileURL])
@@ -771,6 +759,11 @@ struct SwipePhotoView: View {
         }
         .onAppear {
             applySessionPlaybackPreferenceIfNeeded()
+            // The in-page mode toggle was removed; keep the review page on the
+            // card layout so a stale persisted browser mode can't strand it.
+            if reviewMode != .card {
+                reviewModeValue = PhotoReviewMode.card.rawValue
+            }
             dataManager.commitLegacyFavoriteCandidatesIfNeeded()
             syncPendingOperationCounts()
             loadAlbumShortcutsIfNeeded()
@@ -836,74 +829,21 @@ struct SwipePhotoView: View {
     private var navigationHeader: some View {
         VStack(spacing: 10) {
             HStack {
-                HStack(spacing: 8) {
-                    Button(action: handleBackAction) {
-                        ZStack {
-                            Circle()
-                                .fill(PhotoDeleteStyle.elevatedSurface)
-                                .frame(width: 40, height: 40)
-
-                            Image(systemName: "arrow.left")
-                                .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(PhotoDeleteStyle.primaryText)
-                        }
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(L10n.string("返回"))
-
-                    Button(action: openReviewSettings) {
-                        Image(systemName: "gearshape")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundColor(PhotoDeleteStyle.accent)
-                            .frame(width: 40, height: 40)
-                            .background(Circle().fill(PhotoDeleteStyle.elevatedSurface))
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(L10n.string("设置"))
-                }
-                .frame(width: navigationHeaderSideWidth, alignment: .leading)
+                Text(headerProgressSubtitle)
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(PhotoDeleteStyle.secondaryText)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.78)
+                    .monospacedDigit()
 
                 Spacer()
 
-                VStack(spacing: 2) {
-                    Text(navigationHeaderTitle)
-                        .font(.system(size: 18, weight: .semibold))
-                        .foregroundColor(PhotoDeleteStyle.primaryText)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.82)
-
-                    Text(headerProgressSubtitle)
-                        .font(.system(size: 14, weight: .regular))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.78)
-                        .monospacedDigit()
+                PendingOperationCounter(
+                    deleteCount: pendingDeleteCount
+                ) {
+                    guard hasPendingOperations else { return }
+                    presentBatchConfirmation(dismissAfter: false)
                 }
-                .frame(maxWidth: .infinity)
-                .layoutPriority(1)
-
-                Spacer()
-
-                ZStack(alignment: .topTrailing) {
-                    HStack(spacing: 8) {
-                        ReviewModeToggleButton(mode: reviewMode, action: toggleReviewMode)
-                        PendingOperationCounter(
-                            deleteCount: pendingDeleteCount
-                        ) {
-                            guard hasPendingOperations else { return }
-                            presentBatchConfirmation(dismissAfter: false)
-                        }
-                    }
-
-                    if showReviewModeHint {
-                        ReviewModeHintBubble(action: toggleReviewMode)
-                            .offset(y: 43)
-                            .transition(.opacity.combined(with: .scale(scale: 0.94, anchor: .topTrailing)))
-                            .zIndex(1)
-                    }
-                }
-                .frame(width: navigationHeaderSideWidth, alignment: .trailing)
             }
 
             if totalPhotosCount > 0 {
@@ -1537,16 +1477,6 @@ struct SwipePhotoView: View {
                         isCompact: true
                     ) {
                         handleUndoAction()
-                        resetCardPosition()
-                    }
-
-                    SidebarActionButton(
-                        icon: "gearshape",
-                        title: L10n.string("设置"),
-                        color: PhotoDeleteStyle.accent,
-                        isCompact: true
-                    ) {
-                        openReviewSettings()
                         resetCardPosition()
                     }
 
@@ -2325,52 +2255,6 @@ struct SwipePhotoView: View {
         moveToNextPhoto()
     }
 
-    private func toggleReviewMode() {
-        let currentMode = reviewMode
-        let nextMode = currentMode.toggled
-        dismissReviewModeHint(markSeen: true)
-        if PhotoReviewModeSyncPolicy.shouldRefreshBrowserAnchor(from: currentMode, to: nextMode) {
-            browserModeRefreshToken = UUID()
-        }
-        reviewModeValue = nextMode.rawValue
-        resetCardPosition()
-        preloadUpcomingImages(from: currentPhotoIndex)
-        HapticManager.impact(.light)
-        showFeedback(nextMode.switchAnnouncement, icon: nextMode.icon, style: .neutral, duration: 1.6)
-    }
-
-    private func recordReviewModeHintOpportunity() {
-        guard reviewMode == .card,
-              !hasSeenReviewModeHint,
-              !showReviewModeHint,
-              sessionPhotos.count >= reviewModeHintThreshold + 1 else {
-            return
-        }
-
-        cardModeReviewActionCount += 1
-        guard cardModeReviewActionCount >= reviewModeHintThreshold else { return }
-
-        hasSeenReviewModeHint = true
-        withAnimation(.spring(response: 0.28, dampingFraction: 0.86)) {
-            showReviewModeHint = true
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.5) {
-            dismissReviewModeHint()
-        }
-    }
-
-    private func dismissReviewModeHint(markSeen: Bool = false) {
-        if markSeen {
-            hasSeenReviewModeHint = true
-        }
-
-        guard showReviewModeHint else { return }
-        withAnimation(.easeOut(duration: 0.18)) {
-            showReviewModeHint = false
-        }
-    }
-
     private func recordDeleteButtonTipOpportunity() {
         guard !hasSeenDeleteButtonTip,
               !showDeleteButtonTip,
@@ -2432,13 +2316,6 @@ struct SwipePhotoView: View {
         HapticManager.impact(.light)
         dismissAlbumShortcutHint(markSeen: true)
         NotificationCenter.default.post(name: AppConstants.openAlbumsTabNotificationName, object: nil)
-    }
-
-    private func openReviewSettings() {
-        HapticManager.impact(.light)
-        dismissAlbumShortcutHint(markSeen: true)
-        dismissReviewModeHint(markSeen: true)
-        showReviewSettings = true
     }
 
     private func handleShareAction() {
@@ -3184,7 +3061,6 @@ struct SwipePhotoView: View {
         HapticManager.impact(.medium)
         showFeedback(L10n.string("已加入待删除"), icon: "trash", style: .destructive, showsUndo: true)
         recordDeleteButtonTipOpportunity()
-        recordReviewModeHintOpportunity()
     }
 
     private func toggleFavoriteStatus(_ asset: PHAsset) {
@@ -3299,7 +3175,6 @@ struct SwipePhotoView: View {
         ))
         HapticManager.impact(.light)
         showFeedback(message ?? L10n.string("已保留"), icon: "checkmark", style: .neutral)
-        recordReviewModeHintOpportunity()
     }
 
     private func handleAddToAlbum(_ albumInfo: AlbumInfo) {
@@ -3633,16 +3508,6 @@ struct SwipePhotoView: View {
             parts.append(L10n.string("释放 \(celebration.formattedSpaceSaved)"))
         }
         return parts.joined(separator: " · ")
-    }
-
-    private func handleBackAction() {
-        flushPendingSwipeMutations()
-        // 如果有待处理的删除操作，显示确认对话框
-        if hasPendingOperations {
-            presentBatchConfirmation(dismissAfter: true)
-        } else {
-            dismiss()
-        }
     }
 
     private var hasPendingOperations: Bool {
@@ -5109,34 +4974,6 @@ struct ActionButton: View {
     }
 }
 
-private struct ReviewModeToggleButton: View {
-    let mode: PhotoReviewMode
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Label(L10n.string("整理模式"), systemImage: mode.toolbarIcon)
-                .labelStyle(.iconOnly)
-                .symbolRenderingMode(.monochrome)
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(PhotoDeleteStyle.accent)
-                .frame(width: 38, height: 38)
-                .background(
-                    Circle()
-                        .fill(PhotoDeleteStyle.surface)
-                        .overlay(
-                            Circle()
-                                .stroke(PhotoDeleteStyle.accent.opacity(0.28), lineWidth: 1)
-                        )
-                )
-                .photoDeleteMinimumTapTarget()
-        }
-        .buttonStyle(PhotoDeletePressScaleButtonStyle())
-        .accessibilityValue(mode.accessibilityTitle)
-        .accessibilityHint(mode.toggleAccessibilityHint)
-    }
-}
-
 private struct SessionMuteToggleButton: View {
     let isMuted: Bool
     let action: () -> Void
@@ -5168,35 +5005,6 @@ private struct SessionMuteToggleButton: View {
         .buttonStyle(PhotoDeletePressScaleButtonStyle())
         .accessibilityLabel(isMuted ? L10n.string("打开声音") : L10n.string("静音"))
         .accessibilityHint(L10n.string("只影响当前整理页面"))
-    }
-}
-
-private struct ReviewModeHintBubble: View {
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Label {
-                Text(L10n.string("试试双行布局"))
-                    .font(.system(size: 12, weight: .semibold))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.82)
-            } icon: {
-                Image(systemName: "rectangle.grid.2x2")
-                    .font(.system(size: 12, weight: .semibold))
-            }
-            .foregroundColor(PhotoDeleteStyle.primaryText)
-            .padding(.horizontal, 11)
-            .padding(.vertical, 8)
-            .background(.regularMaterial, in: Capsule(style: .continuous))
-            .overlay(
-                Capsule(style: .continuous)
-                    .stroke(PhotoDeleteStyle.accent.opacity(0.24), lineWidth: 1)
-            )
-            .shadow(color: PhotoDeleteStyle.floatingShadow.opacity(0.7), radius: 10, x: 0, y: 5)
-        }
-        .buttonStyle(.plain)
-        .accessibilityHint(L10n.string("切换到双行浏览"))
     }
 }
 
