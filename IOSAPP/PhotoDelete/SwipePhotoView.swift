@@ -361,7 +361,6 @@ struct SwipePhotoView: View {
     let selectedHistoricalToday: Bool
 
     @State private var dragOffset = CGSize.zero
-    @State private var showBatchConfirm = false
     @State private var showReviewSettings = false
     @State private var currentPhotoIndex = 0
     @State private var showCompletionMessage = false
@@ -371,8 +370,7 @@ struct SwipePhotoView: View {
     @State private var allSessionAssetIdentifiers: [String] = []
     @State private var loadedSessionPhotoCount = 0
     @State private var sessionReviewedAssetIDs: Set<String> = []
-    @State private var shouldDismissAfterBatch = false
-    @State private var didCompleteBatch = false
+    @State private var isExecutingBatch = false
     @State private var feedbackToast: PhotoDeleteToast?
     @State private var didInitializeSession = false
     @State private var preloadedAssets: [PHAsset] = []
@@ -745,22 +743,6 @@ struct SwipePhotoView: View {
         }
         .sheet(item: $sharePayload, onDismiss: cleanupSharePayload) { payload in
             SystemShareSheet(activityItems: [payload.fileURL])
-        }
-        .fullScreenCover(isPresented: $showBatchConfirm, onDismiss: {
-            let shouldCloseReview = shouldDismissAfterBatch && didCompleteBatch
-            shouldDismissAfterBatch = false
-            didCompleteBatch = false
-            syncPendingOperationCounts()
-            if shouldCloseReview {
-                dismiss()
-            } else {
-                refreshSessionForSourceChangeIfNeeded(force: true)
-            }
-        }) {
-            BatchConfirmView(albumInfo: activeAlbumInfo) { _ in
-                didCompleteBatch = true
-            }
-                .environmentObject(dataManager)
         }
         .onDisappear {
             stopInlineVideoPlayback()
@@ -3592,11 +3574,64 @@ struct SwipePhotoView: View {
         }
     }
 
+    private func sortedAssets(_ assets: [PHAsset]) -> [PHAsset] {
+        assets.sorted { lhs, rhs in
+            let lhsDate = lhs.creationDate ?? .distantPast
+            let rhsDate = rhs.creationDate ?? .distantPast
+            if lhsDate == rhsDate {
+                return lhs.localIdentifier < rhs.localIdentifier
+            }
+            return lhsDate > rhsDate
+        }
+    }
+
     private func presentBatchConfirmation(dismissAfter: Bool) {
         flushPendingSwipeMutations()
         syncPendingOperationCounts()
-        shouldDismissAfterBatch = dismissAfter
-        showBatchConfirm = true
+        guard !isExecutingBatch else { return }
+        guard hasPendingOperations else {
+            if dismissAfter {
+                dismiss()
+            }
+            return
+        }
+
+        isExecutingBatch = true
+        BatchCleanupExecutor.execute(
+            dataManager: dataManager,
+            deleteAssets: sortedAssets(Array(dataManager.deleteCandidates)),
+            favoriteAssets: sortedAssets(Array(dataManager.favoriteCandidates)),
+            albumInfo: activeAlbumInfo
+        ) { outcome in
+            isExecutingBatch = false
+            syncPendingOperationCounts()
+            guard outcome.success, let celebration = outcome.celebration else { return }
+
+            if dismissAfter {
+                dismiss()
+            } else {
+                showFeedback(
+                    batchResultMessage(celebration),
+                    icon: celebration.deletedPhotos > 0 ? "trash" : "heart",
+                    style: .positive
+                )
+                refreshSessionForSourceChangeIfNeeded(force: true)
+            }
+        }
+    }
+
+    private func batchResultMessage(_ celebration: CleanupCelebration) -> String {
+        var parts: [String] = []
+        if celebration.deletedPhotos > 0 {
+            parts.append(String(format: L10n.string("已删除 %lld 张"), celebration.deletedPhotos))
+        }
+        if celebration.favoritedPhotos > 0 {
+            parts.append(String(format: L10n.string("已收藏 %lld 张"), celebration.favoritedPhotos))
+        }
+        if celebration.deletedPhotos > 0 {
+            parts.append(L10n.string("释放 \(celebration.formattedSpaceSaved)"))
+        }
+        return parts.joined(separator: " · ")
     }
 
     private func handleBackAction() {

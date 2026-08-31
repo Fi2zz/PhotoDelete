@@ -42,46 +42,6 @@
         }
       }
     },
-    "%@ %lld 张" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$lld صورة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$lld Fotos"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$lld photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$lld枚"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$lld 张"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ %2$lld 張"
-          }
-        }
-      }
-    },
     "%@ → %@" : {
       "localizations" : {
         "ar" : {
@@ -868,28 +828,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 項"
-          }
-        }
-      }
-    },
-    "%lld 项大小暂时无法读取" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Size unavailable for %lld items"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 项大小暂时无法读取"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 個項目的大小暫時無法讀取"
           }
         }
       }
@@ -4550,46 +4488,6 @@
         }
       }
     },
-    "删除 %lld 张照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حذف %lld صورة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld Fotos löschen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete %lld photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld枚の写真を削除"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "删除 %lld 张照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪除 %lld 張照片"
-          }
-        }
-      }
-    },
     "删除内容" : {
       "localizations" : {
         "en" : {
@@ -4608,28 +4506,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪除內容"
-          }
-        }
-      }
-    },
-    "删除内容约 %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deleted content: about %@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除内容约 %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪除內容約 %@"
           }
         }
       }
@@ -4750,28 +4626,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪除原影片"
-          }
-        }
-      }
-    },
-    "删除后会进入系统“最近删除”，空间可能不会立即释放。" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deleted items move to Recently Deleted, so storage may not be freed immediately."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除后会进入系统“最近删除”，空间可能不会立即释放。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪除後會進入系統「最近刪除」，空間可能不會立即釋放。"
           }
         }
       }
@@ -5000,46 +4854,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "加入收藏"
-          }
-        }
-      }
-    },
-    "勾选这张照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تحديد هذه الصورة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Foto auswählen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check this photo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "この写真を選択"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "勾选这张照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "勾選這張照片"
           }
         }
       }
@@ -6382,126 +6196,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消"
-          }
-        }
-      }
-    },
-    "取消勾选后不会执行这项操作" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لن تُضمّن العناصر غير المحددة في هذا الإجراء."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nicht markierte Elemente werden nicht in diese Aktion einbezogen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unchecked items will not be included in this action."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "チェックを外した項目はこの操作に含まれません。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "取消勾选后不会执行这项操作"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取消勾選後不會執行這項操作"
-          }
-        }
-      }
-    },
-    "取消勾选这张照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إلغاء تحديد هذه الصورة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieses Foto abwählen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uncheck this photo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "この写真のチェックを外す"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "取消勾选这张照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取消勾選這張照片"
-          }
-        }
-      }
-    },
-    "取消所有操作" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إلغاء كل الإجراءات"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle Aktionen abbrechen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel All Actions"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すべての操作をキャンセル"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "取消所有操作"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取消所有操作"
           }
         }
       }
@@ -8132,74 +7826,6 @@
         }
       }
     },
-    "将删除" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "سيتم الحذف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wird gelöscht"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Will delete"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "削除予定"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "將刪除"
-          }
-        }
-      }
-    },
-    "将收藏" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "سيتم التفضيل"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wird favorisiert"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Will favorite"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "お気に入り予定"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "將收藏"
-          }
-        }
-      }
-    },
     "尺寸" : {
       "localizations" : {
         "ar" : {
@@ -9822,28 +9448,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已用 %@"
-          }
-        }
-      }
-    },
-    "已知删除内容约 %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Known deleted content: about %@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已知删除内容约 %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已知刪除內容約 %@"
           }
         }
       }
@@ -12758,81 +12362,7 @@
         }
       }
     },
-    "收藏 %lld 张照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إضافة %lld صور إلى المفضلة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld Fotos als Favoriten markieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Favorite %lld photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld枚の写真をお気に入りに追加"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "收藏 %lld 张照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "收藏 %lld 張照片"
-          }
-        }
-      }
-    },
     "收藏失败，请再试一次" : {},
-    "放大查看照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عرض الصورة بحجم أكبر"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Foto größer anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View photo larger"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写真を拡大表示"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "放大查看照片"
-          }
-        }
-      }
-    },
     "放大的照片" : {
       "localizations" : {
         "ar" : {
@@ -14197,28 +13727,6 @@
         }
       }
     },
-    "暂时无法读取文件大小" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File sizes are currently unavailable"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暂时无法读取文件大小"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "暫時無法讀取檔案大小"
-          }
-        }
-      }
-    },
     "暂时没能识别出地名，可以稍后重试。" : {
       "localizations" : {
         "ar" : {
@@ -14715,46 +14223,6 @@
         }
       }
     },
-    "未勾选的项目不会执行。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "سيتم تخطي العناصر غير المحددة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nicht ausgewählte Einträge werden übersprungen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unchecked items will be skipped."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "チェックされていない項目はスキップされます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "未勾选的项目不会执行。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未勾選的項目不會執行。"
-          }
-        }
-      }
-    },
     "未压缩" : {
       "localizations" : {
         "ar" : {
@@ -15236,46 +14704,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本機整理"
-          }
-        }
-      }
-    },
-    "本次删除" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "المحذوفة هذه المرة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diesmal gelöscht"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deleted This Time"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今回削除"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "本次删除"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本次刪除"
           }
         }
       }
@@ -15983,40 +15411,6 @@
         }
       }
     },
-    "正在执行..." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "جار التشغيل..."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wird ausgeführt..."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Running..."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "実行中..."
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在執行..."
-          }
-        }
-      }
-    },
     "正在整理地点" : {
       "localizations" : {
         "ar" : {
@@ -16417,50 +15811,6 @@
         }
       }
     },
-    "正在读取文件大小" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reading file sizes"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在读取文件大小"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在讀取檔案大小"
-          }
-        }
-      }
-    },
-    "正在读取文件大小 %lld/%lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reading file sizes %lld/%lld"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在读取文件大小 %lld/%lld"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在讀取檔案大小 %lld/%lld"
-          }
-        }
-      }
-    },
     "正在读取本机照片、截图和视频，完成后会显示可用入口。" : {
       "localizations" : {
         "ar" : {
@@ -16753,40 +16103,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有可整理的照片"
-          }
-        }
-      }
-    },
-    "没有待执行的操作" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لا توجد عمليات معلقة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keine ausstehenden Vorgänge"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No pending operations"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保留中の操作はありません"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "沒有待執行的操作"
           }
         }
       }
@@ -17101,46 +16417,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "瀏覽順序"
-          }
-        }
-      }
-    },
-    "清理完成" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اكتمل التنظيف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aufräumen abgeschlossen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cleanup Complete"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クリーンアップ完了"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "清理完成"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清理完成"
           }
         }
       }
@@ -18232,40 +17508,6 @@
         }
       }
     },
-    "确认执行" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تأكيد"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bestätigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirm"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認執行"
-          }
-        }
-      }
-    },
     "确认收藏" : {
       "localizations" : {
         "ar" : {
@@ -18302,46 +17544,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "確認收藏"
-          }
-        }
-      }
-    },
-    "确认清理" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تأكيد التنظيف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aufräumen bestätigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirm Cleanup"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "整理を確認"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "确认清理"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認清理"
           }
         }
       }
@@ -19137,41 +18339,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "類型"
-          }
-        }
-      }
-    },
-    "累计删除" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إجمالي المحذوف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Insgesamt gelöscht"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Total Deleted"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "削除合計"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "累計刪除"
           }
         }
       }
@@ -20749,46 +19916,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "返回列表"
-          }
-        }
-      }
-    },
-    "返回继续整理" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "العودة إلى التنظيم"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zurück zum Aufräumen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back to Organizing"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "整理に戻る"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "返回继续整理"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "返回繼續整理"
           }
         }
       }
@@ -22661,46 +21788,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高清保留"
-          }
-        }
-      }
-    },
-    "默认已勾选，取消勾选后不会执行。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "محدد افتراضيًا. أزل التحديد لتخطيه."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standardmäßig ausgewählt. Entferne die Auswahl, um den Eintrag zu überspringen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selected by default. Uncheck an item to skip it."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "初期設定では選択済みです。チェックを外すとスキップされます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "默认已勾选，取消勾选后不会执行。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "預設已勾選，取消勾選後不會執行。"
           }
         }
       }

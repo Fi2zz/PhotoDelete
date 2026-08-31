@@ -311,7 +311,7 @@ private struct AdvancedAssetListView: View {
     @State private var selectedAssetIDs: Set<String> = []
     @State private var selectedFilter: AdvancedCleanupFilter = .all
     @State private var showingICloudVideoInfo = false
-    @State private var showBatchConfirm = false
+    @State private var isExecutingBatch = false
     @State private var previewAsset: AdvancedPreviewAsset?
     @State private var sizeLoadingTask: Task<Void, Never>?
     @State private var visibleAssetLimit = 40
@@ -472,13 +472,6 @@ private struct AdvancedAssetListView: View {
             }
         }
         .advancedDetailNavigation(title: mode.title)
-        .fullScreenCover(isPresented: $showBatchConfirm, onDismiss: {
-            syncSelectionWithPendingDeleteCandidates()
-            reloadAssets()
-        }) {
-            BatchConfirmView()
-                .environmentObject(dataManager)
-        }
         .sheet(item: $previewAsset) { item in
             AdvancedAssetPreviewView(
                 asset: item.asset,
@@ -899,10 +892,21 @@ private struct AdvancedAssetListView: View {
 
     private func addSelectedAssetsToDeleteCandidates() {
         let assets = selectedAssets
-        guard !assets.isEmpty else { return }
+        guard !assets.isEmpty, !isExecutingBatch else { return }
         dataManager.addToDeleteCandidates(assets)
-        HapticManager.notify(.success)
-        showBatchConfirm = true
+        HapticManager.notify(.warning)
+
+        isExecutingBatch = true
+        BatchCleanupExecutor.execute(
+            dataManager: dataManager,
+            deleteAssets: assets,
+            favoriteAssets: []
+        ) { outcome in
+            isExecutingBatch = false
+            syncSelectionWithPendingDeleteCandidates()
+            reloadAssets()
+            HapticManager.notify(outcome.success ? .success : .error)
+        }
     }
 
     private func syncSelectionWithPendingDeleteCandidates() {
@@ -947,7 +951,7 @@ private struct AdvancedImageCompressionView: View {
     @State private var showingCompressionComparison = false
     @State private var dismissCompressionResultAfterBatch = false
     @State private var previewAsset: AdvancedPreviewAsset?
-    @State private var showBatchConfirm = false
+    @State private var isExecutingBatch = false
     @State private var compressionOptionsContext: AdvancedImageCompressionOptionsContext?
     @State private var visibleImageLimit = 24
     @State private var selectedTab: AdvancedImageCompressionTab = .pending
@@ -1068,18 +1072,6 @@ private struct AdvancedImageCompressionView: View {
             }
         }
         .advancedDetailNavigation(title: AdvancedCleanupKind.imageCompression.title)
-        .fullScreenCover(isPresented: $showBatchConfirm, onDismiss: {
-            reloadAssets()
-            if dismissCompressionResultAfterBatch {
-                dataManager.clearImageCompressionResult()
-                dismissCompressionResultAfterBatch = false
-            }
-        }) {
-            BatchConfirmView { deletedAssetIDs in
-                dataManager.markImageCompressionOriginalsDeleted(assetIdentifiers: deletedAssetIDs)
-            }
-                .environmentObject(dataManager)
-        }
         .sheet(item: $previewAsset) { item in
             AdvancedAssetPreviewView(
                 asset: item.asset,
@@ -1282,10 +1274,32 @@ private struct AdvancedImageCompressionView: View {
     private func deleteSelectedImages() {
         let images = selectedAssets
         guard !images.isEmpty, !isCompressing else { return }
-
         dataManager.addToDeleteCandidates(images)
         HapticManager.notify(.warning)
-        showBatchConfirm = true
+        executeImageDeletion(images, clearResultAfter: false)
+    }
+
+    private func executeImageDeletion(_ assets: [PHAsset], clearResultAfter: Bool) {
+        guard !isExecutingBatch else { return }
+        isExecutingBatch = true
+        BatchCleanupExecutor.execute(
+            dataManager: dataManager,
+            deleteAssets: assets,
+            favoriteAssets: []
+        ) { outcome in
+            isExecutingBatch = false
+            if outcome.success {
+                dataManager.markImageCompressionOriginalsDeleted(assetIdentifiers: outcome.deletedAssetIDs)
+                if clearResultAfter {
+                    dataManager.clearImageCompressionResult()
+                    dismissCompressionResultAfterBatch = false
+                }
+                HapticManager.notify(.success)
+            } else {
+                HapticManager.notify(.error)
+            }
+            reloadAssets()
+        }
     }
 
     private func compressSelectedImages(images: [PHAsset], plan: ImageCompressionPlan) {
@@ -1322,8 +1336,7 @@ private struct AdvancedImageCompressionView: View {
 
         dataManager.addToDeleteCandidates(originalAssets)
         HapticManager.notify(.warning)
-        dismissCompressionResultAfterBatch = true
-        showBatchConfirm = true
+        executeImageDeletion(originalAssets, clearResultAfter: true)
     }
 
     private func queueCompressedHistoryOriginalImagesForDeletion() {
@@ -1342,8 +1355,7 @@ private struct AdvancedImageCompressionView: View {
 
         dataManager.addToDeleteCandidates(originalAssets)
         HapticManager.notify(.warning)
-        dismissCompressionResultAfterBatch = false
-        showBatchConfirm = true
+        executeImageDeletion(originalAssets, clearResultAfter: false)
     }
 
     private func keepOriginalImages() {
@@ -2168,7 +2180,7 @@ private struct AdvancedVideoCompressionView: View {
     @State private var showingICloudVideoInfo = false
     @State private var dismissCompressionResultAfterBatch = false
     @State private var previewAsset: AdvancedPreviewAsset?
-    @State private var showBatchConfirm = false
+    @State private var isExecutingBatch = false
     @State private var compressionOptionsContext: AdvancedVideoCompressionOptionsContext?
     @State private var sizeLoadingTask: Task<Void, Never>?
     @State private var selectedTab: AdvancedVideoCompressionTab = .pending
@@ -2358,18 +2370,6 @@ private struct AdvancedVideoCompressionView: View {
             }
         }
         .advancedDetailNavigation(title: AdvancedCleanupKind.videoCompression.title)
-        .fullScreenCover(isPresented: $showBatchConfirm, onDismiss: {
-            reloadAssets()
-            if dismissCompressionResultAfterBatch {
-                dataManager.clearVideoCompressionResult()
-                dismissCompressionResultAfterBatch = false
-            }
-        }) {
-            BatchConfirmView { deletedAssetIDs in
-                dataManager.markVideoCompressionOriginalsDeleted(assetIdentifiers: deletedAssetIDs)
-            }
-                .environmentObject(dataManager)
-        }
         .sheet(item: $previewAsset) { item in
             AdvancedAssetPreviewView(
                 asset: item.asset,
@@ -2772,10 +2772,32 @@ private struct AdvancedVideoCompressionView: View {
     private func deleteSelectedVideos() {
         let videos = selectedAssets
         guard !videos.isEmpty, !isCompressing else { return }
-
         dataManager.addToDeleteCandidates(videos)
         HapticManager.notify(.warning)
-        showBatchConfirm = true
+        executeVideoDeletion(videos, clearResultAfter: false)
+    }
+
+    private func executeVideoDeletion(_ assets: [PHAsset], clearResultAfter: Bool) {
+        guard !isExecutingBatch else { return }
+        isExecutingBatch = true
+        BatchCleanupExecutor.execute(
+            dataManager: dataManager,
+            deleteAssets: assets,
+            favoriteAssets: []
+        ) { outcome in
+            isExecutingBatch = false
+            if outcome.success {
+                dataManager.markVideoCompressionOriginalsDeleted(assetIdentifiers: outcome.deletedAssetIDs)
+                if clearResultAfter {
+                    dataManager.clearVideoCompressionResult()
+                    dismissCompressionResultAfterBatch = false
+                }
+                HapticManager.notify(.success)
+            } else {
+                HapticManager.notify(.error)
+            }
+            reloadAssets()
+        }
     }
 
     private func compressSelectedVideos(videos: [PHAsset], plan: VideoCompressionPlan) {
@@ -2816,8 +2838,7 @@ private struct AdvancedVideoCompressionView: View {
 
         dataManager.addToDeleteCandidates(originalAssets)
         HapticManager.notify(.warning)
-        dismissCompressionResultAfterBatch = true
-        showBatchConfirm = true
+        executeVideoDeletion(originalAssets, clearResultAfter: true)
     }
 
     private func queueCompressedHistoryOriginalVideosForDeletion() {
@@ -2836,8 +2857,7 @@ private struct AdvancedVideoCompressionView: View {
 
         dataManager.addToDeleteCandidates(originalAssets)
         HapticManager.notify(.warning)
-        dismissCompressionResultAfterBatch = false
-        showBatchConfirm = true
+        executeVideoDeletion(originalAssets, clearResultAfter: false)
     }
 
     private func keepOriginalVideos() {
@@ -3970,7 +3990,7 @@ private struct AdvancedSimilarPhotoGroupsView: View {
     @State private var groups: [AdvancedSimilarPhotoGroup] = []
     @State private var selectedAssetIDs: Set<String> = []
     @State private var selectedFilter: AdvancedCleanupFilter = .all
-    @State private var showBatchConfirm = false
+    @State private var isExecutingBatch = false
     @State private var previewAsset: AdvancedPreviewAsset?
     @State private var visibleGroupLimit = 24
 
@@ -4068,13 +4088,6 @@ private struct AdvancedSimilarPhotoGroupsView: View {
             }
         }
         .advancedDetailNavigation(title: L10n.string("相似照片"))
-        .fullScreenCover(isPresented: $showBatchConfirm, onDismiss: {
-            syncSelectionWithPendingDeleteCandidates()
-            reloadGroups()
-        }) {
-            BatchConfirmView()
-                .environmentObject(dataManager)
-        }
         .sheet(item: $previewAsset) { item in
             AdvancedAssetPreviewView(
                 asset: item.asset,
@@ -4123,10 +4136,21 @@ private struct AdvancedSimilarPhotoGroupsView: View {
 
     private func addSelectedAssetsToDeleteCandidates() {
         let assets = selectedAssets
-        guard !assets.isEmpty else { return }
+        guard !assets.isEmpty, !isExecutingBatch else { return }
         dataManager.addToDeleteCandidates(assets)
-        HapticManager.notify(.success)
-        showBatchConfirm = true
+        HapticManager.notify(.warning)
+
+        isExecutingBatch = true
+        BatchCleanupExecutor.execute(
+            dataManager: dataManager,
+            deleteAssets: assets,
+            favoriteAssets: []
+        ) { outcome in
+            isExecutingBatch = false
+            syncSelectionWithPendingDeleteCandidates()
+            reloadGroups()
+            HapticManager.notify(outcome.success ? .success : .error)
+        }
     }
 
     private func syncSelectionWithPendingDeleteCandidates() {
