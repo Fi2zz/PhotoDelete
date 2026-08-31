@@ -41,7 +41,7 @@ struct MainTabView: View {
             dataManager.syncPhotoLibraryAuthorization()
         }
         .onReceive(NotificationCenter.default.publisher(for: AppConstants.openAlbumsTabNotificationName)) { _ in
-            selectedTab = .albums
+            selectedTab = .organize
         }
     }
 
@@ -53,13 +53,6 @@ struct MainTabView: View {
                     Text(PhotoDeleteMainTab.organize.title)
                 }
                 .tag(PhotoDeleteMainTab.organize)
-            
-            tabContent(for: .albums)
-                .tabItem {
-                    Image(systemName: PhotoDeleteMainTab.albums.systemImage)
-                    Text(PhotoDeleteMainTab.albums.title)
-                }
-                .tag(PhotoDeleteMainTab.albums)
 
             tabContent(for: .advanced)
                 .tabItem {
@@ -82,9 +75,6 @@ struct MainTabView: View {
         switch tab {
         case .organize:
             HomeView()
-                .environmentObject(dataManager)
-        case .albums:
-            AlbumsView()
                 .environmentObject(dataManager)
         case .advanced:
             AdvancedView()
@@ -123,7 +113,6 @@ struct MainTabView: View {
 
 private enum PhotoDeleteMainTab: CaseIterable, Identifiable, Hashable {
     case organize
-    case albums
     case advanced
     case settings
 
@@ -133,8 +122,6 @@ private enum PhotoDeleteMainTab: CaseIterable, Identifiable, Hashable {
         switch self {
         case .organize:
             return L10n.string("整理")
-        case .albums:
-            return L10n.string("相册")
         case .advanced:
             return L10n.string("进阶")
         case .settings:
@@ -146,8 +133,6 @@ private enum PhotoDeleteMainTab: CaseIterable, Identifiable, Hashable {
         switch self {
         case .organize:
             return "sparkles"
-        case .albums:
-            return "photo.on.rectangle"
         case .advanced:
             return "chart.bar.xaxis"
         case .settings:

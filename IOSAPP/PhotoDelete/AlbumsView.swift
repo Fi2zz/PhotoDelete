@@ -48,7 +48,7 @@ struct AlbumsView: View {
     @EnvironmentObject var dataManager: DataManager
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @AppStorage(AppConstants.hasDismissedAlbumSwipeHintKey) private var hasDismissedAlbumSwipeHint = false
-    @State private var navigationPath = NavigationPath()
+    var onOpenAlbum: (AlbumInfo) -> Void = { _ in }
     @State private var searchText = ""
     @State private var activeSheet: AlbumSheet?
     @State private var sortMode: AlbumSortMode = .custom
@@ -59,47 +59,38 @@ struct AlbumsView: View {
     @State private var displayedAlbumCount = 0
 
     var body: some View {
-        NavigationStack(path: $navigationPath) {
-            rootContent
-                .frame(maxWidth: PhotoDeleteAdaptiveLayout.listContentMaxWidth(horizontalSizeClass: horizontalSizeClass))
-                .frame(maxWidth: .infinity)
-                .background {
-                    PhotoDeleteScreenBackground()
+        rootContent
+            .frame(maxWidth: PhotoDeleteAdaptiveLayout.listContentMaxWidth(horizontalSizeClass: horizontalSizeClass))
+            .frame(maxWidth: .infinity)
+            .background {
+                PhotoDeleteScreenBackground()
+            }
+            .overlay {
+                if let albumToast {
+                    albumToastView(albumToast)
                 }
-                .overlay {
-                    if let albumToast {
-                        albumToastView(albumToast)
-                    }
-                }
-                .navigationTitle(L10n.string("相册"))
-                .navigationBarTitleDisplayMode(.large)
-                .searchable(
-                    text: $searchText,
-                    placement: .navigationBarDrawer(displayMode: .automatic),
-                    prompt: Text(L10n.string("搜索相册"))
-                )
-                .toolbar {
-                    if dataManager.photoLibraryManager.hasPhotoLibraryAccess {
-                        ToolbarItemGroup(placement: .topBarTrailing) {
-                            if editMode == .active {
-                                Button(L10n.string("完成"), action: toggleReordering)
-                                    .font(.body.weight(.semibold))
-                            } else {
-                                sortMenu
-                                albumActionsMenu
-                                createAlbumButton
-                            }
+            }
+            .navigationTitle(L10n.string("相册"))
+            .navigationBarTitleDisplayMode(.large)
+            .searchable(
+                text: $searchText,
+                placement: .navigationBarDrawer(displayMode: .automatic),
+                prompt: Text(L10n.string("搜索相册"))
+            )
+            .toolbar {
+                if dataManager.photoLibraryManager.hasPhotoLibraryAccess {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        if editMode == .active {
+                            Button(L10n.string("完成"), action: toggleReordering)
+                                .font(.body.weight(.semibold))
+                        } else {
+                            sortMenu
+                            albumActionsMenu
+                            createAlbumButton
                         }
                     }
                 }
-                .navigationDestination(for: AlbumNavigationDestination.self) { destination in
-                    switch destination {
-                    case .swipeAlbum(let selectedSwipeAlbum):
-                        SwipePhotoView(selectedCategory: nil, selectedTimeGroup: nil, selectedAlbumInfo: selectedSwipeAlbum)
-                            .environmentObject(dataManager)
-                    }
-                }
-        }
+            }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .create:
@@ -548,7 +539,7 @@ struct AlbumsView: View {
         }
 
         HapticManager.impact(.light)
-        navigationPath.append(AlbumNavigationDestination.swipeAlbum(currentAlbumInfo))
+        onOpenAlbum(currentAlbumInfo)
     }
 
     private func editAlbum(id: String) {
@@ -608,25 +599,6 @@ struct AlbumsView: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
         }
         .allowsHitTesting(false)
-    }
-}
-
-enum AlbumNavigationDestination: Hashable {
-    case swipeAlbum(AlbumInfo)
-
-    static func == (lhs: AlbumNavigationDestination, rhs: AlbumNavigationDestination) -> Bool {
-        switch (lhs, rhs) {
-        case (.swipeAlbum(let lhsAlbum), .swipeAlbum(let rhsAlbum)):
-            return lhsAlbum.id == rhsAlbum.id
-        }
-    }
-
-    func hash(into hasher: inout Hasher) {
-        switch self {
-        case .swipeAlbum(let album):
-            hasher.combine("swipeAlbum")
-            hasher.combine(album.id)
-        }
     }
 }
 

@@ -805,8 +805,8 @@ final class PhotoDeleteUITests: XCTestCase {
 
     @MainActor
     private func openAlbumsTab(in app: XCUIApplication) {
+        // The album list lives on the home tab now; just return to its root.
         returnToTabRootIfNeeded(in: app)
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.38, dy: 0.96)).tap()
     }
 
     @MainActor

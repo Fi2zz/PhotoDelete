@@ -13,6 +13,7 @@ enum SwipeViewDestination: Hashable {
     case album(AlbumInfo)
     case timeBrowser
     case locationBrowser
+    case albumManager
     case historicalToday
     case location(String)
     case period(AdvancedTimeScope, Date)
@@ -28,6 +29,8 @@ enum SwipeViewDestination: Hashable {
         case (.timeBrowser, .timeBrowser):
             return true
         case (.locationBrowser, .locationBrowser):
+            return true
+        case (.albumManager, .albumManager):
             return true
         case (.historicalToday, .historicalToday):
             return true
@@ -55,6 +58,8 @@ enum SwipeViewDestination: Hashable {
             hasher.combine("timeBrowser")
         case .locationBrowser:
             hasher.combine("locationBrowser")
+        case .albumManager:
+            hasher.combine("albumManager")
         case .historicalToday:
             hasher.combine("historicalToday")
         case .location(let groupID):
@@ -174,6 +179,11 @@ struct HomeView: View {
                 case .album(let albumInfo):
                     SwipePhotoView(selectedCategory: nil, selectedTimeGroup: nil, selectedAlbumInfo: albumInfo)
                         .environmentObject(dataManager)
+                case .albumManager:
+                    AlbumsView { albumInfo in
+                        navigationPath.append(SwipeViewDestination.album(albumInfo))
+                    }
+                    .environmentObject(dataManager)
                 case .timeBrowser:
                     TimeOrganizeView()
                         .environmentObject(dataManager)
@@ -221,6 +231,7 @@ struct HomeView: View {
                     VStack(spacing: 18) {
                                 primaryOrganizeSection(isCompact: true)
                         locationOrganizeSection
+                        albumListSection
                     }
                     .frame(maxWidth: .infinity)
 
@@ -234,6 +245,7 @@ struct HomeView: View {
                 VStack(spacing: PhotoDeleteStyle.sectionSpacing) {
                         primaryOrganizeSection(isCompact: false)
                     locationOrganizeSection
+                    albumListSection
                     secondaryEntrySection
                     timelineSection
                 }
@@ -424,6 +436,71 @@ struct HomeView: View {
         }
         .padding(isCompact ? 18 : 20)
         .photoDeleteCard()
+    }
+
+    // MARK: - 相册列表
+    private var albumListSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text(L10n.string("相册"))
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundColor(PhotoDeleteStyle.primaryText)
+                Spacer()
+
+                Button {
+                    navigationPath.append(SwipeViewDestination.albumManager)
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "slider.horizontal.3")
+                            .font(.system(size: 12, weight: .semibold))
+                        Text(L10n.string("管理相册"))
+                            .font(.system(size: 13, weight: .semibold))
+                    }
+                    .foregroundColor(PhotoDeleteStyle.accent)
+                }
+                .buttonStyle(.plain)
+                .photoDeleteMinimumTapTarget()
+            }
+            .padding(.horizontal, 2)
+
+            if dataManager.userAlbums.isEmpty {
+                Text(L10n.string("还没有自建相册"))
+                    .font(.system(size: 13, weight: .regular))
+                    .foregroundColor(PhotoDeleteStyle.secondaryText)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 14)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .photoDeleteCard()
+            } else {
+                VStack(spacing: 0) {
+                    ForEach(Array(dataManager.userAlbums.enumerated()), id: \.element.id) { index, album in
+                        Button {
+                            navigationPath.append(SwipeViewDestination.album(album))
+                        } label: {
+                            AlbumInfoRow(
+                                id: album.id,
+                                title: album.title,
+                                photosCount: album.photosCount,
+                                type: album.type,
+                                thumbnailAssetID: album.thumbnailAsset?.localIdentifier,
+                                photoLibraryManager: dataManager.photoLibraryManager,
+                                showsChevron: true
+                            )
+                            .equatable()
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+
+                        if index != dataManager.userAlbums.count - 1 {
+                            Divider()
+                                .background(PhotoDeleteStyle.hairline)
+                                .padding(.leading, 62)
+                        }
+                    }
+                }
+                .photoDeleteCard()
+            }
+        }
     }
 
     // MARK: - 地点整理入口

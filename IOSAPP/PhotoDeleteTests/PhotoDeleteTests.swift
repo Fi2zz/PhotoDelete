@@ -1364,17 +1364,6 @@ struct PhotoDeleteTests {
         #expect(DataManager.decodeCustomAlbumOrder("[\"album-b\",\"album-a\"]") == ["album-b", "album-a"])
     }
 
-    @Test func albumNavigationDestinationUsesStableAlbumIdentifier() async throws {
-        let first = AlbumInfo(id: "album-1", title: "旅行", assetCollection: nil, type: .userCreated, photosCount: 8)
-        let renamed = AlbumInfo(id: "album-1", title: "旅行精选", assetCollection: nil, type: .userCreated, photosCount: 12)
-
-        let firstDestination = AlbumNavigationDestination.swipeAlbum(first)
-        let renamedDestination = AlbumNavigationDestination.swipeAlbum(renamed)
-
-        #expect(firstDestination == renamedDestination)
-        #expect(Set([firstDestination, renamedDestination]).count == 1)
-    }
-
     // MARK: - DataManager initialization
 
     @Test func dataManagerInitializesWithEmptyCandidates() async throws {
