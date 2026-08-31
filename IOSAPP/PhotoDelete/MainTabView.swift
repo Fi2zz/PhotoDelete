@@ -14,7 +14,6 @@ struct MainTabView: View {
     @EnvironmentObject var dataManager: DataManager
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.photoDeleteTheme) private var theme
-    @AppStorage(AppConstants.appAppearanceKey) private var appAppearanceValue = AppAppearance.system.rawValue
     @State private var selectedTab: PhotoDeleteMainTab = .organize
     
     var body: some View {
@@ -29,9 +28,6 @@ struct MainTabView: View {
                 dataManager.refreshAlbumsFromLibrary(showLoading: false)
             }
             #endif
-        }
-        .onChange(of: appAppearanceValue) { _ in
-            configureTabBarAppearance()
         }
         .onChange(of: theme) { _ in
             configureTabBarAppearance()

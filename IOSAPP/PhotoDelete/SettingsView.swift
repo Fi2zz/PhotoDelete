@@ -21,9 +21,7 @@ struct SettingsView: View {
     @AppStorage(AppConstants.reviewVideoAutoPlayKey) private var reviewVideoAutoPlay = true
     @AppStorage(AppConstants.reviewLivePhotoAutoPlayKey) private var reviewLivePhotoAutoPlay = false
     @AppStorage(AppConstants.reviewSortOrderKey) private var reviewSortOrderValue = PhotoReviewSortOrder.newestFirst.rawValue
-    @AppStorage(AppConstants.appAppearanceKey) private var appAppearanceValue = AppAppearance.system.rawValue
     @State private var activeSheet: SettingsSheet?
-    @State private var showingClearLocalDataConfirmation = false
     @State private var settingsToast: PhotoDeleteToast?
 
     var body: some View {
@@ -38,9 +36,6 @@ struct SettingsView: View {
 
                         // 偏好设置
                         preferencesSection
-
-                        // 数据与权限
-                        dataPermissionsSection
 
                         // 关于与支持
                         aboutSection
@@ -75,8 +70,6 @@ struct SettingsView: View {
                 GestureSettingsView()
             case .languageSettings:
                 LanguageSettingsView()
-            case .appearanceSettings:
-                AppearanceSettingsView()
             }
         }
     }
@@ -208,67 +201,12 @@ struct SettingsView: View {
                     }
                 )
 
-                Divider()
-                    .background(PhotoDeleteStyle.hairline)
-                    .padding(.horizontal, 16)
-
-                SettingRow(
-                    icon: "circle.lefthalf.filled",
-                    iconColor: PhotoDeleteStyle.accent,
-                    title: L10n.string("外观"),
-                    subtitle: selectedAppearance.title,
-                    action: {
-                        activeSheet = .appearanceSettings
-                    }
-                )
-
-                Divider()
-                    .background(PhotoDeleteStyle.hairline)
-                    .padding(.horizontal, 16)
-
                 SettingToggleRow(
                     icon: "hand.tap",
                     title: L10n.string("触感反馈"),
                     subtitle: L10n.string("滑动、撤销和归类时提供轻微反馈"),
                     isOn: $hapticsEnabled
                 )
-            }
-            .photoDeleteCard()
-        }
-    }
-
-    // MARK: - 数据与权限
-    private var dataPermissionsSection: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text(L10n.string("数据与权限"))
-                    .photoDeleteSectionHeading()
-                Spacer()
-            }
-
-            VStack(spacing: 0) {
-                SettingRow(
-                    icon: "tray.full",
-                    iconColor: PhotoDeleteStyle.positive,
-                    title: L10n.string("本机整理数据"),
-                    subtitle: localDataSubtitle,
-                    showsChevron: false,
-                    action: {
-                        showingClearLocalDataConfirmation = true
-                    }
-                )
-                .confirmationDialog(
-                    L10n.string("清空本机整理记录？"),
-                    isPresented: $showingClearLocalDataConfirmation,
-                    titleVisibility: .visible
-                ) {
-                    Button(L10n.string("清空"), role: .destructive) {
-                        clearLocalOrganizeData()
-                    }
-                    Button(L10n.string("取消"), role: .cancel) {}
-                } message: {
-                    Text(L10n.string("待删除、待收藏和已整理进度会被清空，不会删除照片库中的任何照片。"))
-                }
 
                 Divider()
                     .background(PhotoDeleteStyle.hairline)
@@ -304,10 +242,6 @@ struct SettingsView: View {
         AppLanguage(rawValue: appLanguageValue) ?? .system
     }
 
-    private var selectedAppearance: AppAppearance {
-        AppAppearance(rawValue: appAppearanceValue) ?? .system
-    }
-
     private func settingsToastView(_ toast: PhotoDeleteToast) -> some View {
         VStack {
             Spacer()
@@ -332,18 +266,6 @@ struct SettingsView: View {
         }
     }
 
-    private var localDataSubtitle: String {
-        let reviewedCount = dataManager.reviewedAssetIDs.count
-        let pendingCount = dataManager.deleteCandidates.count + dataManager.favoriteCandidates.count
-        if reviewedCount > 0 {
-            return L10n.string("已整理 \(compactPhotoCount(reviewedCount))")
-        }
-        if pendingCount > 0 {
-            return L10n.string("待确认 \(compactPhotoCount(pendingCount))")
-        }
-        return L10n.string("无记录")
-    }
-
     private var gestureSettingsSubtitle: String {
         let left = "\(shortDirectionTitle(.left))\(shortActionTitle(currentGestureAction(for: .left)))"
         let right = "\(shortDirectionTitle(.right))\(shortActionTitle(currentGestureAction(for: .right)))"
@@ -362,17 +284,6 @@ struct SettingsView: View {
         default:
             return false
         }
-    }
-
-    private func compactPhotoCount(_ count: Int) -> String {
-        if usesChineseCompactText {
-            if count >= 10_000 {
-                return L10n.string("\(oneDecimalTrimmed(Double(count) / 10_000)) 万张")
-            }
-            return L10n.string("\(count) 张")
-        }
-
-        return L10n.string("\(compactPlainCount(count)) photos")
     }
 
     private func shortDirectionTitle(_ direction: SwipeGestureDirection) -> String {
@@ -431,24 +342,6 @@ struct SettingsView: View {
         }
     }
 
-    private func compactPlainCount(_ count: Int) -> String {
-        if count >= 1_000_000 {
-            return "\(oneDecimalTrimmed(Double(count) / 1_000_000))M"
-        }
-        if count >= 1_000 {
-            return "\(oneDecimalTrimmed(Double(count) / 1_000))K"
-        }
-        return "\(count)"
-    }
-
-    private func oneDecimalTrimmed(_ value: Double) -> String {
-        let rounded = (value * 10).rounded() / 10
-        if rounded.rounded() == rounded {
-            return String(Int(rounded))
-        }
-        return rounded.formatted(.number.grouping(.never).precision(.fractionLength(1)))
-    }
-
     private func currentGestureAction(for direction: SwipeGestureDirection) -> SwipeGestureAction {
         switch direction {
         case .left:
@@ -458,11 +351,6 @@ struct SettingsView: View {
         case .up:
             return SwipeGesturePreferences.normalizedAction(upSwipeActionValue, fallback: SwipeGesturePreferences.defaultAction(for: .up))
         }
-    }
-
-    private func clearLocalOrganizeData() {
-        dataManager.clearLocalOrganizeData()
-        showSettingsToast(L10n.string("已清空本机整理记录"), icon: "checkmark.circle.fill", style: .positive)
     }
 
     private func showSettingsToast(_ message: String, icon: String, style: PhotoDeleteToastStyle) {
@@ -485,7 +373,6 @@ private enum SettingsSheet: Identifiable {
     case privacy
     case gestureSettings
     case languageSettings
-    case appearanceSettings
 
     var id: String {
         switch self {
@@ -493,7 +380,6 @@ private enum SettingsSheet: Identifiable {
         case .privacy: return "privacy"
         case .gestureSettings: return "gestureSettings"
         case .languageSettings: return "languageSettings"
-        case .appearanceSettings: return "appearanceSettings"
         }
     }
 }
@@ -1437,109 +1323,6 @@ private struct LanguageSettingsView: View {
         language.searchTokens.contains { token in
             token.range(of: query, options: [.caseInsensitive, .diacriticInsensitive]) != nil
         }
-    }
-}
-
-// MARK: - 外观设置
-private struct AppearanceSettingsView: View {
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @AppStorage(AppConstants.appAppearanceKey) private var selectedAppearanceID = AppAppearance.system.rawValue
-
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                PhotoDeleteScreenBackground()
-
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        headerSection
-                        appearanceSection
-                    }
-                    .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
-                    .padding(.top, 20)
-                    .padding(.bottom, 24)
-                    .frame(maxWidth: PhotoDeleteAdaptiveLayout.readableContentMaxWidth(horizontalSizeClass: horizontalSizeClass))
-                    .frame(maxWidth: .infinity)
-                }
-            }
-            .navigationTitle(L10n.string("外观"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(L10n.string("完成")) {
-                        dismiss()
-                    }
-                    .foregroundColor(PhotoDeleteStyle.accent)
-                }
-            }
-        }
-    }
-
-    private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(L10n.string("外观"))
-                .font(.system(size: 24, weight: .semibold))
-                .foregroundColor(PhotoDeleteStyle.primaryText)
-
-            Text(L10n.string("选择日间、夜间或跟随系统外观。"))
-                .font(.system(size: 15, weight: .regular))
-                .foregroundColor(PhotoDeleteStyle.secondaryText)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-    }
-
-    private var appearanceSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(L10n.string("外观"))
-                .photoDeleteSectionHeading()
-
-            VStack(spacing: 0) {
-                ForEach(AppAppearance.allCases) { appearance in
-                    Button {
-                        selectedAppearanceID = appearance.rawValue
-                        HapticManager.impact(.light)
-                    } label: {
-                        HStack(spacing: 12) {
-                            PhotoDeleteIconTile(
-                                icon: appearance.icon,
-                                tint: selectedAppearance == appearance ? PhotoDeleteStyle.accent : PhotoDeleteStyle.tertiaryText,
-                                size: 30,
-                                cornerRadius: 9
-                            )
-
-                            Text(appearance.title)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(PhotoDeleteStyle.primaryText)
-                                .lineLimit(1)
-
-                            Spacer()
-
-                            Image(systemName: selectedAppearance == appearance ? "checkmark.circle.fill" : "circle")
-                                .font(.body.weight(.semibold))
-                                .foregroundStyle(selectedAppearance == appearance ? PhotoDeleteStyle.accent : PhotoDeleteStyle.tertiaryText)
-                        }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 12)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityHint(Text(appearance.detail))
-                    .accessibilityAddTraits(selectedAppearance == appearance ? .isSelected : [])
-                    .accessibilityValue(Text(selectedAppearance == appearance ? L10n.string("已选") : L10n.string("未选择")))
-
-                    if appearance != AppAppearance.allCases.last {
-                        Divider()
-                            .background(PhotoDeleteStyle.hairline)
-                            .padding(.leading, 58)
-                    }
-                }
-            }
-            .photoDeleteCard()
-        }
-    }
-
-    private var selectedAppearance: AppAppearance {
-        AppAppearance(rawValue: selectedAppearanceID) ?? .system
     }
 }
 

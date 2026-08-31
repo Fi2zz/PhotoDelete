@@ -14,11 +14,6 @@ struct PhotoDeleteApp: App {
             forKey: AppConstants.appLanguageKey,
             fallback: AppLanguage.system.rawValue
         )
-    @AppStorage(AppConstants.appAppearanceKey) private var appAppearanceValue =
-        PhotoDeleteLaunchDefaults.string(
-            forKey: AppConstants.appAppearanceKey,
-            fallback: AppAppearance.system.rawValue
-        )
 
     init() {
         SwipeGesturePreferences.migrateStoredDefaultsIfNeeded()
@@ -32,17 +27,12 @@ struct PhotoDeleteApp: App {
                 .modifier(AppLayoutDirectionModifier(language: selectedLanguage))
                 .environment(\.photoDeleteTheme, PhotoDeleteTheme.defaultTheme)
                 .tint(PhotoDeleteTheme.defaultTheme.navigationTint)
-                .preferredColorScheme(selectedAppearance.colorScheme)
                 .statusBarHidden(false)
         }
     }
 
     private var selectedLanguage: AppLanguage {
         AppLanguage(rawValue: appLanguageValue) ?? .system
-    }
-
-    private var selectedAppearance: AppAppearance {
-        AppAppearance(rawValue: appAppearanceValue) ?? .system
     }
 }
 
@@ -84,10 +74,6 @@ private enum PhotoDeleteUITestDefaults {
             defaults.set(appLanguage, forKey: AppConstants.appLanguageKey)
         }
 
-        if let appAppearance = environment["PHOTO_DELETE_UI_TEST_APP_APPEARANCE"] {
-            defaults.set(appAppearance, forKey: AppConstants.appAppearanceKey)
-        }
-
     }
     private static func reset(_ defaults: UserDefaults) {
         [
@@ -111,8 +97,7 @@ private enum PhotoDeleteUITestDefaults {
             AppConstants.hasSeenDeleteButtonTipKey,
             AppConstants.hasDismissedAlbumSwipeHintKey,
             AppConstants.reviewProgressByScopeKey,
-            AppConstants.customAlbumOrderKey,
-            AppConstants.appAppearanceKey
+            AppConstants.customAlbumOrderKey
         ].forEach(defaults.removeObject)
     }
 }

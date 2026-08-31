@@ -781,7 +781,6 @@ final class PhotoDeleteUITests: XCTestCase {
         app.launchEnvironment = [
             AppLaunchEnvironmentKey.isUITest: "1",
             AppLaunchEnvironmentKey.appLanguage: appLanguage,
-            AppLaunchEnvironmentKey.appAppearance: "light",
             AppLaunchEnvironmentKey.seedLibrary: seedLibrary ? "1" : "0"
         ]
         return app
@@ -1318,6 +1317,5 @@ final class PhotoDeleteUITests: XCTestCase {
 private enum AppLaunchEnvironmentKey {
     static let isUITest = "PHOTO_DELETE_UI_TEST"
     static let appLanguage = "PHOTO_DELETE_UI_TEST_APP_LANGUAGE"
-    static let appAppearance = "PHOTO_DELETE_UI_TEST_APP_APPEARANCE"
     static let seedLibrary = "PHOTO_DELETE_UI_TEST_SEED_LIBRARY"
 }
