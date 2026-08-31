@@ -69,8 +69,6 @@ struct SettingsView: View {
             switch sheet {
             case .about:
                 AboutView()
-            case .author:
-                AuthorView()
             case .privacy:
                 PrivacyInfoView()
             case .gestureSettings:
@@ -145,30 +143,6 @@ struct SettingsView: View {
             }
 
             VStack(spacing: 0) {
-                SettingRow(
-                    icon: "star",
-                    iconColor: PhotoDeleteStyle.warning,
-                    title: L10n.string("给删图评分"),
-                    showsChevron: false,
-                    action: requestAppReview
-                )
-
-                Divider()
-                    .background(PhotoDeleteStyle.hairline)
-                    .padding(.horizontal, 16)
-
-                SettingRow(
-                    icon: "person.text.rectangle",
-                    title: L10n.string("关于创作者"),
-                    action: {
-                        activeSheet = .author
-                    }
-                )
-
-                Divider()
-                    .background(PhotoDeleteStyle.hairline)
-                    .padding(.horizontal, 16)
-
                 SettingRow(
                     icon: "lock.shield",
                     iconColor: PhotoDeleteStyle.positive,
@@ -491,21 +465,6 @@ struct SettingsView: View {
         showSettingsToast(L10n.string("已清空本机整理记录"), icon: "checkmark.circle.fill", style: .positive)
     }
 
-    private func requestAppReview() {
-        #if canImport(UIKit)
-        UIApplication.shared.open(AppConstants.appStoreReviewURL) { opened in
-            guard !opened else { return }
-            UIApplication.shared.open(AppConstants.appStoreProductURL)
-        }
-        #else
-        showSettingsToast(
-            L10n.string("稍后可在 App Store 评分"),
-            icon: "star",
-            style: .positive
-        )
-        #endif
-    }
-
     private func showSettingsToast(_ message: String, icon: String, style: PhotoDeleteToastStyle) {
         let toast = PhotoDeleteToast(message: message, icon: icon, style: style)
         withAnimation(.spring(response: 0.28, dampingFraction: 0.88)) {
@@ -523,7 +482,6 @@ struct SettingsView: View {
 
 private enum SettingsSheet: Identifiable {
     case about
-    case author
     case privacy
     case gestureSettings
     case languageSettings
@@ -532,7 +490,6 @@ private enum SettingsSheet: Identifiable {
     var id: String {
         switch self {
         case .about: return "about"
-        case .author: return "author"
         case .privacy: return "privacy"
         case .gestureSettings: return "gestureSettings"
         case .languageSettings: return "languageSettings"
@@ -1587,159 +1544,6 @@ private struct AppearanceSettingsView: View {
 }
 
 // MARK: - 作者介绍视图
-struct AuthorView: View {
-    @Environment(\.dismiss) private var dismiss
-    @State private var authorToast: PhotoDeleteToast?
-
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                PhotoDeleteScreenBackground()
-
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 22) {
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack(spacing: 14) {
-                                AuthorAvatar()
-
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(AppConstants.authorName)
-                                        .font(.system(size: 24, weight: .semibold))
-                                        .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                                    Text(L10n.string("独立开发者 / 数字游民"))
-                                        .font(.system(size: 15, weight: .regular))
-                                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                }
-                            }
-
-                            Text(L10n.attributedMarkdown(
-                                "喜欢旅行和探索世界，也用 AI 做一些有趣的小产品。博客和作品集在 [makerjackie.com](https://makerjackie.com)。"
-                            ))
-                            .font(.system(size: 16, weight: .regular))
-                            .foregroundColor(PhotoDeleteStyle.secondaryText)
-                            .lineSpacing(4)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .tint(PhotoDeleteStyle.accent)
-                        }
-
-                        if AppLanguage.current.showsSimplifiedChineseOnlyContent {
-                            HStack(alignment: .center, spacing: 12) {
-                                PhotoDeleteIconTile(icon: "bubble.left.and.bubble.right.fill", tint: PhotoDeleteStyle.positive, size: 38, cornerRadius: 11)
-                                    .accessibilityHidden(true)
-
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(L10n.string("联系作者微信"))
-                                        .font(.system(size: 17, weight: .semibold))
-                                        .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                                    Text(AppConstants.wechatID)
-                                        .font(.system(size: 16, weight: .medium))
-                                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                                }
-
-                                Spacer(minLength: 8)
-
-                                Button(action: copyWeChatID) {
-                                    Text(authorToast == nil ? L10n.string("复制") : L10n.string("已复制"))
-                                        .font(.system(size: 13, weight: .semibold))
-                                        .foregroundColor(PhotoDeleteStyle.primaryButtonText)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 7)
-                                        .background(
-                                            Capsule(style: .continuous)
-                                                .fill(PhotoDeleteStyle.accent)
-                                        )
-                                        .photoDeleteMinimumTapTarget()
-                                }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel(String(format: L10n.string("复制微信号 %@"), AppConstants.wechatID))
-                                .accessibilityHint(L10n.string("轻点复制"))
-                            }
-                            .padding(18)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .photoDeleteCard()
-                        }
-
-                        CreatorMVPGuideSection()
-
-                        Spacer(minLength: 24)
-                    }
-                    .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
-                    .padding(.top, 20)
-                    .padding(.bottom, 24)
-                }
-
-                if let authorToast {
-                    authorToastView(authorToast)
-                }
-            }
-            .navigationTitle(L10n.string("关于创作者"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(L10n.string("完成")) {
-                        dismiss()
-                    }
-                    .foregroundColor(PhotoDeleteStyle.accent)
-                }
-            }
-        }
-    }
-
-    private func authorToastView(_ toast: PhotoDeleteToast) -> some View {
-        VStack {
-            Spacer()
-
-            PhotoDeleteToastView(toast: toast)
-                .padding(.bottom, 36)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .transition(.move(edge: .bottom).combined(with: .opacity))
-        .allowsHitTesting(false)
-    }
-
-    private func copyWeChatID() {
-        #if canImport(UIKit)
-        UIPasteboard.general.string = AppConstants.wechatID
-        showAuthorToast(L10n.string("已复制微信号 \(AppConstants.wechatID)"), icon: "checkmark.circle.fill", style: .positive)
-        #endif
-    }
-
-    private func showAuthorToast(_ message: String, icon: String, style: PhotoDeleteToastStyle) {
-        let toast = PhotoDeleteToast(message: message, icon: icon, style: style)
-
-        withAnimation(.easeInOut(duration: 0.18)) {
-            authorToast = toast
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-            guard authorToast?.id == toast.id else { return }
-            withAnimation(.easeInOut(duration: 0.18)) {
-                authorToast = nil
-            }
-        }
-    }
-}
-
-struct AuthorAvatar: View {
-    var body: some View {
-        Image("MakerJackieAvatar")
-            .resizable()
-            .scaledToFill()
-            .frame(width: 62, height: 62)
-            .clipShape(Circle())
-            .overlay(
-                Circle()
-                    .stroke(PhotoDeleteStyle.primaryText.opacity(0.22), lineWidth: 1)
-            )
-            .shadow(color: PhotoDeleteStyle.accent.opacity(0.2), radius: 18, x: 0, y: 10)
-            .accessibilityLabel(AppConstants.authorName)
-    }
-}
-
-// MARK: - 隐私说明视图
 struct PrivacyInfoView: View {
     @Environment(\.dismiss) private var dismiss
 

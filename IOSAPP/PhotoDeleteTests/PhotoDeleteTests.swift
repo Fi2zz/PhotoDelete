@@ -652,15 +652,6 @@ struct PhotoDeleteTests {
         #expect(AppLanguage.supportedStoreMetadataLocales.contains("zh-Hant"))
     }
 
-    @Test func appStoreReviewURLTargetsPhotoDeleteReviewPage() async throws {
-        #expect(AppConstants.appStoreID == "6779493280")
-        #expect(AppConstants.appStoreReviewURL.absoluteString.contains(AppConstants.appStoreID))
-        #expect(AppConstants.appStoreReviewURL.absoluteString.contains("action=write-review"))
-        #expect(AppConstants.appStoreProductURL.absoluteString.contains(AppConstants.appStoreID))
-        #expect(AppConstants.privacyPolicyURL.scheme == "https")
-        #expect(AppConstants.termsOfUseURL.host == "www.apple.com")
-    }
-
     // MARK: - CleanupStatsStore tests
 
     @Test func cleanupSessionExcludesLegacyHeuristicSpaceFromCurrentTotals() async throws {

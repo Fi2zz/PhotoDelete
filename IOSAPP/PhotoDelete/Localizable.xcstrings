@@ -1329,111 +1329,6 @@
         }
       }
     },
-    "MVP 教程" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "دليل MVP"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MVP-Leitfaden"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MVP Guide"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MVPガイド"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "MVP 教程"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MVP 教程"
-          }
-        }
-      }
-    },
-    "One Apps Studio" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "One Apps Studio"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "One Apps Studio"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "One Apps Studio"
-          }
-        }
-      }
-    },
-    "OnePhoto Pro" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OnePhoto Pro"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OnePhoto Pro"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OnePhoto Pro"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OnePhoto Pro"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "OnePhoto Pro"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OnePhoto Pro"
-          }
-        }
-      }
-    },
     "RTL" : {},
     "一个免费的相册整理工具。滑动判断照片去留，完成后再统一确认。" : {
       "localizations" : {
@@ -2436,88 +2331,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從全部照片開始，按你的節奏逐張整理。"
-          }
-        }
-      }
-    },
-    "从想法到上架的完整过程。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الرحلة الكاملة من الفكرة إلى الإطلاق."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der komplette Weg von der Idee bis zum Launch."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The complete journey from idea to launch."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アイデアから公開までの全プロセス。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "从想法到上架的完整过程。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "從想法到上架的完整過程。"
-          }
-        }
-      }
-    },
-    "从零开始，一步步走。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ابدأ من الصفر، خطوة بخطوة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bei null anfangen, Schritt für Schritt."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start from zero, one step at a time."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ゼロから一歩ずつ始めます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "从零开始，一步步走。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "從零開始，一步步走。"
           }
         }
       }
@@ -3652,47 +3465,6 @@
         }
       }
     },
-    "关于创作者" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عن المنشئ"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Über den Creator"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About the Creator"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クリエイターについて"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "关于创作者"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "關於創作者"
-          }
-        }
-      }
-    },
     "关于删图" : {
       "localizations" : {
         "ar" : {
@@ -4463,47 +4235,6 @@
         }
       }
     },
-    "创作理念" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ملاحظات التصميم"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Designnotizen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Design Notes"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "デザインメモ"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "创作理念"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "創作理念"
-          }
-        }
-      }
-    },
     "创建中..." : {
       "localizations" : {
         "ar" : {
@@ -4775,47 +4506,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "刪圖不接入自己的雲端服務，也不會把照片發到服務器。"
-          }
-        }
-      }
-    },
-    "删图是我用 AI 从 0 到 1 做出来的——发现痛点、写代码、上架，全程记录在 01MVP。不管你是想做自己的小产品，还是单纯好奇 AI 写代码能到什么程度，都可以看看。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "بنيت OnePhoto من الصفر باستخدام AI، من اكتشاف المشكلة إلى البرمجة والإطلاق. تم توثيق الرحلة كاملة في 01MVP. سواء أردت بناء منتج صغير خاص بك أو كنت فضوليا لمعرفة مدى قدرة AI على البرمجة، ألق نظرة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ich habe OnePhoto mit AI von Grund auf gebaut, von der Idee über den Code bis zum Launch. Der ganze Weg ist in 01MVP dokumentiert. Wenn du ein eigenes kleines Produkt bauen willst oder einfach neugierig bist, wie weit AI-Coding kommt, schau rein."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I built OnePhoto from scratch with AI — from finding the pain point to coding and launching. The whole journey is documented in 01MVP. Whether you want to build your own small product or are just curious how far AI coding can go, take a look."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OnePhotoは、課題の発見からコード作成、公開まで、AIを使ってゼロから作ったアプリです。その過程はすべて01MVPに記録しています。自分の小さなプロダクトを作りたい人も、AIによるコーディングがどこまでできるのか気になる人も、ぜひ見てみてください。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删图是我用 AI 从 0 到 1 做出来的——发现痛点、写代码、上架，全程记录在 01MVP。不管你是想做自己的小产品，还是单纯好奇 AI 写代码能到什么程度，都可以看看。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪圖是我用 AI 從 0 到 1 做出來的——發現痛點、寫代碼、上架，全程記錄在 01MVP。不管你是想做自己的小產品，還是單純好奇 AI 寫代碼能到什麼程度，都可以看看。"
           }
         }
       }
@@ -5430,47 +5120,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "勾選這張照片"
-          }
-        }
-      }
-    },
-    "包括这个 App 的源码。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يتضمن كود المصدر لهذا التطبيق."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enthält den Quellcode dieser App."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Includes this app's source code."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このAppのソースコードを含みます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "包括这个 App 的源码。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "包括這個 App 的源碼。"
           }
         }
       }
@@ -8146,88 +7795,6 @@
         }
       }
     },
-    "复制" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "نسخ"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kopieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "コピー"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复制"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "複製"
-          }
-        }
-      }
-    },
-    "复制微信号 %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "نسخ WeChat ID %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WeChat-ID %@ kopieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy WeChat ID %@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WeChat ID %@をコピー"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复制微信号 %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "複製微信號 %@"
-          }
-        }
-      }
-    },
     "外观" : {
       "localizations" : {
         "ar" : {
@@ -8424,47 +7991,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "大文件"
-          }
-        }
-      }
-    },
-    "学用 AI 写代码的方法" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تعلّم البرمجة باستخدام AI"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mit AI programmieren lernen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Learn to Code With AI"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AIでコードを書く方法を学ぶ"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "学用 AI 写代码的方法"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "學用 AI 寫代碼的方法"
           }
         }
       }
@@ -9514,87 +9040,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已取消收藏"
-          }
-        }
-      }
-    },
-    "已复制" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تم النسخ"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kopiert"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copied"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "コピー済み"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已复制"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已複製"
-          }
-        }
-      }
-    },
-    "已复制微信号 %@" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تم نسخ WeChat ID %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WeChat-ID %@ kopiert"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WeChat ID %@ copied"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WeChat ID %@ をコピーしました"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "已复制微信号 %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已複製微信號 %@"
           }
         }
       }
@@ -11081,47 +10526,6 @@
         }
       }
     },
-    "年度 Pro" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pro السنوي"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pro jährlich"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annual Pro"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "年間 Pro"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "年度 Pro"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "年度 Pro"
-          }
-        }
-      }
-    },
     "建议选择" : {
       "localizations" : {
         "ar" : {
@@ -12405,41 +11809,6 @@
         }
       }
     },
-    "恢复购买" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "استعادة الشراء"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kauf wiederherstellen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore Purchase"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "購入を復元"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "恢復購買"
-          }
-        }
-      }
-    },
     "恢复默认" : {
       "localizations" : {
         "ar" : {
@@ -12572,88 +11941,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您已經瀏覽完所有照片"
-          }
-        }
-      }
-    },
-    "想要做自己的小产品？" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "هل تريد إنشاء منتجك الصغير؟"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eigenes kleines Produkt bauen?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Want to Build Your Own Small Product?"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自分の小さなプロダクトを作りたいですか？"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "想要做自己的小产品？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "想要做自己的小產品？"
-          }
-        }
-      }
-    },
-    "成就与历史" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الإنجازات والسجل"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Erfolge & Verlauf"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Achievements & History"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "実績と履歴"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "成就与历史"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "成就與歷史"
           }
         }
       }
@@ -12970,47 +12257,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拍攝時間未知"
-          }
-        }
-      }
-    },
-    "拿能直接改的代码模板" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قوالب كود جاهزة للاستخدام"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sofort nutzbare Codevorlagen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ready-to-Use Code Templates"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すぐに使えるコードテンプレート"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拿能直接改的代码模板"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拿能直接改的代碼模板"
           }
         }
       }
@@ -15543,29 +14789,6 @@
         }
       }
     },
-    "更多 App" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "More Apps"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更多 App"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "更多 App"
-          }
-        }
-      }
-    },
     "更新中..." : {
       "localizations" : {
         "ar" : {
@@ -16584,47 +15807,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本次刪除"
-          }
-        }
-      }
-    },
-    "查看 01MVP 教程" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عرض أدلة 01MVP"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP Anleitungen ansehen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View 01MVP Guides"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "01MVP ガイドを見る"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "查看 01MVP 教程"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "查看 01MVP 教程"
           }
         }
       }
@@ -18112,47 +17294,6 @@
         }
       }
     },
-    "永久 Pro" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pro الدائم"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pro dauerhaft"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lifetime Pro"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永久 Pro"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "永久 Pro"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "永久 Pro"
-          }
-        }
-      }
-    },
     "没有可撤销的操作" : {
       "localizations" : {
         "ar" : {
@@ -19302,47 +18443,6 @@
         }
       }
     },
-    "独立开发者 / 数字游民" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مطوّر مستقل / رحّال رقمي"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unabhängiger Entwickler / digitaler Nomade"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Independent developer / digital nomad"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "個人開発者 / デジタルノマド"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "独立开发者 / 数字游民"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "獨立開發者 / 數字遊民"
-          }
-        }
-      }
-    },
     "用户相册" : {
       "localizations" : {
         "ar" : {
@@ -19801,47 +18901,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "節省"
-          }
-        }
-      }
-    },
-    "看真实项目拆解" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عرض تحليل مشروع حقيقي"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Echtes Projekt ansehen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Real Project Breakdown"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "実例プロジェクト解説を見る"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "看真实项目拆解"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "看真實項目拆解"
           }
         }
       }
@@ -20640,47 +19699,6 @@
         }
       }
     },
-    "稍后可在 App Store 评分" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يمكنك تقييمنا لاحقا في App Store"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du kannst uns später im App Store bewerten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can rate us later in the App Store"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App Store での評価は後でもできます"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "稍后可在 App Store 评分"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "稍後可在 App Store 評分"
-          }
-        }
-      }
-    },
     "竖向" : {
       "localizations" : {
         "ar" : {
@@ -21031,46 +20049,6 @@
         }
       }
     },
-    "给删图评分" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "قيّم OnePhoto"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OnePhoto bewerten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rate OnePhoto"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OnePhoto を評価"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "给删图评分"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "給刪圖評分"
-          }
-        }
-      }
-    },
     "继续" : {
       "localizations" : {
         "ar" : {
@@ -21306,47 +20284,6 @@
         }
       }
     },
-    "联系作者微信" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "التواصل عبر WeChat"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontakt per WeChat"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contact on WeChat"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "WeChatで作者に連絡"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "联系作者微信"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "聯絡作者微信"
-          }
-        }
-      }
-    },
     "自动" : {
       "localizations" : {
         "ar" : {
@@ -21554,47 +20491,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "若照片權限為部分存取，請在系統設定中允許更多照片。"
-          }
-        }
-      }
-    },
-    "解锁进阶功能" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "فتح الميزات المتقدمة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Erweiterte Funktionen freischalten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlock Advanced Features"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "高度な機能を解除"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "解锁进阶功能"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "解鎖進階功能"
           }
         }
       }
@@ -22434,47 +21330,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "輕微降低位元率，更適合重要影片。"
-          }
-        }
-      }
-    },
-    "轻点复制" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اضغط مرتين للنسخ"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zum Kopieren doppeltippen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Double-tap to copy"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ダブルタップでコピー"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "轻点复制"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "輕點複製"
           }
         }
       }
@@ -23576,47 +22431,6 @@
         }
       }
     },
-    "适合想把一个小想法真正做出来的人。" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لأي شخص يريد تحويل فكرة صغيرة إلى شيء حقيقي."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Für alle, die aus einer kleinen Idee etwas Echtes machen wollen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "For anyone who wants to turn a small idea into something real."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "小さなアイデアを本当に形にしたい人向け。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "适合想把一个小想法真正做出来的人。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "適合想把一個小想法真正做出來的人。"
-          }
-        }
-      }
-    },
     "适合日常照片备份，细节和体积更平衡。" : {
       "localizations" : {
         "ar" : {
@@ -23891,41 +22705,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇首張以外的相似照片；再次點擊即可取消選擇。"
-          }
-        }
-      }
-    },
-    "邮件反馈" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ملاحظات بالبريد"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Feedback per E-Mail"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Email Feedback"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "メールでフィードバック"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "郵件反饋"
           }
         }
       }

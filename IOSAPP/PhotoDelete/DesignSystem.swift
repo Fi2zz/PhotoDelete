@@ -392,23 +392,6 @@ enum AppConstants {
         Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
 
-    static let authorName = "MakerJackie"
-    static let wechatID = "mvps01"
-    static let websiteURL = "https://01mvp.com"
-    static let appStoreID = "6779493280"
-    static let appStoreProductURL = URL(string: "https://apps.apple.com/app/id6779493280")!
-    static let appStoreReviewURL = URL(string: "itms-apps://itunes.apple.com/app/id6779493280?action=write-review")!
-    static let oneZenAppStoreURL = URL(string: "https://apps.apple.com/app/id6780318004")!
-    static let oneAppsStudioURL = URL(string: "https://oneapps.studio")!
-    static let oneAppsCatalogURL = URL(string: "https://oneapps.studio/apps")!
-    static var privacyPolicyURL: URL {
-        let path = AppLanguage.current.usesChineseText ? "privacy/" : "en/privacy/"
-        return URL(string: "https://photodelete.01mvp.com/\(path)")!
-    }
-    static let termsOfUseURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
-    static let technicalAppName = "PhotoDelete"
-    static let zhHansAppStoreName = "删图"
-    static let enAppStoreName = "OnePhoto"
     static var appDisplayName: String {
         L10n.string("删图")
     }
@@ -422,7 +405,6 @@ enum AppConstants {
     static let hasSeenAlbumSwipeHintKey = "photoDeleteHasSeenAlbumSwipeHint"
     static let hasDismissedAlbumSwipeHintKey = "photoDeleteHasDismissedAlbumSwipeHintV3"
     static let appLanguageKey = "photoDeleteAppLanguage"
-    static let anonymousUserIDKey = "photoDeleteAnonymousUserID"
     static let leftSwipeActionKey = "photoDeleteLeftSwipeAction"
     static let rightSwipeActionKey = "photoDeleteRightSwipeAction"
     static let upSwipeActionKey = "photoDeleteUpSwipeAction"
