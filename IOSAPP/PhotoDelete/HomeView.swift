@@ -11,7 +11,6 @@ enum SwipeViewDestination: Hashable {
     case category(PhotoCategory)
     case timeGroup(String)
     case album(AlbumInfo)
-    case random(PhotoRandomReviewScope)
     case timeBrowser
     case locationBrowser
     case historicalToday
@@ -26,8 +25,6 @@ enum SwipeViewDestination: Hashable {
             return lhsTimeGroup == rhsTimeGroup
         case (.album(let lhsAlbum), .album(let rhsAlbum)):
             return lhsAlbum.id == rhsAlbum.id
-        case (.random(let lhsScope), .random(let rhsScope)):
-            return lhsScope == rhsScope
         case (.timeBrowser, .timeBrowser):
             return true
         case (.locationBrowser, .locationBrowser):
@@ -54,9 +51,6 @@ enum SwipeViewDestination: Hashable {
         case .album(let album):
             hasher.combine("album")
             hasher.combine(album.id)
-        case .random(let scope):
-            hasher.combine("random")
-            hasher.combine(scope)
         case .timeBrowser:
             hasher.combine("timeBrowser")
         case .locationBrowser:
@@ -180,14 +174,6 @@ struct HomeView: View {
                 case .album(let albumInfo):
                     SwipePhotoView(selectedCategory: nil, selectedTimeGroup: nil, selectedAlbumInfo: albumInfo)
                         .environmentObject(dataManager)
-                case .random(let scope):
-                    SwipePhotoView(
-                        selectedCategory: nil,
-                        selectedTimeGroup: nil,
-                        selectedAlbumInfo: nil,
-                        randomReviewScope: scope
-                    )
-                    .environmentObject(dataManager)
                 case .timeBrowser:
                     TimeOrganizeView()
                         .environmentObject(dataManager)
@@ -435,17 +421,6 @@ struct HomeView: View {
                 }
             }
             .photoDeletePrimaryButton()
-
-            Button {
-                navigationPath.append(SwipeViewDestination.random(.memories))
-            } label: {
-                HStack(spacing: 9) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 14, weight: .semibold))
-                    Text(L10n.string("随机浏览"))
-                }
-            }
-            .photoDeleteSecondaryButton()
         }
         .padding(isCompact ? 18 : 20)
         .photoDeleteCard()

@@ -2215,46 +2215,6 @@
         }
       }
     },
-    "从全部未整理照片里随机" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عشوائيًا من كل الصور غير المراجعة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zufällig aus allen unbearbeiteten Fotos"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Random from all unreviewed photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未整理のすべての写真からランダム"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "从全部未整理照片里随机"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "從全部未整理照片裡隨機"
-          }
-        }
-      }
-    },
     "从全部照片开始，按你的节奏逐张整理。" : {
       "localizations" : {
         "ar" : {
@@ -9044,28 +9004,6 @@
         }
       }
     },
-    "已归类照片当前被隐藏，可在整理设置中重新显示。" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filed photos are hidden. You can show them again in review settings."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已归类照片当前被隐藏，可在整理设置中重新显示。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已歸類照片目前已隱藏，可在整理設定中重新顯示。"
-          }
-        }
-      }
-    },
     "已打开声音" : {
       "localizations" : {
         "ar" : {
@@ -11633,40 +11571,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您已經整理完所有照片"
-          }
-        }
-      }
-    },
-    "您已经浏览完所有照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لقد راجعت كل الصور"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du hast alle Fotos geprüft"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You have reviewed all photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すべての写真をレビューしました"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "您已經瀏覽完所有照片"
           }
         }
       }
@@ -16739,86 +16643,6 @@
         }
       }
     },
-    "每轮最多 %lld 张" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "بحد أقصى %lld صورة في كل جولة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bis zu %lld Fotos pro Runde"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Up to %lld photos per round"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1回につき最大%lld枚"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每轮最多 %lld 张"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每輪最多 %lld 張"
-          }
-        }
-      }
-    },
-    "每轮照片数量" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عدد الصور في كل جولة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotos pro Runde"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Photos per round"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1回あたりの写真数"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每轮照片数量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每輪照片數量"
-          }
-        }
-      }
-    },
     "没有可撤销的操作" : {
       "localizations" : {
         "ar" : {
@@ -17003,28 +16827,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有找到相冊"
-          }
-        }
-      }
-    },
-    "没有未归类的照片" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No unfiled photos found"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "没有未归类的照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "沒有未歸類的照片"
           }
         }
       }
@@ -19878,28 +19680,6 @@
         }
       }
     },
-    "若照片权限为部分访问，请在系统设置中允许更多照片。" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "If photo access is limited, allow more photos in System Settings."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "若照片权限为部分访问，请在系统设置中允许更多照片。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "若照片權限為部分存取，請在系統設定中允許更多照片。"
-          }
-        }
-      }
-    },
     "触感反馈" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -22257,28 +22037,6 @@
         }
       }
     },
-    "隐藏已归类照片" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hide filed photos"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隐藏已归类照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隱藏已歸類照片"
-          }
-        }
-      }
-    },
     "隐藏相册归类" : {
       "localizations" : {
         "ar" : {
@@ -22315,246 +22073,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隱藏相冊歸類"
-          }
-        }
-      }
-    },
-    "随机回看收藏里的照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إعادة مشاهدة صور مفضلة عشوائية"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zufällige Favoriten erneut ansehen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Random favorites to revisit"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "お気に入りの写真をランダムに見返す"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "随机回看收藏里的照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隨機回看收藏裡的照片"
-          }
-        }
-      }
-    },
-    "随机处理还没整理的实况照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live Photos غير منظمة عشوائية"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zufällige unorganisierte Live Photos"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Random unreviewed Live Photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未整理の Live Photos をランダムに整理"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "随机处理还没整理的实况照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隨機處理還沒整理的原況照片"
-          }
-        }
-      }
-    },
-    "随机处理还没整理的截图" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لقطات شاشة غير منظمة عشوائية"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zufällige unorganisierte Screenshots"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Random unreviewed screenshots"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未整理のスクリーンショットをランダムに整理"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "随机处理还没整理的截图"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隨機處理還沒整理的截圖"
-          }
-        }
-      }
-    },
-    "随机处理还没整理的视频" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "فيديوهات غير منظمة عشوائية"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zufällige unorganisierte Videos"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Random unreviewed videos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未整理のビデオをランダムに整理"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "随机处理还没整理的视频"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隨機處理還沒整理的影片"
-          }
-        }
-      }
-    },
-    "随机浏览" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تصفح عشوائي"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zufällig durchsehen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Random Browse"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ランダム表示"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "随机浏览"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隨機瀏覽"
-          }
-        }
-      }
-    },
-    "随机浏览未整理的旧照片" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تصفح صور قديمة غير منظمة عشوائيا"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unorganisierte ältere Fotos zufällig durchsehen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Randomly browse unreviewed older photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未整理の古い写真をランダムに表示"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "随机浏览未整理的旧照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隨機瀏覽未整理的舊照片"
           }
         }
       }
@@ -23143,28 +22661,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高清保留"
-          }
-        }
-      }
-    },
-    "默认不再显示已加入用户相册的照片" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Photos already added to your albums are hidden by default"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "默认不再显示已加入用户相册的照片"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "預設不再顯示已加入使用者相簿的照片"
           }
         }
       }

@@ -412,8 +412,6 @@ enum AppConstants {
     static let reviewVideoAutoPlayKey = "photoDeleteReviewMediaAutoPlay"
     static let reviewMediaAutoPlayKey = reviewVideoAutoPlayKey
     static let reviewLivePhotoAutoPlayKey = "photoDeleteReviewLivePhotoAutoPlay"
-    static let randomReviewHideFiledPhotosKey = "photoDeleteRandomReviewHideFiledPhotos"
-    static let randomReviewBatchSizeKey = "photoDeleteRandomReviewBatchSize"
     static let reviewVideoMutedKey = "photoDeleteReviewVideoMuted"
     static let reviewModeKey = "photoDeleteReviewMode"
     static let reviewSortOrderKey = "photoDeleteReviewSortOrder"

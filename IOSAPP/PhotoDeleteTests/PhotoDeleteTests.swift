@@ -1678,111 +1678,20 @@ struct PhotoDeleteTests {
 
     // MARK: - Review discovery tests
 
-    @Test func randomReviewPlannerExcludesReviewedAndDeduplicates() async throws {
-        let planned = PhotoRandomReviewPlanner.plannedIdentifiers(
-            from: ["a", "b", "a", "c", "d"],
-            excluding: ["b"],
-            seed: "seed",
-            limit: 10
-        )
-
-        #expect(Set(planned) == ["a", "c", "d"])
-        #expect(planned.count == 3)
-        #expect(!planned.contains("b"))
-    }
-
-    @Test func randomReviewPlannerIsStableForSameSeed() async throws {
-        let identifiers = ["asset-a", "asset-b", "asset-c", "asset-d", "asset-e"]
-        let first = PhotoRandomReviewPlanner.plannedIdentifiers(
-            from: identifiers,
-            excluding: [],
-            seed: "stable-order",
-            limit: identifiers.count
-        )
-        let second = PhotoRandomReviewPlanner.plannedIdentifiers(
-            from: identifiers,
-            excluding: [],
-            seed: "stable-order",
-            limit: identifiers.count
-        )
-
-        #expect(first == second)
-        #expect(first == ["asset-b", "asset-c", "asset-a", "asset-d", "asset-e"])
-    }
-
-    @Test func randomReviewPlannerDoesNotRefillRoundWithReviewedPhotos() async throws {
-        let planned = PhotoRandomReviewPlanner.plannedIdentifiers(
-            from: ["candidate-a", "candidate-reviewed", "candidate-b"],
-            excluding: ["candidate-reviewed"],
-            seed: "no-reviewed-fallback",
-            limit: 50
-        )
-
-        #expect(Set(planned) == ["candidate-a", "candidate-b"])
-        #expect(!planned.contains("candidate-reviewed"))
-    }
-
-    @Test func randomReviewPlannerCapsEachRound() async throws {
-        let identifiers = (0..<250).map { "asset-\($0)" }
-        let planned = PhotoRandomReviewPlanner.plannedIdentifiers(
-            from: identifiers,
-            excluding: [],
-            seed: "bounded-round",
-            limit: PhotoRandomReviewBatchSize.defaultValue.rawValue
-        )
-
-        #expect(planned.count == 50)
-        #expect(Set(planned).count == planned.count)
-    }
-
-    @Test func randomReviewBatchSizeNormalizesInvalidStoredValue() async throws {
-        #expect(PhotoRandomReviewBatchSize.defaultValue == .standard)
-        #expect(PhotoRandomReviewBatchSize.normalized(20) == .small)
-        #expect(PhotoRandomReviewBatchSize.normalized(4_000) == .standard)
-    }
-
-    @Test func randomReviewNavigationStopsAtRoundBoundaries() async throws {
-        #expect(PhotoRandomReviewNavigationPolicy.previousIndex(currentIndex: 0, count: 50) == nil)
-        #expect(PhotoRandomReviewNavigationPolicy.previousIndex(currentIndex: 1, count: 50) == 0)
-        #expect(PhotoRandomReviewNavigationPolicy.nextIndex(currentIndex: 48, count: 50) == 49)
-        #expect(PhotoRandomReviewNavigationPolicy.nextIndex(currentIndex: 49, count: 50) == nil)
-    }
-
-    @Test func randomReviewWaitsForTheCompleteLibraryEvenWhenPartialPhotosExist() async throws {
-        #expect(PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: true,
-            hasPhotos: true,
-            isWaitingForSourceData: true
-        ))
-        #expect(!PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: true,
-            hasPhotos: true,
-            isWaitingForSourceData: false
-        ))
-        #expect(!PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: false,
-            hasPhotos: true,
-            isWaitingForSourceData: true
-        ))
-    }
-
     @Test func allPhotosSessionInitializationRequiresCompleteSource() async throws {
         #expect(PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: false,
             hasPhotos: true,
             isWaitingForSourceData: true,
             requiresCompleteSource: true,
             isSourceComplete: false
         ))
         #expect(PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: false,
             hasPhotos: true,
             isWaitingForSourceData: false,
             requiresCompleteSource: true,
             isSourceComplete: false
         ))
         let canInitializeAfterCompleteSource = !PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: false,
             hasPhotos: true,
             isWaitingForSourceData: false,
             requiresCompleteSource: true,
@@ -1792,14 +1701,12 @@ struct PhotoDeleteTests {
         // A later readiness check must not ask for a second initialization once
         // the complete source remains available.
         #expect(!PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: false,
             hasPhotos: true,
             isWaitingForSourceData: false,
             requiresCompleteSource: true,
             isSourceComplete: true
         ))
         #expect(PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: false,
             hasPhotos: true,
             isWaitingForSourceData: true,
             requiresCompleteSource: true,
@@ -2961,17 +2868,6 @@ struct PhotoDeleteTests {
             firstUnreviewedIndex: nil
         ))
 
-        #expect(PhotoReviewSessionReviewedStatePolicy.reviewedAssetIdentifiers(
-            isAlbumMode: false,
-            isRandomMemoriesMode: true,
-            persistedReviewedAssetIdentifiers: persistedReviewedIDs
-        ).isEmpty)
-        #expect(!PhotoReviewSessionReviewedStatePolicy.shouldShowCompletionAfterRefresh(
-            isAlbumMode: false,
-            isRandomMemoriesMode: true,
-            hasPhotos: true,
-            firstUnreviewedIndex: nil
-        ))
     }
 
     @Test func albumShortcutScrollRestorationDoesNotRunAfterCurrentPhotoChanges() async throws {

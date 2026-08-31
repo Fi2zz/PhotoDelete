@@ -1534,54 +1534,6 @@ class DataManager: ObservableObject {
         }
     }
 
-    func getPhotosForRandomReviewScope(_ scope: PhotoRandomReviewScope) -> [PHAsset] {
-        switch scope {
-        case .memories:
-            return photoLibraryManager.allPhotos
-        case .all:
-            return photoLibraryManager.allPhotos
-        case .screenshots:
-            return photoLibraryManager.screenshots
-        case .videos:
-            return photoLibraryManager.videos
-        case .livePhotos:
-            return photoLibraryManager.livePhotos
-        case .favorites:
-            return photoLibraryManager.favorites
-        }
-    }
-
-    func makeRandomReviewPhotos(
-        for scope: PhotoRandomReviewScope,
-        seed: String,
-        excludingFiledPhotos: Bool = true,
-        limit: Int = PhotoRandomReviewBatchSize.defaultValue.rawValue
-    ) -> [PHAsset] {
-        let sourcePhotos = getPhotosForRandomReviewScope(scope).filter { asset in
-            !excludingFiledPhotos || !albumMemberAssetIDs.contains(asset.localIdentifier)
-        }
-        let sourceIDs = sourcePhotos.map(\.localIdentifier)
-        let reviewedAndPendingIDs = randomReviewExcludedIdentifiers()
-        let resolvedIDs = PhotoRandomReviewPlanner.plannedIdentifiers(
-            from: sourceIDs,
-            excluding: reviewedAndPendingIDs,
-            seed: seed,
-            limit: limit
-        )
-
-        return Self.assets(in: sourcePhotos, preserving: resolvedIDs)
-    }
-
-    private func randomReviewExcludedIdentifiers() -> Set<String> {
-        reviewedAssetIDs
-            .union(randomReviewPendingOperationIdentifiers())
-    }
-
-    private func randomReviewPendingOperationIdentifiers() -> Set<String> {
-        Set(deleteCandidates.map(\.localIdentifier))
-            .union(favoriteCandidates.map(\.localIdentifier))
-    }
-
     func albumTitles(for asset: PHAsset) -> [String] {
         albumTitlesByAssetID[asset.localIdentifier] ?? []
     }

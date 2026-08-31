@@ -22,7 +22,6 @@ final class PhotoDeleteUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["整理"].waitForExistence(timeout: 10))
         XCTAssertTrue(
             app.staticTexts["需要访问照片库"].exists ||
-                app.staticTexts["随机浏览"].exists ||
                 app.staticTexts["没有可整理的照片"].exists ||
                 app.staticTexts["整理全部照片"].exists
         )
@@ -721,9 +720,6 @@ final class PhotoDeleteUITests: XCTestCase {
         gestureSettingsButton.tap()
 
         XCTAssertTrue(app.navigationBars["手势与播放"].waitForExistence(timeout: 3))
-        let randomReviewBatchSizeSetting = app.descendants(matching: .any)["random-review-batch-size-setting"]
-        XCTAssertTrue(randomReviewBatchSizeSetting.waitForExistence(timeout: 3))
-        XCTAssertTrue(String(describing: randomReviewBatchSizeSetting.value).contains("50"))
         var hapticFeedbackTitle = waitForStaticTextLabel(in: app, label: "触感反馈", timeout: 2)
         for _ in 0..<3 where hapticFeedbackTitle == nil {
             app.swipeUp()

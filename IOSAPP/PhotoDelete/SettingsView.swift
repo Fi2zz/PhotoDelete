@@ -596,59 +596,6 @@ struct ReviewSortOrderSettingRow: View {
     }
 }
 
-struct RandomReviewBatchSizeSettingRow: View {
-    @Binding var selectedValue: Int
-
-    private var selectedSize: PhotoRandomReviewBatchSize {
-        PhotoRandomReviewBatchSize.normalized(selectedValue)
-    }
-
-    var body: some View {
-        Menu {
-            ForEach(PhotoRandomReviewBatchSize.allCases) { size in
-                Button {
-                    selectedValue = size.rawValue
-                } label: {
-                    Label(
-                        size.title,
-                        systemImage: size == selectedSize ? "checkmark" : "photo.stack"
-                    )
-                }
-            }
-        } label: {
-            HStack(spacing: 12) {
-                PhotoDeleteIconTile(icon: "photo.stack")
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(L10n.string("每轮照片数量"))
-                        .photoDeletePrimaryLabel()
-                        .lineLimit(1)
-
-                    Text(selectedSize.subtitle)
-                        .photoDeleteSecondaryLabel(.caption)
-                        .lineLimit(1)
-                }
-
-                Spacer(minLength: 12)
-
-                Image(systemName: "chevron.up.chevron.down")
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(PhotoDeleteStyle.tertiaryText)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .frame(minHeight: PhotoDeleteStyle.rowMinHeight)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(L10n.string("每轮照片数量")))
-        .accessibilityValue(Text(selectedSize.subtitle))
-        .accessibilityIdentifier("random-review-batch-size-setting")
-    }
-}
-
 private struct AppPromotionRow: View {
     let imageName: String
     let title: String
@@ -713,8 +660,6 @@ struct GestureSettingsView: View {
     @AppStorage(AppConstants.reviewVideoMutedKey) private var reviewVideoMuted = true
     @AppStorage(AppConstants.reviewSortOrderKey) private var reviewSortOrderValue = PhotoReviewSortOrder.newestFirst.rawValue
     @AppStorage(AppConstants.hapticsEnabledKey) private var hapticsEnabled = true
-    @AppStorage(AppConstants.randomReviewHideFiledPhotosKey) private var randomReviewHideFiledPhotos = true
-    @AppStorage(AppConstants.randomReviewBatchSizeKey) private var randomReviewBatchSizeValue = PhotoRandomReviewBatchSize.defaultValue.rawValue
 
     var body: some View {
         NavigationStack {
@@ -724,7 +669,6 @@ struct GestureSettingsView: View {
                 ScrollView {
                     VStack(spacing: PhotoDeleteStyle.sectionSpacing) {
                         reviewSortOrderSection
-                        randomReviewSection
                         mediaPlaybackSection
                         currentGesturePreview
                         downSwipeNoteSection
@@ -760,30 +704,6 @@ struct GestureSettingsView: View {
 
             ReviewSortOrderSettingRow(selectedValue: $reviewSortOrderValue)
                 .photoDeleteCard()
-        }
-    }
-
-    private var randomReviewSection: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text(L10n.string("随机浏览"))
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(PhotoDeleteStyle.primaryText)
-
-            VStack(spacing: 0) {
-                RandomReviewBatchSizeSettingRow(selectedValue: $randomReviewBatchSizeValue)
-
-                Divider()
-                    .background(PhotoDeleteStyle.hairline)
-                    .padding(.horizontal, 16)
-
-                SettingToggleRow(
-                    icon: "rectangle.stack.badge.minus",
-                    title: L10n.string("隐藏已归类照片"),
-                    subtitle: L10n.string("默认不再显示已加入用户相册的照片"),
-                    isOn: $randomReviewHideFiledPhotos
-                )
-            }
-            .photoDeleteCard()
         }
     }
 

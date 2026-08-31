@@ -101,7 +101,6 @@ enum PhotoReviewSourceReadiness {
 
 enum PhotoReviewSessionInitializationPolicy {
     static func shouldWaitForSource(
-        isRandomReview: Bool,
         hasPhotos: Bool,
         isWaitingForSourceData: Bool,
         requiresCompleteSource: Bool = false,
@@ -110,21 +109,10 @@ enum PhotoReviewSessionInitializationPolicy {
         if requiresCompleteSource {
             return !isSourceComplete || isWaitingForSourceData
         }
-        return isWaitingForSourceData && (isRandomReview || !hasPhotos)
+        return isWaitingForSourceData && !hasPhotos
     }
 }
 
-enum PhotoRandomReviewNavigationPolicy {
-    static func previousIndex(currentIndex: Int, count: Int) -> Int? {
-        guard count > 0, currentIndex > 0, currentIndex < count else { return nil }
-        return currentIndex - 1
-    }
-
-    static func nextIndex(currentIndex: Int, count: Int) -> Int? {
-        guard count > 0, currentIndex >= 0, currentIndex + 1 < count else { return nil }
-        return currentIndex + 1
-    }
-}
 
 enum AlbumShortcutVisibility {
     static func shouldShow(
@@ -272,45 +260,32 @@ enum PhotoSwipeDragFeedbackHintPlacement: Equatable {
 }
 
 enum PhotoReviewSessionReviewedStatePolicy {
-    static func usesPersistedReviewedState(
-        isAlbumMode: Bool,
-        isRandomMemoriesMode: Bool = false
-    ) -> Bool {
-        !isAlbumMode && !isRandomMemoriesMode
+    static func usesPersistedReviewedState(isAlbumMode: Bool) -> Bool {
+        !isAlbumMode
     }
 
     static func reviewedAssetIdentifiers(
         isAlbumMode: Bool,
-        isRandomMemoriesMode: Bool = false,
         persistedReviewedAssetIdentifiers: Set<String>
     ) -> Set<String> {
-        usesPersistedReviewedState(
-            isAlbumMode: isAlbumMode,
-            isRandomMemoriesMode: isRandomMemoriesMode
-        ) ? persistedReviewedAssetIdentifiers : []
+        usesPersistedReviewedState(isAlbumMode: isAlbumMode)
+            ? persistedReviewedAssetIdentifiers : []
     }
 
     static func reviewedCount(
         isAlbumMode: Bool,
-        isRandomMemoriesMode: Bool = false,
         persistedReviewedCount: Int
     ) -> Int {
-        usesPersistedReviewedState(
-            isAlbumMode: isAlbumMode,
-            isRandomMemoriesMode: isRandomMemoriesMode
-        ) ? persistedReviewedCount : 0
+        usesPersistedReviewedState(isAlbumMode: isAlbumMode) ? persistedReviewedCount : 0
     }
 
     static func shouldShowCompletionAfterRefresh(
         isAlbumMode: Bool,
-        isRandomMemoriesMode: Bool = false,
         hasPhotos: Bool,
         firstUnreviewedIndex: Int?
     ) -> Bool {
-        usesPersistedReviewedState(
-            isAlbumMode: isAlbumMode,
-            isRandomMemoriesMode: isRandomMemoriesMode
-        ) && hasPhotos && firstUnreviewedIndex == nil
+        usesPersistedReviewedState(isAlbumMode: isAlbumMode)
+            && hasPhotos && firstUnreviewedIndex == nil
     }
 }
 
@@ -383,7 +358,6 @@ struct SwipePhotoView: View {
     let selectedAdvancedTimeScope: AdvancedTimeScope?
     let selectedAdvancedCleanup: AdvancedCleanupKind?
     let selectedLocationGroupID: String?
-    let randomReviewScope: PhotoRandomReviewScope?
     let selectedHistoricalToday: Bool
 
     @State private var dragOffset = CGSize.zero
@@ -395,9 +369,6 @@ struct SwipePhotoView: View {
     @State private var sessionPhotos: [PHAsset] = []
     @State private var allSessionPhotos: [PHAsset] = []
     @State private var allSessionAssetIdentifiers: [String] = []
-    @State private var randomReviewSeed = UUID().uuidString
-    @AppStorage(AppConstants.randomReviewHideFiledPhotosKey) private var randomReviewHideFiledPhotos = true
-    @AppStorage(AppConstants.randomReviewBatchSizeKey) private var randomReviewBatchSizeValue = PhotoRandomReviewBatchSize.defaultValue.rawValue
     @State private var loadedSessionPhotoCount = 0
     @State private var sessionReviewedAssetIDs: Set<String> = []
     @State private var shouldDismissAfterBatch = false
@@ -471,7 +442,6 @@ struct SwipePhotoView: View {
         selectedAdvancedTimeScope: AdvancedTimeScope? = nil,
         selectedAdvancedCleanup: AdvancedCleanupKind? = nil,
         selectedLocationGroupID: String? = nil,
-        randomReviewScope: PhotoRandomReviewScope? = nil,
         selectedHistoricalToday: Bool = false
     ) {
         self.selectedCategory = selectedCategory
@@ -481,7 +451,6 @@ struct SwipePhotoView: View {
         self.selectedAdvancedTimeScope = selectedAdvancedTimeScope
         self.selectedAdvancedCleanup = selectedAdvancedCleanup
         self.selectedLocationGroupID = selectedLocationGroupID
-        self.randomReviewScope = randomReviewScope
         self.selectedHistoricalToday = selectedHistoricalToday
     }
 
@@ -529,14 +498,7 @@ struct SwipePhotoView: View {
         }
 
         let photos: [PHAsset]
-        if let randomReviewScope {
-            photos = dataManager.makeRandomReviewPhotos(
-                for: randomReviewScope,
-                seed: randomReviewSeed,
-                excludingFiledPhotos: randomReviewHideFiledPhotos,
-                limit: PhotoRandomReviewBatchSize.normalized(randomReviewBatchSizeValue).rawValue
-            )
-        } else if selectedHistoricalToday {
+        if selectedHistoricalToday {
             photos = dataManager.getPhotosForHistoricalToday()
         } else if let albumInfo = activeAlbumInfo {
             photos = dataManager.getPhotosForAlbum(albumInfo)
@@ -565,7 +527,7 @@ struct SwipePhotoView: View {
     }
 
     private var usesChronologicalReviewOrder: Bool {
-        randomReviewScope == nil && selectedAdvancedCleanup == nil
+        selectedAdvancedCleanup == nil
     }
 
     private var totalPhotosCount: Int {
@@ -594,15 +556,8 @@ struct SwipePhotoView: View {
         return selectedAlbumInfo != nil
     }
 
-    private var isRandomMemoriesMode: Bool {
-        randomReviewScope == .memories
-    }
-
     private var usesPersistedReviewedStateForSession: Bool {
-        PhotoReviewSessionReviewedStatePolicy.usesPersistedReviewedState(
-            isAlbumMode: isAlbumMode,
-            isRandomMemoriesMode: isRandomMemoriesMode
-        )
+        PhotoReviewSessionReviewedStatePolicy.usesPersistedReviewedState(isAlbumMode: isAlbumMode)
     }
 
     private var shouldPageSessionPhotos: Bool {
@@ -861,16 +816,6 @@ struct SwipePhotoView: View {
         }
         .onChange(of: dataManager.hasLoadedAlbumMembership) { _ in
             initializeSessionIfNeeded()
-        }
-        .onChange(of: randomReviewHideFiledPhotos) { _ in
-            guard randomReviewScope != nil else { return }
-            randomReviewSeed = UUID().uuidString
-            refreshSessionForSourceChangeIfNeeded(force: true)
-        }
-        .onChange(of: randomReviewBatchSizeValue) { _ in
-            guard randomReviewScope != nil else { return }
-            randomReviewSeed = UUID().uuidString
-            refreshSessionForSourceChangeIfNeeded(force: true)
         }
         .onChange(of: reviewSortOrderValue) { _ in
             guard usesChronologicalReviewOrder else { return }
@@ -1422,29 +1367,6 @@ struct SwipePhotoView: View {
                     .foregroundColor(PhotoDeleteStyle.secondaryText)
                     .multilineTextAlignment(.center)
 
-                if randomReviewScope != nil {
-                    HStack(spacing: 10) {
-                        CompletionStatPill(
-                            icon: "trash",
-                            value: sessionActionCount(for: .delete),
-                            title: L10n.string("删除"),
-                            tint: PhotoDeleteStyle.destructive
-                        )
-                        CompletionStatPill(
-                            icon: "heart",
-                            value: sessionActionCount(for: .favorite),
-                            title: L10n.string("收藏"),
-                            tint: PhotoDeleteStyle.iconTint(for: "favorite")
-                        )
-                        CompletionStatPill(
-                            icon: "checkmark",
-                            value: sessionActionCount(for: .keep),
-                            title: L10n.string("保留"),
-                            tint: PhotoDeleteStyle.positive
-                        )
-                    }
-                }
-
                 HStack(spacing: 12) {
                     if hasUnreviewedPhotos {
                         Button(L10n.string("继续整理")) {
@@ -1480,10 +1402,6 @@ struct SwipePhotoView: View {
                 Int64(remainingPhotosCount),
                 Int64(totalPhotosCount)
             )
-        }
-
-        if randomReviewScope == nil {
-            return L10n.string("您已经浏览完所有照片")
         }
 
         return String(
@@ -1954,25 +1872,17 @@ struct SwipePhotoView: View {
             !dataManager.isPreparingLibrary &&
             (
                 dataManager.photoLibraryManager.isLoading &&
-                    (!dataManager.photoLibraryManager.hasLoadedPhotoLibrary || randomReviewScope != nil) ||
+                    !dataManager.photoLibraryManager.hasLoadedPhotoLibrary ||
                     isWaitingForAlbumMembershipSource
             )
     }
 
     private var emptyPhotoTitle: String {
-        if isRandomMemoriesMode {
-            return randomReviewHideFiledPhotos ? L10n.string("没有未归类的照片") : L10n.string("这里还没有可整理的照片")
-        }
-        return L10n.string("这里还没有可整理的照片")
+        L10n.string("这里还没有可整理的照片")
     }
 
     private var emptyPhotoMessage: String {
-        if isRandomMemoriesMode {
-            return randomReviewHideFiledPhotos
-                ? L10n.string("已归类照片当前被隐藏，可在整理设置中重新显示。")
-                : L10n.string("若照片权限为部分访问，请在系统设置中允许更多照片。")
-        }
-        return L10n.string("您可以返回选择其他分类，或稍后在系统照片中添加更多照片后再回来。")
+        L10n.string("您可以返回选择其他分类，或稍后在系统照片中添加更多照片后再回来。")
     }
 
     private var activeLibraryLoadingProgress: Double {
@@ -1984,7 +1894,7 @@ struct SwipePhotoView: View {
     }
 
     private var isWaitingForAlbumMembershipSource: Bool {
-        (selectedCategory == .unclassified || (randomReviewScope != nil && randomReviewHideFiledPhotos)) &&
+        selectedCategory == .unclassified &&
             dataManager.photoLibraryManager.hasPhotoLibraryAccess &&
             !dataManager.hasLoadedAlbumMembership
     }
@@ -2004,15 +1914,7 @@ struct SwipePhotoView: View {
     }
 
     private var navigationHeaderTitle: String {
-        if randomReviewScope != nil,
-           let asset = currentRealPhoto {
-            let caption = memoryCaption(for: asset)
-            return [caption.title, caption.subtitle]
-                .compactMap { $0 }
-                .joined(separator: " · ")
-        }
-
-        return getDisplayTitle()
+        getDisplayTitle()
     }
 
     private var headerProgressSubtitle: String {
@@ -2183,7 +2085,6 @@ struct SwipePhotoView: View {
 
         let photos = filteredRealPhotos
         if PhotoReviewSessionInitializationPolicy.shouldWaitForSource(
-            isRandomReview: randomReviewScope != nil,
             hasPhotos: !photos.isEmpty,
             isWaitingForSourceData: isWaitingForSourceData,
             requiresCompleteSource: selectedCategory == .all,
@@ -2266,7 +2167,6 @@ struct SwipePhotoView: View {
 
         let reviewedAssetIdentifiers = PhotoReviewSessionReviewedStatePolicy.reviewedAssetIdentifiers(
             isAlbumMode: isAlbumMode,
-            isRandomMemoriesMode: isRandomMemoriesMode,
             persistedReviewedAssetIdentifiers: dataManager.reviewedAssetIDs
         )
         let sourceAssetIdentifiers = Set(fullPhotoIdentifiers)
@@ -2293,7 +2193,6 @@ struct SwipePhotoView: View {
         }
         showCompletionMessage = PhotoReviewSessionReviewedStatePolicy.shouldShowCompletionAfterRefresh(
             isAlbumMode: isAlbumMode,
-            isRandomMemoriesMode: isRandomMemoriesMode,
             hasPhotos: !fullPhotos.isEmpty,
             firstUnreviewedIndex: firstUnreviewedIndex
         )
@@ -2883,11 +2782,6 @@ struct SwipePhotoView: View {
     }
 
     private func browseToPreviousPhoto(reviewing asset: PHAsset) {
-        if randomReviewScope != nil {
-            browseToPreviousRandomReviewPhoto(reviewing: asset)
-            return
-        }
-
         guard currentPhotoIndex > 0 else {
             showFeedback(L10n.string("已经是第一张"), icon: "chevron.left", style: .neutral, duration: 1.2)
             return
@@ -2904,11 +2798,6 @@ struct SwipePhotoView: View {
     private func browseToNextPhoto(reviewing asset: PHAsset) {
         guard !sessionPhotos.isEmpty else { return }
 
-        if randomReviewScope != nil {
-            browseToNextRandomReviewPhoto(reviewing: asset)
-            return
-        }
-
         let nextIndex = currentPhotoIndex + 1
         while nextIndex >= sessionPhotos.count,
               expandLoadedSessionPhotosIfNeeded(for: sessionPhotos.count, force: true) { }
@@ -2923,43 +2812,6 @@ struct SwipePhotoView: View {
         stopInlineVideoPlayback()
         setCurrentPhotoIndex(nextIndex, transition: .next)
         preloadUpcomingImages(from: nextIndex)
-        persistSessionProgressIfPossible()
-        HapticManager.impact(.light)
-    }
-
-    private func browseToPreviousRandomReviewPhoto(reviewing asset: PHAsset) {
-        guard !sessionPhotos.isEmpty else { return }
-
-        guard let targetIndex = PhotoRandomReviewNavigationPolicy.previousIndex(
-            currentIndex: currentPhotoIndex,
-            count: sessionPhotos.count
-        ) else {
-            showFeedback(L10n.string("已经是第一张"), icon: "chevron.left", style: .neutral, duration: 1.2)
-            return
-        }
-
-        stopInlineVideoPlayback()
-        setCurrentPhotoIndex(targetIndex, transition: .previous)
-        preloadUpcomingImages(from: targetIndex)
-        persistSessionProgressIfPossible()
-        HapticManager.impact(.light)
-    }
-
-    private func browseToNextRandomReviewPhoto(reviewing asset: PHAsset) {
-        guard !sessionPhotos.isEmpty else { return }
-
-        guard let targetIndex = PhotoRandomReviewNavigationPolicy.nextIndex(
-            currentIndex: currentPhotoIndex,
-            count: sessionPhotos.count
-        ) else {
-            showFeedback(L10n.string("已浏览到最后一张"), icon: "checkmark", style: .positive, duration: 1.5)
-            HapticManager.impact(.light)
-            return
-        }
-
-        stopInlineVideoPlayback()
-        setCurrentPhotoIndex(targetIndex, transition: .next)
-        preloadUpcomingImages(from: targetIndex)
         persistSessionProgressIfPossible()
         HapticManager.impact(.light)
     }
@@ -3045,12 +2897,11 @@ struct SwipePhotoView: View {
     }
 
     private var restoredSessionProgressAssetID: String? {
-        guard randomReviewScope == nil else { return nil }
-        return PhotoReviewProgressStore.load(scopeID: sessionProgressScopeID)
+        PhotoReviewProgressStore.load(scopeID: sessionProgressScopeID)
     }
 
     private var shouldPrioritizeNewPhotosBeforeSavedProgress: Bool {
-        (selectedCategory == .all || selectedCategory == .unclassified) && randomReviewScope == nil
+        selectedCategory == .all || selectedCategory == .unclassified
     }
 
     private func scheduleSessionProgressSave() {
@@ -3070,8 +2921,7 @@ struct SwipePhotoView: View {
     }
 
     private func persistSessionProgressIfPossible() {
-        guard randomReviewScope == nil,
-              didInitializeSession,
+        guard didInitializeSession,
               let asset = currentRealPhoto else { return }
         PhotoReviewProgressStore.save(
             assetIdentifier: asset.localIdentifier,
@@ -3080,10 +2930,6 @@ struct SwipePhotoView: View {
     }
 
     private var sessionProgressScopeID: String {
-        if let randomReviewScope {
-            return "random:\(randomReviewScope.rawValue)"
-        }
-
         if let albumInfo = selectedAlbumInfo {
             return "album:\(albumInfo.id)"
         }
@@ -3284,7 +3130,7 @@ struct SwipePhotoView: View {
         pendingAlbumFilingUndoKeys.remove(filingKey)
         if success {
             dataManager.removeRecentOrganizedPhotoRecord(for: asset)
-            if selectedCategory == .unclassified || (randomReviewScope != nil && randomReviewHideFiledPhotos) {
+            if selectedCategory == .unclassified {
                 refreshSessionForSourceChangeIfNeeded(force: true)
             }
             restorePhotoPosition(asset, preferredIndex: preferredIndex)
@@ -3771,9 +3617,7 @@ struct SwipePhotoView: View {
     }
 
     private func getDisplayTitle() -> String {
-        if let randomReviewScope {
-            return randomReviewScope.title
-        } else if selectedHistoricalToday {
+        if selectedHistoricalToday {
             return L10n.string("历史上的今天")
         } else if let albumInfo = activeAlbumInfo {
             return albumInfo.title
