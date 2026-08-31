@@ -20,7 +20,6 @@ struct BatchConfirmView: View {
     @State private var errorMessage: String?
     @State private var previewAsset: CandidatePreviewAsset?
     @State private var completedCelebration: CleanupCelebration?
-    @State private var showAchievements = false
     @State private var selectedDeleteIDs: Set<String> = []
     @State private var selectedFavoriteIDs: Set<String> = []
     @State private var completedDeletedIDs: Set<String> = []
@@ -49,7 +48,6 @@ struct BatchConfirmView: View {
             if let completedCelebration {
                 BatchCleanupCompletionView(
                     celebration: completedCelebration,
-                    onViewAchievements: { showAchievements = true },
                     onContinue: finishCompletedFlow
                 )
             } else {
@@ -81,14 +79,6 @@ struct BatchConfirmView: View {
                 asset: previewAsset.asset,
                 photoLibraryManager: dataManager.photoLibraryManager
             )
-        }
-        .fullScreenCover(isPresented: $showAchievements) {
-            NavigationStack {
-                CleanupAchievementsView(
-                    statsStore: dataManager.cleanupStatsStore,
-                    showsDoneButton: true
-                )
-            }
         }
     }
 
@@ -257,9 +247,7 @@ struct BatchConfirmView: View {
                         organizedPhotos: deletedAssets.count + favoriteAssets.count,
                         estimatedSpaceSavedMB: estimatedSpaceSaved,
                         totalDeletedPhotos: dataManager.cleanupStatsStore.summary.deletedPhotos,
-                        totalSpaceSavedMB: dataManager.cleanupStatsStore.summary.estimatedSpaceSavedMB,
-                        currentStreakDays: dataManager.cleanupStatsStore.currentStreakDays,
-                        nextAchievementProgress: dataManager.cleanupStatsStore.nextAchievementProgress
+                        totalSpaceSavedMB: dataManager.cleanupStatsStore.summary.estimatedSpaceSavedMB
                     )
                     playCompletionHaptics()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
@@ -419,12 +407,10 @@ struct BatchConfirmView: View {
 
 private struct BatchCleanupCompletionView: View {
     let celebration: CleanupCelebration
-    let onViewAchievements: () -> Void
     let onContinue: () -> Void
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var animate = false
-    @State private var progressFill = 0.0
     @State private var celebrationTrigger = 0
 
     var body: some View {
@@ -439,7 +425,6 @@ private struct BatchCleanupCompletionView: View {
                     celebrationVisual
                     completionHeader
                     cleanupSummarySection
-                    progressSnapshotSection
                     completionActions
                 }
                 .padding(.horizontal, 20)
@@ -458,15 +443,12 @@ private struct BatchCleanupCompletionView: View {
 
     @MainActor
     private func startCompletionAnimation() async {
-        let targetProgress = min(max(celebration.nextAchievementProgress?.progress ?? 1, 0), 1)
         if reduceMotion {
             animate = true
-            progressFill = targetProgress
             return
         }
 
         animate = false
-        progressFill = 0
 
         try? await Task.sleep(nanoseconds: 80_000_000)
         guard !Task.isCancelled else { return }
@@ -474,12 +456,6 @@ private struct BatchCleanupCompletionView: View {
             animate = true
         }
         celebrationTrigger += 1
-
-        try? await Task.sleep(nanoseconds: 220_000_000)
-        guard !Task.isCancelled else { return }
-        withAnimation(.easeOut(duration: 0.58)) {
-            progressFill = targetProgress
-        }
     }
 
     private var celebrationVisual: some View {
@@ -595,158 +571,10 @@ private struct BatchCleanupCompletionView: View {
     }
 
     private var completionActions: some View {
-        VStack(spacing: 10) {
-            Button(action: onViewAchievements) {
-                Label(L10n.string("查看成就"), systemImage: "seal.fill")
-                    .font(.system(size: 15, weight: .semibold))
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.plain)
-            .foregroundColor(PhotoDeleteStyle.primaryText)
-            .padding(.vertical, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(PhotoDeleteStyle.surface)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .stroke(PhotoDeleteStyle.cardStroke, lineWidth: 1)
-                    )
-            )
-
-            Button(action: onContinue) {
-                Text(L10n.string("继续整理"))
-            }
-            .photoDeletePrimaryButton()
+        Button(action: onContinue) {
+            Text(L10n.string("继续整理"))
         }
-    }
-
-    private var progressSnapshotSection: some View {
-        VStack(spacing: 0) {
-            if let newestAchievement = celebration.newAchievements.first {
-                compactStatusRow(
-                    icon: newestAchievement.systemImage,
-                    tint: newestAchievement.tint.color,
-                    title: String(format: L10n.string("新徽章：%@"), newestAchievement.title),
-                    subtitle: newestAchievement.subtitle
-                )
-
-                Divider()
-                    .padding(.leading, 48)
-            }
-
-            compactStatusRow(
-                icon: "flame.fill",
-                tint: PhotoDeleteStyle.warning,
-                title: L10n.string("连续整理 \(streakDaysForDisplay) 天"),
-                subtitle: L10n.string("保持节奏，相册会越来越轻。")
-            )
-
-            Divider()
-                .padding(.leading, 48)
-
-            if let nextAchievementProgress = celebration.nextAchievementProgress {
-                nextGoalCard(nextAchievementProgress)
-            } else {
-                compactStatusRow(
-                    icon: "checkmark.seal.fill",
-                    tint: PhotoDeleteStyle.positive,
-                    title: L10n.string("全部徽章已完成"),
-                    subtitle: L10n.string("可以在成就页回看完整记录。")
-                )
-            }
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(PhotoDeleteStyle.elevatedSurface)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .stroke(PhotoDeleteStyle.cardStroke, lineWidth: 1)
-                )
-        )
-    }
-
-    private func compactStatusRow(icon: String, tint: Color, title: String, subtitle: String) -> some View {
-        HStack(spacing: 12) {
-            PhotoDeleteIconTile(
-                icon: icon,
-                tint: tint,
-                size: 34,
-                cornerRadius: 10
-            )
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(title)
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.82)
-
-                Text(subtitle)
-                    .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.82)
-            }
-
-            Spacer()
-        }
-        .padding(14)
-    }
-
-    private var streakDaysForDisplay: Int {
-        max(celebration.currentStreakDays, celebration.organizedPhotos > 0 ? 1 : 0)
-    }
-
-    private func nextGoalCard(_ progress: CleanupAchievementProgress) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .center, spacing: 12) {
-                PhotoDeleteIconTile(
-                    icon: progress.achievement.systemImage,
-                    tint: progress.achievement.tint.color,
-                    size: 34,
-                    cornerRadius: 10
-                )
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(L10n.string("下一个目标：\(progress.achievement.title)"))
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(PhotoDeleteStyle.primaryText)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.82)
-
-                    Text(progress.remainingDescription)
-                        .font(.system(size: 13, weight: .regular))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.82)
-                }
-
-                Spacer()
-
-                Text("\(Int((progress.progress * 100).rounded()))%")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(progress.achievement.tint.color)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        Capsule(style: .continuous)
-                            .fill(progress.achievement.tint.color.opacity(0.12))
-                    )
-            }
-
-            GeometryReader { proxy in
-                ZStack(alignment: .leading) {
-                    Capsule(style: .continuous)
-                        .fill(PhotoDeleteStyle.hairline)
-
-                    Capsule(style: .continuous)
-                        .fill(progress.achievement.tint.color)
-                        .frame(width: max(0, proxy.size.width * progressFill))
-                }
-            }
-            .frame(height: 7)
-        }
-        .padding(14)
+        .photoDeletePrimaryButton()
     }
 
 }

@@ -730,36 +730,6 @@ struct PhotoDeleteTests {
         #expect((try? Data(contentsOf: backupURLs[0])) == corruptData)
     }
 
-    @Test func cleanupStatsStoreBuildsMonthlySummariesNewestFirst() async throws {
-        let fileURL = temporaryStatsURL()
-        defer { try? FileManager.default.removeItem(at: fileURL) }
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
-
-        let store = CleanupStatsStore(fileURL: fileURL)
-        store.recordSession(
-            deletedPhotos: 1,
-            favoritedPhotos: 1,
-            organizedPhotos: 2,
-            estimatedSpaceSavedMB: 3,
-            date: makeDate(year: 2026, month: 5, day: 20, calendar: calendar)
-        )
-        store.recordSession(
-            deletedPhotos: 4,
-            favoritedPhotos: 0,
-            organizedPhotos: 4,
-            estimatedSpaceSavedMB: 12,
-            date: makeDate(year: 2026, month: 6, day: 11, calendar: calendar)
-        )
-
-        let summaries = store.monthlySummaries
-        #expect(summaries.count == 2)
-        #expect(summaries[0].monthKey == "2026-06")
-        #expect(summaries[0].deletedPhotos == 4)
-        #expect(summaries[1].monthKey == "2026-05")
-        #expect(summaries[1].organizedPhotos == 2)
-    }
-
     @Test func cleanupStatsStoreSkipsEmptySessionsAndCanClear() async throws {
         let fileURL = temporaryStatsURL()
         defer { try? FileManager.default.removeItem(at: fileURL) }
@@ -775,76 +745,6 @@ struct PhotoDeleteTests {
         #expect(store.sessions.isEmpty)
     }
 
-    @Test func cleanupStatsStoreReturnsNewAchievementsForReachedMilestones() async throws {
-        let fileURL = temporaryStatsURL()
-        defer { try? FileManager.default.removeItem(at: fileURL) }
-
-        let store = CleanupStatsStore(fileURL: fileURL)
-        let achievements = store.recordSession(
-            deletedPhotos: 10,
-            favoritedPhotos: 0,
-            organizedPhotos: 10,
-            estimatedSpaceSavedMB: 120
-        )
-        let achievementIDs = Set(achievements.map(\.id))
-
-        #expect(achievementIDs.contains("first_cleanup"))
-        #expect(achievementIDs.contains("delete_10"))
-        #expect(achievementIDs.contains("save_100mb"))
-    }
-
-    @Test func cleanupStatsStoreComputesConsecutiveCleanupStreaks() async throws {
-        let fileURL = temporaryStatsURL()
-        defer { try? FileManager.default.removeItem(at: fileURL) }
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
-
-        let store = CleanupStatsStore(fileURL: fileURL)
-        store.recordSession(
-            deletedPhotos: 1,
-            favoritedPhotos: 0,
-            organizedPhotos: 1,
-            estimatedSpaceSavedMB: 1,
-            date: makeDate(year: 2026, month: 6, day: 10, calendar: calendar)
-        )
-        store.recordSession(
-            deletedPhotos: 1,
-            favoritedPhotos: 0,
-            organizedPhotos: 1,
-            estimatedSpaceSavedMB: 1,
-            date: makeDate(year: 2026, month: 6, day: 11, calendar: calendar)
-        )
-        let achievements = store.recordSession(
-            deletedPhotos: 1,
-            favoritedPhotos: 0,
-            organizedPhotos: 1,
-            estimatedSpaceSavedMB: 1,
-            date: makeDate(year: 2026, month: 6, day: 12, calendar: calendar)
-        )
-
-        #expect(store.streakDays(referenceDate: makeDate(year: 2026, month: 6, day: 12, calendar: calendar), calendar: calendar) == 3)
-        #expect(achievements.map(\.id).contains("streak_3"))
-    }
-
-    @Test func cleanupAchievementEvaluatorReportsAllProgress() async throws {
-        let summary = CleanupStatsSummary(
-            sessions: 1,
-            deletedPhotos: 8,
-            favoritedPhotos: 0,
-            organizedPhotos: 8,
-            estimatedSpaceSavedMB: 80
-        )
-
-        let progress = CleanupAchievementEvaluator.allProgress(summary: summary, streakDays: 2)
-        let firstCleanup = try #require(progress.first { $0.achievement.id == "first_cleanup" })
-        let delete10 = try #require(progress.first { $0.achievement.id == "delete_10" })
-
-        #expect(progress.count == 14)
-        #expect(firstCleanup.isUnlocked)
-        #expect(delete10.progress == 0.8)
-        #expect(delete10.remainingValue == 2)
-    }
-
     @MainActor
     @Test func cachedModelTitlesFollowCurrentAppLanguage() async throws {
         let defaults = UserDefaults.standard
@@ -857,24 +757,7 @@ struct PhotoDeleteTests {
             }
         }
 
-        let summary = CleanupStatsSummary(
-            sessions: 1,
-            deletedPhotos: 0,
-            favoritedPhotos: 0,
-            organizedPhotos: 1,
-            estimatedSpaceSavedMB: 0
-        )
-
-        let achievement = try #require(
-            CleanupAchievementEvaluator
-                .allProgress(summary: summary, streakDays: 0)
-                .first { $0.achievement.id == "first_cleanup" }?
-                .achievement
-        )
-
         defaults.set(AppLanguage.zhHans.rawValue, forKey: AppConstants.appLanguageKey)
-        #expect(achievement.title == "第一次清理")
-        #expect(achievement.subtitle == "完成第一轮照片整理")
         #expect(SwipeGesturePreset.standard.title == "左删右留")
         #expect(SwipeGesturePreset.standard.subtitle == "左滑删除，右滑保留，上滑收藏")
         #expect(SwipeGesturePreset.leftKeepRightDelete.title == "左留右删")
@@ -885,8 +768,6 @@ struct PhotoDeleteTests {
         #expect(String(format: L10n.string("%lld 张相近候选"), Int64(3)) == "3 张相近候选")
 
         defaults.set(AppLanguage.en.rawValue, forKey: AppConstants.appLanguageKey)
-        #expect(achievement.title == "First Cleanup")
-        #expect(achievement.subtitle == "Complete your first photo cleanup")
         #expect(SwipeGesturePreset.standard.title == "Delete left, keep right")
         #expect(SwipeGesturePreset.standard.subtitle == "Swipe left to delete, right to keep, up to favorite")
         #expect(SwipeGesturePreset.leftKeepRightDelete.title == "Keep left, delete right")
@@ -987,42 +868,6 @@ struct PhotoDeleteTests {
         )
 
         #expect(mixedSelection == Set(["other-asset"] + Array(groupAssetIDs.dropFirst())))
-    }
-
-    @Test func cleanupAchievementEvaluatorIncludesExpandedSpaceMilestones() async throws {
-        let summary = CleanupStatsSummary(
-            sessions: 1,
-            deletedPhotos: 0,
-            favoritedPhotos: 0,
-            organizedPhotos: 1,
-            estimatedSpaceSavedMB: 100_000
-        )
-
-        let progress = CleanupAchievementEvaluator.allProgress(summary: summary, streakDays: 0)
-        let spaceProgress = progress.filter { $0.achievement.category == .space }
-        let spaceIDs = Set(spaceProgress.map(\.achievement.id))
-
-        #expect(spaceIDs == ["save_100mb", "save_1gb", "save_10gb", "save_100gb"])
-        #expect(spaceProgress.allSatisfy { progress in progress.isUnlocked })
-    }
-
-    @Test func cleanupAchievementEvaluatorReturnsClosestLockedGoals() async throws {
-        let summary = CleanupStatsSummary(
-            sessions: 1,
-            deletedPhotos: 8,
-            favoritedPhotos: 0,
-            organizedPhotos: 8,
-            estimatedSpaceSavedMB: 80
-        )
-
-        let closeProgress = CleanupAchievementEvaluator.closeProgress(
-            summary: summary,
-            streakDays: 2,
-            limit: 3
-        )
-
-        #expect(closeProgress.map(\.achievement.id) == ["delete_10", "save_100mb", "streak_3"])
-        #expect(closeProgress.allSatisfy { !$0.isUnlocked })
     }
 
     // MARK: - VideoCompressionHistoryStore tests
@@ -1223,20 +1068,6 @@ struct PhotoDeleteTests {
         #expect(snapshot.formattedFree == "64.0 GB")
         #expect(snapshot.formattedTotal == "256 GB")
         #expect(snapshot.usedFraction == 0.75)
-    }
-
-    @Test func photoDaySummaryProgressClampsToOne() async throws {
-        let summary = PhotoDaySummary(
-            date: Date(),
-            photoCount: 10,
-            screenshotCount: 2,
-            videoCount: 1,
-            reviewedCount: 14,
-            estimatedSizeMB: 42
-        )
-
-        #expect(summary.progress == 1)
-        #expect(summary.formattedEstimatedSize == "42.0 MB")
     }
 
     @Test func photoPeriodSummaryProgressAndRemainingClamp() async throws {
@@ -1452,20 +1283,6 @@ struct PhotoDeleteTests {
             restoredIdentifierCount: 0,
             currentLibraryCount: 100
         ) == PhotoLibrarySnapshotRestoreDecision(shouldRestore: false, shouldRefreshAfterRestore: true))
-    }
-
-    @Test func advancedDemoSnapshotIncludesCalendarAndCleanupQueues() async throws {
-        let snapshot = AdvancedLibrarySnapshot.demo(
-            referenceDate: makeDate(year: 2026, month: 6, day: 11, calendar: Calendar(identifier: .gregorian)),
-            calendar: Calendar(identifier: .gregorian)
-        )
-
-        #expect(snapshot.stats.totalAssets > 0)
-        #expect(snapshot.monthSummaries.isEmpty == false)
-        #expect(snapshot.monthSummaries[0].assetCount > 0)
-        #expect(snapshot.monthSummaries[0].progress > 0)
-        #expect(snapshot.daySummaries.isEmpty == false)
-        #expect(snapshot.cleanupQueues.map(\.kind) == AdvancedCleanupKind.visibleCases)
     }
 
     // MARK: - AlbumInfo tests

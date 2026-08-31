@@ -14,107 +14,11 @@ struct AdvancedView: View {
     @EnvironmentObject var dataManager: DataManager
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @AppStorage(AppConstants.appLanguageKey) private var appLanguageValue = AppLanguage.system.rawValue
-    @State private var selectedScope: AdvancedTimeScope = .month
-    @State private var selectedPeriodDate = Date()
-    @State private var dashboardSnapshot = AdvancedLibrarySnapshot.demo(referenceDate: Date())
-    @State private var activePeriodRoute: AdvancedPeriodRoute?
+    @State private var cleanupQueues: [AdvancedCleanupQueue] = []
     @State private var advancedRefreshWorkItem: DispatchWorkItem?
-    @State private var lastDashboardRefreshKey: AdvancedDashboardRefreshKey?
-    @State private var visibleAdvancedPeriodLimit = 5
 
     private var isAwaitingPhotoLibraryAccess: Bool {
         !dataManager.photoLibraryManager.hasPhotoLibraryAccess
-    }
-
-    var body: some View {
-        let _ = appLanguageValue
-
-        NavigationStack {
-            advancedRootContent
-                .navigationTitle(L10n.string("进阶"))
-                .navigationBarTitleDisplayMode(.large)
-                .navigationDestination(isPresented: isShowingActivePeriodRoute) {
-                    if let activePeriodRoute {
-                        AdvancedPeriodSwipeDestination(
-                            scope: activePeriodRoute.scope,
-                            intervalStart: activePeriodRoute.intervalStart
-                        )
-                            .environmentObject(dataManager)
-                    }
-                }
-        }
-        .onChange(of: selectedScope) { _ in
-            selectedPeriodDate = Date()
-            visibleAdvancedPeriodLimit = 5
-            refreshAdvancedDashboard(resetSelectedPeriod: false, force: true)
-        }
-        .onChange(of: dataManager.cleanupStatsRevision) { _ in
-            scheduleAdvancedDashboardRefresh()
-        }
-        .onChange(of: dataManager.advancedCleanupQueuesRevision) { _ in
-            scheduleAdvancedDashboardRefresh()
-        }
-        .onReceive(dataManager.photoLibraryManager.$isLoading) { isLoading in
-            if !isLoading {
-                scheduleAdvancedDashboardRefresh()
-            }
-        }
-        .onReceive(dataManager.photoLibraryManager.$allPhotos) { _ in
-            guard !isPreparingRealAdvancedData else { return }
-            scheduleAdvancedDashboardRefresh()
-        }
-        .task {
-            dataManager.syncPhotoLibraryAuthorization()
-            refreshAdvancedDashboard(resetSelectedPeriod: true)
-        }
-    }
-
-    private var advancedRootContent: some View {
-        ZStack {
-            PhotoDeleteScreenBackground()
-
-            ScrollView {
-                let snapshot = dashboardSnapshot
-                let periodSummaries = visiblePeriodSummaries
-
-                VStack(spacing: 16) {
-                    if isAwaitingPhotoLibraryAccess {
-                        PhotoAuthorizationCard(
-                            subtitle: L10n.string("进阶功能需要读取本机照片库，才能生成真实月份进度和清理队列。"),
-                            onRequestAccess: { dataManager.requestPhotoLibraryAccess() }
-                        )
-                    } else if shouldShowAdvancedPreparingCard {
-                        AdvancedLibraryPreparingCard(progress: advancedLoadingProgress)
-                    } else {
-                        cleanupEntrySection(queues: snapshot.cleanupQueues)
-                            .redacted(reason: shouldRedactAdvancedContent ? .placeholder : [])
-                            .allowsHitTesting(!shouldRedactAdvancedContent)
-
-                        advancedPeriodListSection(summaries: periodSummaries)
-                            .redacted(reason: shouldRedactAdvancedContent ? .placeholder : [])
-                            .allowsHitTesting(!shouldRedactAdvancedContent)
-                    }
-
-                    Spacer()
-                        .frame(height: 96)
-                }
-                .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
-                .padding(.top, PhotoDeleteStyle.rootContentTopSpacing)
-                .frame(maxWidth: PhotoDeleteAdaptiveLayout.readableContentMaxWidth(horizontalSizeClass: horizontalSizeClass))
-                .frame(maxWidth: .infinity)
-            }
-        }
-    }
-
-    private var visiblePeriodSummaries: [PhotoPeriodSummary] {
-        if let summaries = dataManager.periodSummariesByScope[selectedScope] {
-            return summaries.filter { $0.assetCount > 0 }
-        }
-        return []
-    }
-
-    private var displayedAdvancedPeriodSummaries: [PhotoPeriodSummary] {
-        Array(visiblePeriodSummaries.prefix(visibleAdvancedPeriodLimit))
     }
 
     private var isPreparingRealAdvancedData: Bool {
@@ -149,96 +53,58 @@ struct AdvancedView: View {
         return min(max(progress, 0.04), 1)
     }
 
-    private var dashboardRefreshKey: AdvancedDashboardRefreshKey {
-        AdvancedDashboardRefreshKey(
-            hasPhotoLibraryAccess: dataManager.photoLibraryManager.hasPhotoLibraryAccess,
-            isPreparingRealAdvancedData: isPreparingRealAdvancedData,
-            allPhotoCount: dataManager.photoLibraryManager.allPhotos.count,
-            screenshotCount: dataManager.photoLibraryManager.screenshots.count,
-            videoCount: dataManager.photoLibraryManager.videos.count,
-            reviewedCount: dataManager.reviewedAssetIDs.count,
-            deleteCandidateCount: dataManager.deleteCandidates.count,
-            favoriteCandidateCount: dataManager.favoriteCandidates.count,
-            cleanupStatsRevision: dataManager.cleanupStatsRevision,
-            advancedCleanupQueuesRevision: dataManager.advancedCleanupQueuesRevision
-        )
+    var body: some View {
+        let _ = appLanguageValue
+
+        NavigationStack {
+            advancedRootContent
+                .navigationTitle(L10n.string("进阶"))
+                .navigationBarTitleDisplayMode(.large)
+        }
+        .onChange(of: dataManager.advancedCleanupQueuesRevision) { _ in
+            scheduleAdvancedDashboardRefresh()
+        }
+        .onReceive(dataManager.photoLibraryManager.$isLoading) { isLoading in
+            if !isLoading {
+                scheduleAdvancedDashboardRefresh()
+            }
+        }
+        .onReceive(dataManager.photoLibraryManager.$allPhotos) { _ in
+            guard !isPreparingRealAdvancedData else { return }
+            scheduleAdvancedDashboardRefresh()
+        }
+        .task {
+            dataManager.syncPhotoLibraryAuthorization()
+            refreshCleanupQueues()
+        }
     }
 
-    private var isShowingActivePeriodRoute: Binding<Bool> {
-        Binding(
-            get: { activePeriodRoute != nil },
-            set: { isPresented in
-                if !isPresented {
-                    activePeriodRoute = nil
-                }
-            }
-        )
-    }
+    private var advancedRootContent: some View {
+        ZStack {
+            PhotoDeleteScreenBackground()
 
-    private func advancedPeriodListSection(
-        summaries: [PhotoPeriodSummary]
-    ) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .firstTextBaseline) {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(L10n.string("按时间整理"))
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                    Text(L10n.string("按日、周、月、年继续整理。"))
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                }
-
-                Spacer()
-            }
-
-            AdvancedTimeScopePicker(selectedScope: $selectedScope)
-
-            if summaries.isEmpty {
-                if dataManager.isLoadingPeriodSummaries {
-                    AdvancedEmptyState(
-                        icon: "clock",
-                        title: L10n.string("正在整理时间线"),
-                        subtitle: L10n.string("读取完成后会显示可整理的日期、月份和年份。")
-                    )
-                } else {
-                    AdvancedEmptyState(
-                        icon: "calendar",
-                        title: L10n.string("还没有可按时间整理的照片"),
-                        subtitle: L10n.string("当前授权范围内没有带拍摄时间的照片。")
-                    )
-                }
-            } else {
-                VStack(spacing: 0) {
-                    ForEach(Array(displayedAdvancedPeriodSummaries.enumerated()), id: \.element.id) { index, summary in
-                        Button {
-                            openAdvancedPeriod(summary)
-                        } label: {
-                            AdvancedTimePeriodRow(summary: summary)
-                        }
-                        .buttonStyle(.plain)
-
-                        if index != displayedAdvancedPeriodSummaries.count - 1 {
-                            Divider()
-                                .background(PhotoDeleteStyle.hairline)
-                                .padding(.leading, 62)
-                        }
+            ScrollView {
+                VStack(spacing: 16) {
+                    if isAwaitingPhotoLibraryAccess {
+                        PhotoAuthorizationCard(
+                            subtitle: L10n.string("进阶功能需要读取本机照片库，才能生成清理队列。"),
+                            onRequestAccess: { dataManager.requestPhotoLibraryAccess() }
+                        )
+                    } else if shouldShowAdvancedPreparingCard {
+                        AdvancedLibraryPreparingCard(progress: advancedLoadingProgress)
+                    } else {
+                        cleanupEntrySection(queues: cleanupQueues)
+                            .redacted(reason: shouldRedactAdvancedContent ? .placeholder : [])
+                            .allowsHitTesting(!shouldRedactAdvancedContent)
                     }
-                }
-                .photoDeleteCard()
 
-                if summaries.count > displayedAdvancedPeriodSummaries.count {
-                    Button(action: showMoreAdvancedPeriods) {
-                        Text(L10n.string("显示更多"))
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(PhotoDeleteStyle.accent)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                    }
-                    .buttonStyle(.plain)
-                    .photoDeleteMinimumTapTarget()
+                    Spacer()
+                        .frame(height: 96)
                 }
+                .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
+                .padding(.top, PhotoDeleteStyle.rootContentTopSpacing)
+                .frame(maxWidth: PhotoDeleteAdaptiveLayout.readableContentMaxWidth(horizontalSizeClass: horizontalSizeClass))
+                .frame(maxWidth: .infinity)
             }
         }
     }
@@ -327,253 +193,19 @@ struct AdvancedView: View {
         }
     }
 
-    private func selectedPeriodSummary(in summaries: [PhotoPeriodSummary]) -> PhotoPeriodSummary {
-        let selectedInterval = Calendar.current.dateInterval(for: selectedScope, containing: selectedPeriodDate)
-        if let selected = summaries.first(where: { Calendar.current.isDate($0.intervalStart, inSameDayAs: selectedInterval.start) || $0.intervalStart == selectedInterval.start }) {
-            return selected
-        }
-
-        if let containing = summaries.first(where: { selectedPeriodDate >= $0.intervalStart && selectedPeriodDate < $0.intervalEnd }) {
-            return containing
-        }
-
-        return PhotoPeriodSummary.empty(scope: selectedScope, containing: selectedPeriodDate)
-    }
-
-    private func moveSelectedPeriod(by offset: Int) {
-        guard let next = Calendar.current.date(
-            byAdding: selectedScope.calendarComponent,
-            value: offset,
-            to: selectedPeriodDate
-        ) else { return }
-
-        guard offset < 0 || canAdvance(to: next) else { return }
-        withAnimation(.spring(response: 0.28, dampingFraction: 0.86)) {
-            selectedPeriodDate = next
-        }
-        HapticManager.impact(.light)
-    }
-
-    private func canAdvance(from summary: PhotoPeriodSummary) -> Bool {
-        guard let next = Calendar.current.date(
-            byAdding: selectedScope.calendarComponent,
-            value: 1,
-            to: summary.intervalStart
-        ) else { return false }
-        return canAdvance(to: next)
-    }
-
-    private func canAdvance(to date: Date) -> Bool {
-        let nextStart = Calendar.current.dateInterval(for: selectedScope, containing: date).start
-        let currentStart = Calendar.current.dateInterval(for: selectedScope, containing: Date()).start
-        return nextStart <= currentStart
-    }
-
-    private func openAdvancedPeriod(_ summary: PhotoPeriodSummary) {
-        selectedPeriodDate = summary.intervalStart
-        activePeriodRoute = AdvancedPeriodRoute(
-            scope: summary.scope,
-            intervalStart: summary.intervalStart
-        )
-    }
-
     private func scheduleAdvancedDashboardRefresh() {
         advancedRefreshWorkItem?.cancel()
         let workItem = DispatchWorkItem {
-            refreshAdvancedDashboard(resetSelectedPeriod: false)
+            refreshCleanupQueues()
         }
         advancedRefreshWorkItem = workItem
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: workItem)
     }
 
-    private func refreshAdvancedDashboard(resetSelectedPeriod: Bool, force: Bool = false) {
-        if resetSelectedPeriod {
-            selectedPeriodDate = Date()
-        }
-
+    private func refreshCleanupQueues() {
         guard !shouldDeferAdvancedDashboardRefresh else { return }
-        let refreshKey = dashboardRefreshKey
-        guard force || refreshKey != lastDashboardRefreshKey else { return }
-        lastDashboardRefreshKey = refreshKey
-
-        guard dataManager.photoLibraryManager.hasPhotoLibraryAccess else {
-            dashboardSnapshot = AdvancedLibrarySnapshot.demo(referenceDate: Date())
-            return
-        }
-
-        dashboardSnapshot = AdvancedLibrarySnapshot(
-            stats: dataManager.makeSettingsStatsSummary(),
-            daySummaries: [],
-            monthSummaries: [],
-            cleanupQueues: dataManager.advancedCleanupQueues
-        )
+        cleanupQueues = dataManager.advancedCleanupQueues
         dataManager.refreshAdvancedCleanupQueues()
-        dataManager.refreshPhotoPeriodSummaries(for: [selectedScope])
-    }
-
-    private func showMoreAdvancedPeriods() {
-        withAnimation(.easeInOut(duration: 0.18)) {
-            visibleAdvancedPeriodLimit = VisibleListPagination.advancedLimit(
-                totalCount: visiblePeriodSummaries.count,
-                currentLimit: visibleAdvancedPeriodLimit,
-                step: 20
-            )
-        }
-    }
-}
-
-private struct AdvancedDashboardRefreshKey: Equatable {
-    let hasPhotoLibraryAccess: Bool
-    let isPreparingRealAdvancedData: Bool
-    let allPhotoCount: Int
-    let screenshotCount: Int
-    let videoCount: Int
-    let reviewedCount: Int
-    let deleteCandidateCount: Int
-    let favoriteCandidateCount: Int
-    let cleanupStatsRevision: UUID
-    let advancedCleanupQueuesRevision: UUID
-}
-
-private struct AdvancedPeriodRoute: Identifiable, Hashable {
-    let scope: AdvancedTimeScope
-    let intervalStart: Date
-
-    var id: String {
-        PhotoPeriodSummary.empty(scope: scope, containing: intervalStart).id
-    }
-}
-
-private struct AdvancedPeriodSwipeDestination: View {
-    let scope: AdvancedTimeScope
-    let intervalStart: Date
-
-    var body: some View {
-        SwipePhotoView(
-            selectedCategory: nil,
-            selectedTimeGroup: nil,
-            selectedAlbumInfo: nil,
-            selectedDate: intervalStart,
-            selectedAdvancedTimeScope: scope
-        )
-    }
-}
-
-private struct AdvancedTimeScopePicker: View {
-    @Binding var selectedScope: AdvancedTimeScope
-
-    var body: some View {
-        Picker(L10n.string("时间维度"), selection: $selectedScope) {
-            ForEach(AdvancedTimeScope.allCases) { scope in
-                Text(scope.title)
-                    .tag(scope)
-            }
-        }
-        .pickerStyle(.segmented)
-    }
-}
-
-private struct AdvancedPeriodNavigator: View {
-    let summary: PhotoPeriodSummary
-    let canGoForward: Bool
-    let onPrevious: () -> Void
-    let onNext: () -> Void
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Button(action: onPrevious) {
-                Label(L10n.string("上一段时间"), systemImage: "chevron.left")
-                    .labelStyle(.iconOnly)
-                    .font(.system(size: 15, weight: .bold))
-                    .frame(width: 38, height: 38)
-                    .background(Circle().fill(PhotoDeleteStyle.surface))
-                    .photoDeleteMinimumTapTarget()
-            }
-            .buttonStyle(.plain)
-            .foregroundColor(PhotoDeleteStyle.primaryText)
-
-            VStack(spacing: 3) {
-                Text(AdvancedPeriodFormatter.title(for: summary))
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
-
-                Text(AdvancedPeriodFormatter.subtitle(for: summary))
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
-            }
-            .frame(maxWidth: .infinity)
-
-            Button(action: onNext) {
-                Label(L10n.string("下一段时间"), systemImage: "chevron.right")
-                    .labelStyle(.iconOnly)
-                    .font(.system(size: 15, weight: .bold))
-                    .frame(width: 38, height: 38)
-                    .background(Circle().fill(PhotoDeleteStyle.surface))
-                    .photoDeleteMinimumTapTarget()
-            }
-            .buttonStyle(.plain)
-            .foregroundColor(canGoForward ? PhotoDeleteStyle.primaryText : PhotoDeleteStyle.tertiaryText)
-            .disabled(!canGoForward)
-        }
-        .padding(12)
-        .photoDeleteCard()
-    }
-}
-
-private struct AdvancedPeriodChip: View {
-    let summary: PhotoPeriodSummary
-    let isSelected: Bool
-
-    var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack(alignment: .leading, spacing: 8) {
-                AdvancedProgressRing(progress: summary.progress, size: 34, lineWidth: 4) {
-                    EmptyView()
-                }
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(AdvancedPeriodFormatter.chipTitle(for: summary))
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(PhotoDeleteStyle.primaryText)
-                        .lineLimit(1)
-
-                    Text(String(
-                        format: L10n.string("%lld 项 · %lld%%"),
-                        Int64(summary.assetCount),
-                        Int64(summary.progress * 100)
-                    ))
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.68)
-                }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            if isSelected {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.accent)
-                    .accessibilityHidden(true)
-            }
-        }
-        .frame(width: 94, alignment: .leading)
-        .padding(10)
-        .background(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(isSelected ? PhotoDeleteStyle.accent.opacity(0.16) : PhotoDeleteStyle.surface)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .stroke(isSelected ? PhotoDeleteStyle.accent.opacity(0.65) : PhotoDeleteStyle.hairline, lineWidth: 1)
-                )
-        )
-        .accessibilityElement(children: .combine)
-        .accessibilityAddTraits(isSelected ? .isSelected : [])
-        .accessibilityValue(Text(isSelected ? L10n.string("已选") : L10n.string("未选择")))
     }
 }
 
@@ -616,62 +248,6 @@ private struct AdvancedCleanupEntryRow: View {
     }
 }
 
-private struct AdvancedTimePeriodRow: View {
-    let summary: PhotoPeriodSummary
-
-    var body: some View {
-        HStack(spacing: 12) {
-            AdvancedPeriodProgressBadge(progress: summary.progress)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(AdvancedPeriodFormatter.title(for: summary))
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.78)
-
-                Text(detailText)
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.72)
-            }
-
-            Spacer(minLength: 8)
-
-            Image(systemName: "chevron.right")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(PhotoDeleteStyle.tertiaryText)
-        }
-        .padding(14)
-        .contentShape(Rectangle())
-        .accessibilityElement(children: .combine)
-    }
-
-    private var detailText: String {
-        String(
-            format: L10n.string("剩余 %lld 张"),
-            Int64(summary.remainingCount)
-        )
-    }
-}
-
-private struct AdvancedPeriodProgressBadge: View {
-    let progress: Double
-
-    var body: some View {
-        AdvancedProgressRing(progress: progress, size: 48, lineWidth: 5) {
-            Text("\(Int(progress * 100))%")
-                .font(.system(size: 11, weight: .semibold))
-                .monospacedDigit()
-                .foregroundColor(PhotoDeleteStyle.primaryText)
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
-        }
-        .accessibilityHidden(true)
-    }
-}
-
 private struct AdvancedLibraryPreparingCard: View {
     let progress: Double
 
@@ -706,117 +282,6 @@ private struct AdvancedLibraryPreparingCard: View {
         }
         .padding(16)
         .photoDeleteCard()
-    }
-}
-
-private struct AdvancedPeriodListView: View {
-    @EnvironmentObject var dataManager: DataManager
-    let summaries: [PhotoPeriodSummary]
-    @State private var visibleLimit = 60
-
-    private let limitStep = 60
-
-    private var visibleSummaries: [PhotoPeriodSummary] {
-        VisibleListPagination.visibleItems(summaries, limit: visibleLimit)
-    }
-
-    private var hasMore: Bool {
-        VisibleListPagination.hasMore(totalCount: summaries.count, limit: visibleLimit)
-    }
-
-    var body: some View {
-        ZStack {
-            PhotoDeleteScreenBackground()
-
-            ScrollView {
-                LazyVStack(spacing: 16) {
-                    VStack(spacing: 0) {
-                        ForEach(Array(visibleSummaries.enumerated()), id: \.element.id) { index, summary in
-                            NavigationLink {
-                                AdvancedPeriodSwipeDestination(
-                                    scope: summary.scope,
-                                    intervalStart: summary.intervalStart
-                                )
-                                    .environmentObject(dataManager)
-                            } label: {
-                                AdvancedPeriodListRow(summary: summary)
-                            }
-                            .buttonStyle(.plain)
-
-                            if index != visibleSummaries.count - 1 {
-                                Divider()
-                                    .background(PhotoDeleteStyle.hairline)
-                                    .padding(.leading, 70)
-                            }
-                        }
-                    }
-                    .photoDeleteCard()
-
-                    if hasMore {
-                        Button(action: showMore) {
-                            Text(L10n.string("显示更多"))
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(PhotoDeleteStyle.accent)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 12)
-                        }
-                        .buttonStyle(.plain)
-                        .photoDeleteMinimumTapTarget()
-                    }
-
-                    Spacer()
-                        .frame(height: 72)
-                }
-                .padding(PhotoDeleteStyle.screenHorizontalPadding)
-            }
-        }
-        .advancedDetailNavigation(title: L10n.string("时间进度"))
-    }
-
-    private func showMore() {
-        withAnimation(.easeInOut(duration: 0.18)) {
-            visibleLimit = VisibleListPagination.advancedLimit(
-                totalCount: summaries.count,
-                currentLimit: visibleLimit,
-                step: limitStep
-            )
-        }
-    }
-}
-
-private struct AdvancedPeriodListRow: View {
-    let summary: PhotoPeriodSummary
-
-    var body: some View {
-        HStack(spacing: 13) {
-            AdvancedProgressRing(progress: summary.progress, size: 40, lineWidth: 4) {
-                EmptyView()
-            }
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(AdvancedPeriodFormatter.title(for: summary))
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                Text(String(
-                    format: L10n.string("%lld 项 · 已整理 %lld%%"),
-                    Int64(summary.assetCount),
-                    Int64(summary.progress * 100)
-                ))
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.74)
-            }
-
-            Spacer()
-
-            Image(systemName: "chevron.right")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(PhotoDeleteStyle.tertiaryText)
-        }
-        .padding(14)
-        .contentShape(Rectangle())
     }
 }
 
@@ -5926,35 +5391,6 @@ private extension View {
     }
 }
 
-private struct AdvancedProgressRing<Content: View>: View {
-    @Environment(\.photoDeleteTheme) private var theme
-
-    let progress: Double
-    let size: CGFloat
-    let lineWidth: CGFloat
-    @ViewBuilder let content: Content
-
-    var body: some View {
-        ZStack {
-            Circle()
-                .stroke(
-                    theme.primaryAccentSoftStroke.opacity(0.9),
-                    style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
-                )
-
-            Circle()
-                .trim(from: 0, to: min(max(progress, 0), 1))
-                .stroke(
-                    theme.progressTint,
-                    style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
-                )
-                .rotationEffect(.degrees(-90))
-
-            content
-        }
-        .frame(width: size, height: size)
-    }
-}
 
 
 private struct AdvancedEmptyState: View {
@@ -6103,81 +5539,6 @@ private enum AdvancedAssetFormatter {
     }
 }
 
-private enum AdvancedPeriodFormatter {
-    static func title(for summary: PhotoPeriodSummary) -> String {
-        switch summary.scope {
-        case .day:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "yMMMd")
-        case .week:
-            return weekTitle(for: summary.intervalStart)
-        case .month:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "yMMM")
-        case .year:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "y")
-        }
-    }
-
-    static func compactTitle(for summary: PhotoPeriodSummary) -> String {
-        switch summary.scope {
-        case .day:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "MMMd")
-        case .week:
-            return weekCompact(for: summary.intervalStart)
-        case .month:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "MMM")
-        case .year:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "y")
-        }
-    }
-
-    static func chipTitle(for summary: PhotoPeriodSummary) -> String {
-        switch summary.scope {
-        case .day:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "Md")
-        case .week:
-            return weekChip(for: summary.intervalStart)
-        case .month:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "MMM")
-        case .year:
-            return AppDateFormatter.string(from: summary.intervalStart, template: "y")
-        }
-    }
-
-    static func subtitle(for summary: PhotoPeriodSummary) -> String {
-        switch summary.scope {
-        case .day:
-            return L10n.string("当天")
-        case .week:
-            let start = AppDateFormatter.string(from: summary.intervalStart, template: "Md")
-            let endDate = Calendar.current.date(byAdding: .day, value: -1, to: summary.intervalEnd) ?? summary.intervalEnd
-            let end = AppDateFormatter.string(from: endDate, template: "Md")
-            return "\(start) - \(end)"
-        case .month:
-            return L10n.string("本月照片清理进度")
-        case .year:
-            return L10n.string("全年照片清理进度")
-        }
-    }
-
-    private static func weekTitle(for date: Date) -> String {
-        let components = Calendar.current.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
-        return String(
-            format: L10n.string("%lld 年第 %lld 周"),
-            Int64(components.yearForWeekOfYear ?? 0),
-            Int64(components.weekOfYear ?? 0)
-        )
-    }
-
-    private static func weekCompact(for date: Date) -> String {
-        let week = Calendar.current.component(.weekOfYear, from: date)
-        return String(format: L10n.string("第 %lld 周"), Int64(week))
-    }
-
-    private static func weekChip(for date: Date) -> String {
-        let week = Calendar.current.component(.weekOfYear, from: date)
-        return String(format: L10n.string("周 %lld"), Int64(week))
-    }
-}
 
 #Preview {
     AdvancedView()

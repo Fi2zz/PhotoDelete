@@ -854,7 +854,7 @@ class DataManager: ObservableObject {
                 self.saveReviewedAssetIDsNow()
             }
             let completedAt = Date()
-            let newAchievements = self.cleanupStatsStore.recordSession(
+            self.cleanupStatsStore.recordSession(
                 deletedPhotos: committedDeleteCandidates.count,
                 favoritedPhotos: committedFavoriteCandidates.count,
                 organizedPhotos: committedDeleteCandidates.count + committedFavoriteCandidates.count,
@@ -862,7 +862,6 @@ class DataManager: ObservableObject {
                 date: completedAt
             )
             let summary = self.cleanupStatsStore.summary
-            let currentStreakDays = self.cleanupStatsStore.streakDays(referenceDate: completedAt)
             let celebration = CleanupCelebration(
                 deletedPhotos: committedDeleteCandidates.count,
                 favoritedPhotos: committedFavoriteCandidates.count,
@@ -870,12 +869,6 @@ class DataManager: ObservableObject {
                 estimatedSpaceSavedMB: estimatedSpaceSaved,
                 totalDeletedPhotos: summary.deletedPhotos,
                 totalSpaceSavedMB: summary.estimatedSpaceSavedMB,
-                currentStreakDays: currentStreakDays,
-                newAchievements: newAchievements,
-                nextAchievementProgress: CleanupAchievementEvaluator.nextProgress(
-                    summary: summary,
-                    streakDays: currentStreakDays
-                ),
                 date: completedAt
             )
             self.removeCommittedCandidates(

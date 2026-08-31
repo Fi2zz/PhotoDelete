@@ -41,17 +41,6 @@ struct CleanupSession: Codable, Identifiable, Equatable {
         self.sizeMeasurementVersion = sizeMeasurementVersion
     }
 
-    var monthKey: String {
-        let components = Calendar.current.dateComponents([.year, .month], from: date)
-        let year = components.year ?? 0
-        let month = components.month ?? 0
-        return String(format: "%04d-%02d", year, month)
-    }
-
-    var formattedDate: String {
-        CleanupStatsFormatter.sessionDate.string(from: date)
-    }
-
     var formattedSpaceSaved: String {
         CleanupStatsFormatter.fileSize(countedDeletedContentSizeMB)
     }
@@ -62,31 +51,6 @@ struct CleanupSession: Codable, Identifiable, Equatable {
             return 0
         }
         return max(estimatedSpaceSavedMB, 0)
-    }
-}
-
-struct CleanupMonthlySummary: Identifiable, Equatable {
-    let monthKey: String
-    let sessions: Int
-    let deletedPhotos: Int
-    let favoritedPhotos: Int
-    let organizedPhotos: Int
-    let estimatedSpaceSavedMB: Double
-
-    var id: String { monthKey }
-
-    var title: String {
-        let parts = monthKey.split(separator: "-")
-        guard parts.count == 2 else { return monthKey }
-        var components = DateComponents()
-        components.year = Int(parts[0])
-        components.month = Int(parts[1])
-        guard let date = Calendar.current.date(from: components) else { return monthKey }
-        return CleanupStatsFormatter.month.string(from: date)
-    }
-
-    var formattedSpaceSaved: String {
-        CleanupStatsFormatter.fileSize(estimatedSpaceSavedMB)
     }
 }
 
@@ -138,76 +102,14 @@ final class CleanupStatsStore: ObservableObject {
         }
     }
 
-    var monthlySummaries: [CleanupMonthlySummary] {
-        let grouped = Dictionary(grouping: sessions, by: \.monthKey)
-        return grouped.map { monthKey, sessions in
-            CleanupMonthlySummary(
-                monthKey: monthKey,
-                sessions: sessions.count,
-                deletedPhotos: sessions.reduce(0) { $0 + $1.deletedPhotos },
-                favoritedPhotos: sessions.reduce(0) { $0 + $1.favoritedPhotos },
-                organizedPhotos: sessions.reduce(0) { $0 + $1.organizedPhotos },
-                estimatedSpaceSavedMB: sessions.reduce(0) { $0 + $1.countedDeletedContentSizeMB }
-            )
-        }
-        .sorted { $0.monthKey > $1.monthKey }
-    }
-
-    var currentStreakDays: Int {
-        streakDays()
-    }
-
-    var unlockedAchievements: [CleanupAchievement] {
-        CleanupAchievementEvaluator.unlockedAchievements(
-            summary: summary,
-            streakDays: currentStreakDays
-        )
-    }
-
-    var nextAchievementProgress: CleanupAchievementProgress? {
-        CleanupAchievementEvaluator.nextProgress(
-            summary: summary,
-            streakDays: currentStreakDays
-        )
-    }
-
-    var achievementProgresses: [CleanupAchievementProgress] {
-        CleanupAchievementEvaluator.allProgress(
-            summary: summary,
-            streakDays: currentStreakDays
-        )
-    }
-
-    var closeAchievementProgresses: [CleanupAchievementProgress] {
-        CleanupAchievementEvaluator.closeProgress(
-            summary: summary,
-            streakDays: currentStreakDays
-        )
-    }
-
-    func streakDays(
-        referenceDate: Date = Date(),
-        calendar: Calendar = .current
-    ) -> Int {
-        Self.currentStreakDays(
-            for: sessions,
-            referenceDate: referenceDate,
-            calendar: calendar
-        )
-    }
-
-    @discardableResult
     func recordSession(
         deletedPhotos: Int,
         favoritedPhotos: Int,
         organizedPhotos: Int,
         estimatedSpaceSavedMB: Double,
         date: Date = Date()
-    ) -> [CleanupAchievement] {
-        guard deletedPhotos > 0 || favoritedPhotos > 0 || organizedPhotos > 0 else { return [] }
-
-        let previousSummary = summary
-        let previousStreakDays = streakDays(referenceDate: date)
+    ) {
+        guard deletedPhotos > 0 || favoritedPhotos > 0 || organizedPhotos > 0 else { return }
 
         let safeDeletedContentSizeMB = estimatedSpaceSavedMB.isFinite
             ? max(estimatedSpaceSavedMB, 0)
@@ -221,15 +123,6 @@ final class CleanupStatsStore: ObservableObject {
         )
         sessions.insert(session, at: 0)
         save()
-
-        let currentSummary = summary
-        let currentStreakDays = streakDays(referenceDate: date)
-        return CleanupAchievementEvaluator.newlyUnlockedAchievements(
-            previousSummary: previousSummary,
-            currentSummary: currentSummary,
-            previousStreakDays: previousStreakDays,
-            currentStreakDays: currentStreakDays
-        )
     }
 
     func clearAll() {
@@ -292,37 +185,6 @@ final class CleanupStatsStore: ObservableObject {
             .appendingPathComponent(backupFileName)
     }
 
-    static func currentStreakDays(
-        for sessions: [CleanupSession],
-        referenceDate: Date = Date(),
-        calendar: Calendar = .current
-    ) -> Int {
-        guard !sessions.isEmpty else { return 0 }
-
-        let sessionDays = Set(sessions.map { calendar.startOfDay(for: $0.date) })
-        let today = calendar.startOfDay(for: referenceDate)
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: today) ?? today
-
-        let anchor: Date
-        if sessionDays.contains(today) {
-            anchor = today
-        } else if sessionDays.contains(yesterday) {
-            anchor = yesterday
-        } else {
-            return 0
-        }
-
-        var streak = 0
-        var cursor = anchor
-        while sessionDays.contains(cursor) {
-            streak += 1
-            guard let previousDay = calendar.date(byAdding: .day, value: -1, to: cursor) else {
-                break
-            }
-            cursor = previousDay
-        }
-        return streak
-    }
 }
 
 enum CleanupStatsFormatter {
@@ -332,10 +194,6 @@ enum CleanupStatsFormatter {
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter
-    }
-
-    static var month: DateFormatter {
-        AppDateFormatter.configuredFormatter(template: "yMMMM")
     }
 
     static func space(_ megabytes: Double) -> String {

@@ -76,14 +76,6 @@ struct SettingsView: View {
                 AuthorView()
             case .privacy:
                 PrivacyInfoView()
-            case .cleanupActivity:
-                NavigationStack {
-                    CleanupAchievementsView(
-                        statsStore: dataManager.cleanupStatsStore,
-                        showsDoneButton: true,
-                        showsHistory: true
-                    )
-                }
             case .gestureSettings:
                 GestureSettingsView()
             case .languageSettings:
@@ -141,32 +133,9 @@ struct SettingsView: View {
                 SettingsStorageSummaryRow(storage: stats.storageSnapshot)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 14)
-
-                Divider()
-                    .background(PhotoDeleteStyle.hairline)
-                    .padding(.horizontal, 16)
-
-                SettingRow(
-                    icon: "seal.fill",
-                    iconColor: PhotoDeleteStyle.warning,
-                    title: L10n.string("成就与历史"),
-                    subtitle: cleanupActivitySubtitle,
-                    action: {
-                        activeSheet = .cleanupActivity
-                    }
-                )
             }
             .photoDeleteCard()
         }
-    }
-
-    private var cleanupActivitySubtitle: String {
-        String(
-            format: L10n.string("已获得 %lld/%lld 枚徽章 · %lld 次清理"),
-            Int64(dataManager.cleanupStatsStore.unlockedAchievements.count),
-            Int64(dataManager.cleanupStatsStore.achievementProgresses.count),
-            Int64(dataManager.cleanupStatsStore.summary.sessions)
-        )
     }
 
     // MARK: - 关于与支持
@@ -580,7 +549,6 @@ private enum SettingsSheet: Identifiable {
     case about
     case author
     case privacy
-    case cleanupActivity
     case gestureSettings
     case languageSettings
     case appearanceSettings
@@ -590,7 +558,6 @@ private enum SettingsSheet: Identifiable {
         case .about: return "about"
         case .author: return "author"
         case .privacy: return "privacy"
-        case .cleanupActivity: return "cleanupActivity"
         case .gestureSettings: return "gestureSettings"
         case .languageSettings: return "languageSettings"
         case .appearanceSettings: return "appearanceSettings"

@@ -712,56 +712,6 @@ enum AdvancedCleanupKind: String, CaseIterable, Identifiable {
     }
 }
 
-struct PhotoDaySummary: Identifiable, Equatable {
-    let date: Date
-    let photoCount: Int
-    let screenshotCount: Int
-    let videoCount: Int
-    let reviewedCount: Int
-    let estimatedSizeMB: Double
-
-    var id: String {
-        let components = Calendar.current.dateComponents([.year, .month, .day], from: date)
-        return String(format: "%04d-%02d-%02d", components.year ?? 0, components.month ?? 0, components.day ?? 0)
-    }
-
-    var progress: Double {
-        guard photoCount > 0 else { return 0 }
-        return min(Double(reviewedCount) / Double(photoCount), 1)
-    }
-
-    var formattedEstimatedSize: String {
-        CleanupStatsFormatter.space(estimatedSizeMB)
-    }
-}
-
-struct PhotoMonthSummary: Identifiable, Equatable {
-    let monthStart: Date
-    let assetCount: Int
-    let screenshotCount: Int
-    let videoCount: Int
-    let reviewedCount: Int
-    let estimatedSizeMB: Double
-
-    var id: String {
-        let components = Calendar.current.dateComponents([.year, .month], from: monthStart)
-        return String(format: "%04d-%02d", components.year ?? 0, components.month ?? 0)
-    }
-
-    var progress: Double {
-        guard assetCount > 0 else { return 0 }
-        return min(Double(reviewedCount) / Double(assetCount), 1)
-    }
-
-    var remainingCount: Int {
-        max(assetCount - reviewedCount, 0)
-    }
-
-    var formattedEstimatedSize: String {
-        CleanupStatsFormatter.space(estimatedSizeMB)
-    }
-}
-
 struct PhotoPeriodSummary: Identifiable, Equatable {
     let scope: AdvancedTimeScope
     let intervalStart: Date
@@ -886,80 +836,6 @@ struct AdvancedLibraryStats: Equatable {
     }
 }
 
-struct AdvancedLibrarySnapshot: Equatable {
-    let stats: AdvancedLibraryStats
-    let daySummaries: [PhotoDaySummary]
-    let monthSummaries: [PhotoMonthSummary]
-    let cleanupQueues: [AdvancedCleanupQueue]
-
-    static func demo(referenceDate: Date = Date(), calendar: Calendar = .current) -> AdvancedLibrarySnapshot {
-        let monthStart = calendar.dateInterval(of: .month, for: referenceDate)?.start ?? referenceDate
-        let monthPatterns: [(Int, Int, Int, Int, Int, Double)] = [
-            (0, 632, 82, 38, 428, 3_420),
-            (-1, 1_248, 326, 64, 1_026, 5_860),
-            (-2, 924, 196, 51, 498, 4_120),
-            (-3, 704, 88, 42, 704, 2_960),
-            (-4, 386, 72, 24, 158, 1_840),
-            (-5, 518, 108, 29, 130, 2_360),
-            (-6, 812, 141, 58, 324, 3_540),
-            (-7, 436, 67, 31, 214, 1_920),
-            (-8, 1_104, 238, 77, 712, 6_240)
-        ]
-        let monthSummaries = monthPatterns.compactMap { offset, assets, screenshots, videos, reviewed, size -> PhotoMonthSummary? in
-            guard let month = calendar.date(byAdding: .month, value: offset, to: monthStart) else { return nil }
-            return PhotoMonthSummary(
-                monthStart: month,
-                assetCount: assets,
-                screenshotCount: screenshots,
-                videoCount: videos,
-                reviewedCount: reviewed,
-                estimatedSizeMB: size
-            )
-        }
-
-        let pattern: [(Int, Int, Int, Int, Double)] = [
-            (1, 24, 2, 0, 78), (2, 42, 9, 1, 164), (4, 18, 1, 0, 54),
-            (6, 86, 24, 4, 620), (8, 35, 7, 0, 116), (9, 54, 14, 2, 260),
-            (11, 28, 4, 1, 148), (13, 73, 17, 3, 512), (15, 31, 5, 0, 92),
-            (18, 96, 28, 6, 1_320), (21, 63, 11, 2, 342), (23, 39, 8, 0, 128),
-            (26, 44, 12, 1, 236), (29, 58, 16, 2, 410)
-        ]
-
-        let summaries = pattern.compactMap { day, photos, screenshots, videos, size -> PhotoDaySummary? in
-            guard let date = calendar.date(byAdding: .day, value: day - 1, to: monthStart) else { return nil }
-            return PhotoDaySummary(
-                date: date,
-                photoCount: photos,
-                screenshotCount: screenshots,
-                videoCount: videos,
-                reviewedCount: Int(Double(photos) * 0.58),
-                estimatedSizeMB: size
-            )
-        }
-
-        return AdvancedLibrarySnapshot(
-            stats: AdvancedLibraryStats(
-                totalAssets: 8_426,
-                reviewedAssets: 2_184,
-                deletedAssets: 642,
-                organizedAssets: 2_184,
-                estimatedSpaceSavedMB: 4_860,
-                pendingDeleteAssets: 37,
-                storageSnapshot: DeviceStorageSnapshot(totalBytes: 256 * 1_073_741_824, freeBytes: 42 * 1_073_741_824)
-            ),
-            daySummaries: summaries,
-            monthSummaries: monthSummaries,
-            cleanupQueues: [
-                AdvancedCleanupQueue(kind: .similarPhotos, assetCount: 184, estimatedSpaceMB: 860),
-                AdvancedCleanupQueue(kind: .largeFiles, assetCount: 46, estimatedSpaceMB: 3_240),
-                AdvancedCleanupQueue(kind: .imageCompression, assetCount: 96, estimatedSpaceMB: 720),
-                AdvancedCleanupQueue(kind: .videoCompression, assetCount: 28, estimatedSpaceMB: 2_760),
-                AdvancedCleanupQueue(kind: .videos, assetCount: 62, estimatedSpaceMB: 7_800)
-            ].filter { AdvancedCleanupKind.visibleCases.contains($0.kind) }
-        )
-    }
-}
-
 struct AdvancedSimilarPhotoGroup: Identifiable {
     let assets: [PHAsset]
     let estimatedSpaceMB: Double
@@ -994,9 +870,6 @@ struct CleanupCelebration: Identifiable, Equatable {
     let estimatedSpaceSavedMB: Double
     let totalDeletedPhotos: Int
     let totalSpaceSavedMB: Double
-    let currentStreakDays: Int
-    let newAchievements: [CleanupAchievement]
-    let nextAchievementProgress: CleanupAchievementProgress?
     let date: Date
 
     init(
@@ -1007,9 +880,6 @@ struct CleanupCelebration: Identifiable, Equatable {
         estimatedSpaceSavedMB: Double,
         totalDeletedPhotos: Int,
         totalSpaceSavedMB: Double,
-        currentStreakDays: Int = 0,
-        newAchievements: [CleanupAchievement] = [],
-        nextAchievementProgress: CleanupAchievementProgress? = nil,
         date: Date = Date()
     ) {
         self.id = id
@@ -1019,9 +889,6 @@ struct CleanupCelebration: Identifiable, Equatable {
         self.estimatedSpaceSavedMB = estimatedSpaceSavedMB
         self.totalDeletedPhotos = totalDeletedPhotos
         self.totalSpaceSavedMB = totalSpaceSavedMB
-        self.currentStreakDays = currentStreakDays
-        self.newAchievements = newAchievements
-        self.nextAchievementProgress = nextAchievementProgress
         self.date = date
     }
 
