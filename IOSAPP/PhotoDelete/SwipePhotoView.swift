@@ -723,6 +723,16 @@ struct SwipePhotoView: View {
         .toolbar(.hidden, for: .tabBar)
         .navigationTitle(navigationHeaderTitle)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                PendingOperationCounter(
+                    deleteCount: pendingDeleteCount
+                ) {
+                    guard hasPendingOperations else { return }
+                    presentBatchConfirmation(dismissAfter: false)
+                }
+            }
+        }
         .sheet(item: $previewAsset) { previewAsset in
             CandidatePhotoPreviewView(
                 asset: previewAsset.asset,
@@ -827,25 +837,7 @@ struct SwipePhotoView: View {
 
     // MARK: - 导航栏
     private var navigationHeader: some View {
-        VStack(spacing: 10) {
-            HStack {
-                Text(headerProgressSubtitle)
-                    .font(.system(size: 14, weight: .regular))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.78)
-                    .monospacedDigit()
-
-                Spacer()
-
-                PendingOperationCounter(
-                    deleteCount: pendingDeleteCount
-                ) {
-                    guard hasPendingOperations else { return }
-                    presentBatchConfirmation(dismissAfter: false)
-                }
-            }
-
+        Group {
             if totalPhotosCount > 0 {
                 ProgressView(value: progressFraction)
                     .progressViewStyle(LinearProgressViewStyle(tint: PhotoDeleteStyle.accent))
@@ -855,8 +847,8 @@ struct SwipePhotoView: View {
             }
         }
         .padding(.horizontal, PhotoDeleteStyle.screenHorizontalPadding)
-        .padding(.top, 16)
-        .padding(.bottom, 12)
+        .padding(.top, 8)
+        .padding(.bottom, 10)
         .background(PhotoDeleteStyle.background.opacity(0.86))
         .overlay(
             Rectangle()
@@ -1828,10 +1820,6 @@ struct SwipePhotoView: View {
 
     private var navigationHeaderTitle: String {
         getDisplayTitle()
-    }
-
-    private var headerProgressSubtitle: String {
-        "\(L10n.string("已整理")) \(formattedCount(organizedProgress)) / \(formattedCount(totalPhotosCount))"
     }
 
     private func formattedCount(_ count: Int) -> String {
