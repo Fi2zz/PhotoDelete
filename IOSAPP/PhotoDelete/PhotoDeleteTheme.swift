@@ -1,19 +1,17 @@
 import SwiftUI
-
-#if canImport(UIKit)
 import UIKit
-#endif
 
-// Single fixed look: the former default sage palette. Theme switching was
-// removed for the personal build; appearance (light/dark/system) still applies.
+// Single fixed look: iOS system colors on a monochrome black/white accent.
+// Theme switching was removed for the personal build; appearance
+// (light/dark/system) still applies.
 enum PhotoDeleteTheme: String, CaseIterable, Identifiable, Equatable {
     // REASON: keeping the enum + environment API so the ~200 `theme.xxx` color
     // call sites keep compiling; collapsed to one case when theme selection
     // was removed. Clean up by inlining the palette if the environment is
     // ever refactored away.
-    case sage
+    case system
 
-    static let defaultTheme: PhotoDeleteTheme = .sage
+    static let defaultTheme: PhotoDeleteTheme = .system
 
     var id: String { rawValue }
 
@@ -62,11 +60,6 @@ enum PhotoDeleteTheme: String, CaseIterable, Identifiable, Equatable {
     var warmAccent: Color { secondaryAccent }
     var primaryButtonText: Color { buttonPrimaryText }
 
-    var swatches: [Color] {
-        [primaryAccent, secondaryAccent, backgroundBottom]
-    }
-
-    #if canImport(UIKit)
     var uiBackground: UIColor { palette.backgroundBottom.uiColor }
     var uiSurface: UIColor { palette.surface.uiColor }
     var uiHairline: UIColor { palette.hairline.uiColor }
@@ -83,26 +76,45 @@ enum PhotoDeleteTheme: String, CaseIterable, Identifiable, Equatable {
                 : UIColor.secondaryLabel
         }
     }
-    #endif
 
     private var palette: PhotoDeleteThemePalette {
         PhotoDeleteThemePalette(
-            backgroundTop: .init(light: .init(0.982, 0.980, 0.944), dark: .init(0.044, 0.052, 0.047)),
-            backgroundBottom: .init(light: .init(0.900, 0.928, 0.886), dark: .init(0.032, 0.038, 0.035)),
-            surface: .init(light: .init(1, 1, 1, 0.82), dark: .init(1, 1, 1, 0.075)),
-            elevatedSurface: .init(light: .init(1, 1, 1, 0.92), dark: .init(1, 1, 1, 0.11)),
-            cardStroke: .init(light: .init(0.22, 0.42, 0.34, 0.11), dark: .init(1, 1, 1, 0.115)),
-            hairline: .init(light: .init(0.22, 0.42, 0.34, 0.14), dark: .init(1, 1, 1, 0.115)),
-            floatingShadow: .init(light: .init(0, 0, 0, 0.07), dark: .init(0, 0, 0, 0.24)),
-            primaryAccent: .init(light: .init(0.18, 0.39, 0.31), dark: .init(0.62, 0.84, 0.72)),
-            primaryAccentPressed: .init(light: .init(0.12, 0.30, 0.23), dark: .init(0.50, 0.72, 0.60)),
-            primaryAccentOnFill: .init(light: .init(1, 1, 1), dark: .init(0.03, 0.04, 0.035)),
-            secondaryAccent: .init(light: .init(0.62, 0.52, 0.30), dark: .init(0.86, 0.78, 0.52)),
-            success: .init(light: .init(0.13, 0.46, 0.26), dark: .init(0.58, 0.88, 0.66)),
-            warning: .init(light: .init(0.70, 0.48, 0.12), dark: .init(0.95, 0.78, 0.43)),
-            danger: .init(light: .init(0.78, 0.16, 0.13), dark: .init(1.00, 0.44, 0.40)),
-            favorite: .init(light: .init(0.76, 0.22, 0.42), dark: .init(1.00, 0.62, 0.74))
+            backgroundTop: .init(ui: .systemGroupedBackground),
+            backgroundBottom: .init(ui: .systemGroupedBackground),
+            surface: .init(ui: .secondarySystemGroupedBackground),
+            elevatedSurface: .init(ui: .tertiarySystemGroupedBackground),
+            cardStroke: .init(ui: .separator),
+            hairline: .init(ui: .separator),
+            floatingShadow: .init(ui: UIColor.black.withAlphaComponent(0.12)),
+            primaryAccent: .init(ui: monochromeAccent),
+            primaryAccentPressed: .init(ui: monochromeAccentPressed),
+            primaryAccentOnFill: .init(ui: monochromeOnAccent),
+            secondaryAccent: .init(ui: .systemGray),
+            success: .init(ui: .systemGreen),
+            warning: .init(ui: .systemOrange),
+            danger: .init(ui: .systemRed),
+            favorite: .init(ui: .systemPink)
         )
+    }
+
+    private var monochromeAccent: UIColor {
+        UIColor { traits in
+            traits.userInterfaceStyle == .dark ? .white : .black
+        }
+    }
+
+    private var monochromeAccentPressed: UIColor {
+        UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(white: 0.82, alpha: 1)
+                : UIColor(white: 0.2, alpha: 1)
+        }
+    }
+
+    private var monochromeOnAccent: UIColor {
+        UIColor { traits in
+            traits.userInterfaceStyle == .dark ? .black : .white
+        }
     }
 }
 
@@ -125,49 +137,15 @@ private struct PhotoDeleteThemePalette {
 }
 
 private struct PhotoDeleteThemeColor {
-    let light: PhotoDeleteRGBA
-    let dark: PhotoDeleteRGBA
-
-    init(light: PhotoDeleteRGBA, dark: PhotoDeleteRGBA) {
-        self.light = light
-        self.dark = dark
-    }
+    let ui: UIColor
 
     var color: Color {
-        #if canImport(UIKit)
-        Color(uiColor: uiColor)
-        #else
-        Color(red: light.red, green: light.green, blue: light.blue).opacity(light.alpha)
-        #endif
+        Color(uiColor: ui)
     }
 
-    #if canImport(UIKit)
     var uiColor: UIColor {
-        UIColor { traits in
-            traits.userInterfaceStyle == .dark ? dark.uiColor : light.uiColor
-        }
+        ui
     }
-    #endif
-}
-
-private struct PhotoDeleteRGBA {
-    let red: CGFloat
-    let green: CGFloat
-    let blue: CGFloat
-    let alpha: CGFloat
-
-    init(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat = 1) {
-        self.red = red
-        self.green = green
-        self.blue = blue
-        self.alpha = alpha
-    }
-
-    #if canImport(UIKit)
-    var uiColor: UIColor {
-        UIColor(red: red, green: green, blue: blue, alpha: alpha)
-    }
-    #endif
 }
 
 private struct PhotoDeleteThemeEnvironmentKey: EnvironmentKey {
