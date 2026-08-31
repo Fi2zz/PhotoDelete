@@ -119,8 +119,7 @@ xcodebuild test \
 | `IOSAPP/PhotoDeleteTests/` | 单元测试 |
 | `IOSAPP/PhotoDeleteUITests/` | UI smoke tests |
 | `IOSAPP/Config/PhotoDelete-Info.plist` | 权限和 Bundle 配置 |
-| `site/` | 官网和隐私政策 |
-| `scripts/` | 模拟器解析和 TestFlight 发布脚本 |
+| `scripts/` | 模拟器辅助脚本 |
 
 ## 许可证
 
@@ -129,12 +128,7 @@ xcodebuild test \
 - **开源商用：免费。** 基于这份代码做产品、收费都可以，只要你的代码同样按 AGPL-3.0 开源。
 - **闭源商用：¥299。** 如果要商用且闭源，需要获得作者授权，授权费 299 元，一次买断。
 
-想申请闭源授权，请联系 [MakerJackie](https://x.com/makerjackie)。也可以直接扫下面的收款码：既是赞赏，也可以是 299 元闭源授权费。
-
-<p align="center">
-  <img src="site/assets/sponsor/wxpay.jpg" width="240" alt="微信支付" />
-  <img src="site/assets/sponsor/alipay.jpg" width="240" alt="支付宝" />
-</p>
+想申请闭源授权，请联系 [MakerJackie](https://x.com/makerjackie)。
 
 Copyright (c) 2025-2026 MakerJackie / 01MVP.
 

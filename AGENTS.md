@@ -59,8 +59,6 @@ xcodebuild test-without-building \
   CODE_SIGNING_ALLOWED=NO
 ```
 
-The GitHub Actions workflow in `.github/workflows/ios-ci.yml` follows this pattern on `macos-15` with Xcode 16.4.
-
 ### Full Simulator Test
 
 ```bash
@@ -81,19 +79,6 @@ rm -rf IOSAPP/DerivedData
 xcodebuild clean -project IOSAPP/PhotoDelete.xcodeproj -scheme PhotoDelete
 ```
 
-### TestFlight Release
-
-- TestFlight build numbers must use UTC+8 time in `yyyyMMddHHmm` format, matching Beijing/Shanghai local time. Do not generate release build numbers from UTC time.
-- Before uploading, make sure the new `CFBundleVersion` is numerically greater than the highest build already visible in App Store Connect/TestFlight; otherwise testers may not receive it as an update even if the upload succeeds.
-- Do not manually bump `MARKETING_VERSION` for every TestFlight upload. Reuse the current version while the pre-release train accepts new builds; if App Store Connect rejects the upload because the train is closed or `CFBundleShortVersionString` must be higher than the approved version, let `scripts/release-testflight.sh` auto-increment the last marketing-version component once, write it back to the Xcode project, and retry with a fresh UTC+8 build number.
-- The release script accepts an explicit override:
-
-```bash
-BUILD_NUMBER=202606111630 scripts/release-testflight.sh
-```
-
-`scripts/release-testflight.sh` runs tests unless `SKIP_TESTS=1`, checks that App Icon PNGs do not contain alpha channels, archives, exports, uploads to App Store Connect/TestFlight, and handles one automatic marketing-version retry when Apple closes the current train.
-
 ## Architecture
 
 ### App Shell
@@ -108,8 +93,7 @@ BUILD_NUMBER=202606111630 scripts/release-testflight.sh
 - `DataManager.swift`: Central observable state, candidate libraries, reviewed asset IDs, album lists, batch operations, advanced summaries, and cleanup statistics coordination.
 - `PhotoLibraryManager.swift`: Photos authorization, paged photo loading, classification into videos/screenshots/live photos/favorites, image/video requests, caching, write operations, and `PHPhotoLibraryChangeObserver`.
 - `LibrarySnapshotStore.swift`: Local JSON snapshots for photo-library and album-list IDs to speed up reloads.
-- `CleanupStatsStore.swift`: Local cleanup-session history, monthly summaries, streaks, and persisted cleanup totals.
-- `CleanupAchievements.swift`: Achievement definitions, progress, newly unlocked milestone evaluation.
+- `CleanupStatsStore.swift`: Local cleanup-session history and persisted cleanup totals.
 - `AppLanguage.swift`, `Localization.swift`, `Localizable.xcstrings`: Runtime language selection for system, `zh-Hans`, `zh-Hant`, and `en`.
 - `DesignSystem.swift`: Shared colors, layout constants, app constants, haptics, toasts, buttons, and permission cards.
 
@@ -119,15 +103,8 @@ BUILD_NUMBER=202606111630 scripts/release-testflight.sh
 - `SwipePhotoView.swift`: Core review UI. Contains card mode, two-row browser mode, gesture handling, local undo, album quick filing, `RealPhotoCard`, video/photo preview helpers, `BatchConfirmView`, and completion celebration.
 - `AlbumsView.swift`: User album listing, album order, create, rename, delete, and album detail flows. Do not imply that deleting an album deletes the photos inside it.
 - `AdvancedView.swift`: Efficient-cleanup queue detail screens for similar photos, large files, screenshots, videos, and image/video compression. Reached from the cleanup queue section in `HomeView.swift`.
-- `CleanupAchievementsView.swift`: Achievement list and progress display.
-- `CleanupHistorySections.swift`: Monthly summaries and cleanup history sections shown from the achievements screen.
+- `CleanupHistorySections.swift`: Monthly summary and cleanup history sections.
 - `GestureSettingsView.swift`: Gesture presets, review sort order, media playback, and haptics preferences. Opened from the review session in `SwipePhotoView.swift`.
-
-### Website And Marketing
-
-- `site/`: Static website and privacy policy. Deploys to Cloudflare Pages through `.github/workflows/deploy-site.yml`.
-- `Marketing/PhotoDeleteCampaign/`: App Store screenshots, actual iOS screenshots, promo copy, and screenshot generation assets.
-- `Marketing/PhotoDeleteCampaign/actual-ios-screenshots-v4/`: Preferred source for current real-app UI screenshots. Do not use older concept art as primary UI evidence when real screenshots are needed.
 
 ## Photo Management Workflow
 
@@ -155,10 +132,9 @@ BUILD_NUMBER=202606111630 scripts/release-testflight.sh
 
 ## Testing Strategy
 
-- Add or update unit tests in `IOSAPP/PhotoDeleteTests/` for model logic, stats, achievements, localization gates, snapshots, and pure data behavior.
+- Add or update unit tests in `IOSAPP/PhotoDeleteTests/` for model logic, stats, localization gates, snapshots, and pure data behavior.
 - Add UI smoke coverage in `IOSAPP/PhotoDeleteUITests/` for navigation surfaces that do not depend on a seeded real library.
 - Use a physical iPhone for end-to-end Photos write paths: permission prompt, limited access, delete confirmation, favorite write, album write, iCloud optimized storage, large libraries, and recovery after app backgrounding.
-- For App Store screenshot work, prefer a seeded simulator plus the real iOS app, then store outputs under `Marketing/PhotoDeleteCampaign/actual-ios-screenshots-*` or `appstore-upload/`.
 
 ## Development Guidelines
 
@@ -244,4 +220,3 @@ The app is no longer distributed; it runs as a personal build. The rules below s
 
 - `IOSAPP/DEBUGGING_GUIDE.md`: Photos setup, simulator vs real device notes, permission and performance debugging.
 - `IOSAPP/Config/PhotoDelete-Info.plist`: Source of truth for photo-library permission usage descriptions.
-- `RELEASE_CHECKLIST.md`: App Store/TestFlight readiness checklist.
