@@ -127,7 +127,6 @@ enum HomeCategoryCountDetailResolver {
 struct HomeView: View {
     @EnvironmentObject var dataManager: DataManager
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @AppStorage(AppConstants.hasSeenIntroKey) private var hasSeenPhotoDeleteIntro = false
     @State private var navigationPath = NavigationPath()
 
     var body: some View {
@@ -234,8 +233,7 @@ struct HomeView: View {
             if isLandscape {
                 HStack(alignment: .top, spacing: 22) {
                     VStack(spacing: 18) {
-                        introSection(isCompact: true)
-                        primaryOrganizeSection(isCompact: true)
+                                primaryOrganizeSection(isCompact: true)
                         locationOrganizeSection
                     }
                     .frame(maxWidth: .infinity)
@@ -248,8 +246,7 @@ struct HomeView: View {
                 }
             } else {
                 VStack(spacing: PhotoDeleteStyle.sectionSpacing) {
-                    introSection(isCompact: false)
-                    primaryOrganizeSection(isCompact: false)
+                        primaryOrganizeSection(isCompact: false)
                     locationOrganizeSection
                     secondaryEntrySection
                     timelineSection
@@ -257,70 +254,8 @@ struct HomeView: View {
             }
         } else {
             VStack(spacing: PhotoDeleteStyle.sectionSpacing) {
-                introSection(isCompact: false)
                 authorizationSection
             }
-        }
-    }
-
-    @ViewBuilder
-    private func introSection(isCompact: Bool) -> some View {
-        if !hasSeenPhotoDeleteIntro {
-            VStack(alignment: .leading, spacing: isCompact ? 12 : 14) {
-                HStack(alignment: .top, spacing: 12) {
-                    PhotoDeleteIconTile(
-                        icon: "hand.draw",
-                        size: 28,
-                        cornerRadius: 8
-                    )
-
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(L10n.string("快速上手"))
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                        Text(L10n.string("默认左滑删除、右滑保留、上滑收藏；想换手势，可以在整理页底部打开设置。"))
-                            .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(PhotoDeleteStyle.secondaryText)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                }
-
-                HStack(alignment: .top, spacing: 12) {
-                    PhotoDeleteIconTile(
-                        icon: "lock.shield",
-                        tint: PhotoDeleteStyle.positive,
-                        size: 28,
-                        cornerRadius: 8
-                    )
-
-                    Text(L10n.string("隐私优先：\(AppConstants.privacyShortText)"))
-                        .font(.system(size: 14, weight: .regular))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        hasSeenPhotoDeleteIntro = true
-                    }
-                } label: {
-                    Text(L10n.string("知道了"))
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(PhotoDeleteStyle.accent)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .photoDeleteMinimumTapTarget()
-                }
-                .buttonStyle(.plain)
-                .background(
-                    RoundedRectangle(cornerRadius: PhotoDeleteStyle.controlRadius, style: .continuous)
-                        .fill(PhotoDeleteStyle.elevatedSurface)
-                )
-            }
-            .padding(isCompact ? 16 : 18)
-            .photoDeleteCard()
-            .transition(.opacity.combined(with: .move(edge: .top)))
         }
     }
 

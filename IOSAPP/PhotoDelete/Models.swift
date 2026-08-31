@@ -212,8 +212,11 @@ enum SwipeGesturePreferences {
 
         let hasStoredGestureValues = leftValue != nil || rightValue != nil || upValue != nil
         let hasExistingReviewState = !(defaults.stringArray(forKey: AppConstants.reviewedAssetIDsKey) ?? []).isEmpty
-        let hasCompletedFirstRun = defaults.bool(forKey: AppConstants.hasCompletedOnboardingKey) ||
-            defaults.bool(forKey: AppConstants.hasSeenIntroKey)
+        // REASON: onboarding was removed, but pre-removal installs still carry
+        // these legacy first-run flags; keep reading them by raw key until the
+        // gesture migration version moves past devices that need it.
+        let hasCompletedFirstRun = defaults.bool(forKey: "hasCompletedPhotoDeleteOnboarding") ||
+            defaults.bool(forKey: "hasSeenPhotoDeleteIntro")
         let matchesImplicitLegacyDefault = !hasStoredGestureValues &&
             (hasExistingReviewState || hasCompletedFirstRun)
 

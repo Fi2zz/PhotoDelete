@@ -243,7 +243,7 @@ struct PhotoDeleteTests {
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
-        defaults.set(true, forKey: AppConstants.hasCompletedOnboardingKey)
+        defaults.set(true, forKey: "hasCompletedPhotoDeleteOnboarding")
 
         SwipeGesturePreferences.migrateStoredDefaultsIfNeeded(defaults: defaults)
 

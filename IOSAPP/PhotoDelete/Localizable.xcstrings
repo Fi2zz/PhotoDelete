@@ -2183,28 +2183,6 @@
         }
       }
     },
-    "不需要账号，也不会上传照片。最后一步才会由系统请求照片访问权限。" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No account is needed, and photos are never uploaded. The system asks for photo access only on the final step."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不需要账号，也不会上传照片。最后一步才会由系统请求照片访问权限。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不需要帳號，也不會上傳照片。最後一步才會由系統請求照片存取權限。"
-          }
-        }
-      }
-    },
     "严格" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -8008,40 +7986,6 @@
         }
       }
     },
-    "在手机上完成" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يتم على iPhone"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auf deinem iPhone erledigt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done on your phone"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iPhone上で完了"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在手機上完成"
-          }
-        }
-      }
-    },
     "地点" : {
       "localizations" : {
         "ar" : {
@@ -9190,46 +9134,6 @@
         }
       }
     },
-    "左滑删除，右滑保留" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اسحب لليسار للحذف، ولليمين للاحتفاظ"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Links löschen, rechts behalten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Swipe left to delete, right to keep"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "左で削除、右で保持"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "左滑删除，右滑保留"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "左滑刪除，右滑保留"
-          }
-        }
-      }
-    },
     "左滑删除，右滑保留，上滑收藏" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -9261,46 +9165,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "左滑刪除，右滑保留，上滑收藏"
-          }
-        }
-      }
-    },
-    "左滑删除，右滑保留，上滑收藏。点完成后再统一确认。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اسحب لليسار للحذف، ولليمين للاحتفاظ، وللأعلى للتفضيل. أكّد كل شيء في النهاية."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nach links wischen zum Löschen, nach rechts zum Behalten und nach oben zum Favorisieren. Bestätige alles am Ende."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Swipe left to delete, right to keep, and up to favorite. Confirm everything at the end."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "左にスワイプで削除、右で保持、上でお気に入り。最後にまとめて確認します。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "左滑删除，右滑保留，上滑收藏。点完成后再统一确认。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "左滑刪除，右滑保留，上滑收藏。點完成後再統一確認。"
           }
         }
       }
@@ -9873,40 +9737,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已歸類照片目前已隱藏，可在整理設定中重新顯示。"
-          }
-        }
-      }
-    },
-    "已恢复开屏引导" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "سيظهر الشرح الافتتاحي مجددًا"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intro wird wieder angezeigt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intro will be shown again"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "イントロを再表示します"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已恢復開屏引導"
           }
         }
       }
@@ -11508,46 +11338,6 @@
         }
       }
     },
-    "引导页" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "صفحات المقدمة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einführungsseiten"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intro pages"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "イントロページ"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "引导页"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "引導頁"
-          }
-        }
-      }
-    },
     "归类中" : {
       "localizations" : {
         "ar" : {
@@ -12426,40 +12216,6 @@
         }
       }
     },
-    "待确认列表" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مراجعة معلقة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ausstehende Prüfung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pending review"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保留中のレビュー"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "待確認列表"
-          }
-        }
-      }
-    },
     "微信反馈" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -12491,40 +12247,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "微信反饋"
-          }
-        }
-      }
-    },
-    "快速上手" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "بدء سريع"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schnellstart"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quick Start"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クイックスタート"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "快速上手"
           }
         }
       }
@@ -13168,46 +12890,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打開相冊頁管理相冊"
-          }
-        }
-      }
-    },
-    "找回更多空间" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "حرر مساحة أكبر"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mehr Speicher freigeben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Free up more space"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "空き容量を増やす"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "找回更多空间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "找回更多空間"
           }
         }
       }
@@ -19271,46 +18953,6 @@
         }
       }
     },
-    "照片不会上传" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لن يتم رفع الصور"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotos werden nicht hochgeladen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Photos are not uploaded"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写真はアップロードされません"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "照片不会上传"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "照片不會上傳"
-          }
-        }
-      }
-    },
     "照片信息" : {
       "localizations" : {
         "ar" : {
@@ -19735,46 +19377,6 @@
         }
       }
     },
-    "用滑动快速判断照片去留。想删除的照片会先进入待确认列表，完成前不会真正删除。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اسحب بسرعة لتحديد ما يبقى. الصور التي تريد حذفها تنتقل أولا إلى قائمة معلقة، ولن يتم حذف أي شيء حتى تنتهي."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wische, um schnell zu entscheiden, was bleibt. Fotos, die du löschen möchtest, landen zuerst in einer Warteliste und werden erst gelöscht, wenn du fertig bist."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Swipe quickly to decide what stays. Photos you want to delete go into a pending list first, and nothing is deleted until you finish."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スワイプで残す写真をすばやく判断します。削除したい写真はまず確認待ちリストに入り、完了するまで実際には削除されません。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "用滑动快速判断照片去留。想删除的照片会先进入待确认列表，完成前不会真正删除。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用滑動快速判斷照片去留。想刪除的照片會先進入待確認列表，完成前不會真正刪除。"
-          }
-        }
-      }
-    },
     "画质和体积的默认平衡，适合大多数照片。" : {
       "localizations" : {
         "ar" : {
@@ -19931,46 +19533,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "相似照片"
-          }
-        }
-      }
-    },
-    "相似照片、大文件、视频压缩和图片压缩集中在高级清理里，适合处理真正占空间的内容。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تم جمع الصور المشابهة والملفات الكبيرة وضغط الفيديو وضغط الصور ضمن التنظيف المتقدم للعناصر التي تشغل مساحة فعلا."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ähnliche Fotos, große Dateien, Video- und Bildkomprimierung sind unter Erweitertes Aufräumen gebündelt, für Inhalte, die wirklich Speicher belegen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Similar photos, large files, video compression, and image compression are grouped under Advanced Cleanup for the items that really take space."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "類似写真、大きなファイル、ビデオ圧縮、画像圧縮は高度なクリーンアップにまとめられ、容量を大きく使う項目の整理に適しています。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "相似照片、大文件、视频压缩和图片压缩集中在高级清理里，适合处理真正占空间的内容。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "相似照片、大檔案、影片壓縮和圖片壓縮集中在進階清理裡，適合處理真正佔空間的內容。"
           }
         }
       }
@@ -21038,46 +20600,6 @@
         }
       }
     },
-    "稍后也可以在设置里重新查看引导。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يمكنك عرض هذه المقدمة مرة أخرى لاحقا من الإعدادات."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du kannst diese Einführung später in den Einstellungen erneut anzeigen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can show this intro again later from Settings."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "この案内は後で設定からもう一度表示できます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "稍后也可以在设置里重新查看引导。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "稍後也可以在設定裡重新查看引導。"
-          }
-        }
-      }
-    },
     "稍后会显示可处理的照片和视频。" : {
       "localizations" : {
         "ar" : {
@@ -21195,46 +20717,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "直向"
-          }
-        }
-      }
-    },
-    "第 %lld/%lld 页" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الصفحة %1$lld من %2$lld"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seite %1$lld von %2$lld"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Page %1$lld of %2$lld"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld/%2$lld ページ"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "第 %1$lld/%2$lld 页"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "第 %1$lld/%2$lld 頁"
           }
         }
       }
@@ -24329,28 +23811,6 @@
         }
       }
     },
-    "选择照片访问权限" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose Photo Access"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择照片访问权限"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選擇照片存取權限"
-          }
-        }
-      }
-    },
     "选择要压缩的图片，完成后显示实际文件大小。" : {
       "localizations" : {
         "en" : {
@@ -24470,41 +23930,6 @@
         }
       }
     },
-    "重新查看引导" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إظهار المقدمة مجددا"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einführung erneut anzeigen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Intro Again"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "イントロをもう一度表示"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重新查看引導"
-          }
-        }
-      }
-    },
     "重试识别地名" : {
       "localizations" : {
         "ar" : {
@@ -24609,46 +24034,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "隱私優先"
-          }
-        }
-      }
-    },
-    "隐私优先：%@" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الخصوصية أولا: %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Datenschutz zuerst: %@"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Privacy first: %@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "プライバシー優先：%@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "隐私优先：%@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "隱私優先：%@"
           }
         }
       }
@@ -25596,46 +24981,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "預設不再顯示已加入使用者相簿的照片"
-          }
-        }
-      }
-    },
-    "默认左滑删除、右滑保留、上滑收藏；想换手势，可以在整理页底部打开设置。" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "افتراضيًا، اسحب لليسار للحذف، ولليمين للاحتفاظ، وللأعلى للإضافة إلى المفضلة. لتغيير الإيماءات، افتح الإعدادات أسفل شاشة المراجعة."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Standardmäßig löscht Wischen nach links, Wischen nach rechts behält und Wischen nach oben favorisiert. Zum Ändern der Gesten öffne unten im Prüfbildschirm die Einstellungen."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "By default, swipe left to delete, right to keep, and up to favorite. To change gestures, open settings at the bottom of the review screen."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "初期設定では、左スワイプで削除、右スワイプで保持、上スワイプでお気に入りに追加します。変更するには、確認画面下部の設定を開きます。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "默认左滑删除、右滑保留、上滑收藏；想换手势，可以在整理页底部打开设置。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "預設左滑刪除、右滑保留、上滑收藏；想換手勢，可以在整理頁底部打開設定。"
           }
         }
       }

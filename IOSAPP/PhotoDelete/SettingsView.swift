@@ -13,8 +13,6 @@ import UIKit
 struct SettingsView: View {
     @EnvironmentObject var dataManager: DataManager
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @AppStorage(AppConstants.hasSeenIntroKey) private var hasSeenPhotoDeleteIntro = false
-    @AppStorage(AppConstants.hasCompletedOnboardingKey) private var hasCompletedOnboarding = false
     @AppStorage(AppConstants.hapticsEnabledKey) private var hapticsEnabled = true
     @AppStorage(AppConstants.appLanguageKey) private var appLanguageValue = AppLanguage.system.rawValue
     @AppStorage(AppConstants.leftSwipeActionKey) private var leftSwipeActionValue = SwipeGesturePreset.standard.leftAction.rawValue
@@ -310,17 +308,6 @@ struct SettingsView: View {
                         dataManager.managePhotoLibraryAccessSettings()
                     }
                 )
-
-                Divider()
-                    .background(PhotoDeleteStyle.hairline)
-                    .padding(.horizontal, 16)
-
-                SettingRow(
-                    icon: "questionmark.circle",
-                    title: L10n.string("重新查看引导"),
-                    showsChevron: false,
-                    action: resetIntro
-                )
             }
             .photoDeleteCard()
         }
@@ -502,12 +489,6 @@ struct SettingsView: View {
     private func clearLocalOrganizeData() {
         dataManager.clearLocalOrganizeData()
         showSettingsToast(L10n.string("已清空本机整理记录"), icon: "checkmark.circle.fill", style: .positive)
-    }
-
-    private func resetIntro() {
-        hasSeenPhotoDeleteIntro = false
-        hasCompletedOnboarding = false
-        showSettingsToast(L10n.string("已恢复开屏引导"), icon: "sparkles", style: .positive)
     }
 
     private func requestAppReview() {

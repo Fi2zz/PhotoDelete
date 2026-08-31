@@ -88,22 +88,10 @@ private enum PhotoDeleteUITestDefaults {
             defaults.set(appAppearance, forKey: AppConstants.appAppearanceKey)
         }
 
-        setBool(
-            environment["PHOTO_DELETE_UI_TEST_HAS_COMPLETED_ONBOARDING"],
-            forKey: AppConstants.hasCompletedOnboardingKey,
-            defaults: defaults
-        )
-        setBool(
-            environment["PHOTO_DELETE_UI_TEST_HAS_SEEN_INTRO"],
-            forKey: AppConstants.hasSeenIntroKey,
-            defaults: defaults
-        )
     }
     private static func reset(_ defaults: UserDefaults) {
         [
             AppConstants.appLanguageKey,
-            AppConstants.hasCompletedOnboardingKey,
-            AppConstants.hasSeenIntroKey,
             AppConstants.recentOrganizedPhotosKey,
             AppConstants.reviewedAssetIDsKey,
             AppConstants.pendingDeleteCandidateIDsKey,
@@ -126,11 +114,6 @@ private enum PhotoDeleteUITestDefaults {
             AppConstants.customAlbumOrderKey,
             AppConstants.appAppearanceKey
         ].forEach(defaults.removeObject)
-    }
-
-    private static func setBool(_ rawValue: String?, forKey key: String, defaults: UserDefaults) {
-        guard let rawValue else { return }
-        defaults.set(rawValue == "1", forKey: key)
     }
 }
 #endif

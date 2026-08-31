@@ -15,37 +15,8 @@ final class PhotoDeleteUITests: XCTestCase {
     }
 
     @MainActor
-    func testOnboardingFlowCompletesToHome() throws {
-        installPhotoLibraryInterruptionMonitor()
-
-        let app = makeApp(completedOnboarding: false)
-        app.launch()
-
-        XCTAssertTrue(app.staticTexts["让照片整理变得简单"].waitForExistence(timeout: 10))
-        app.buttons["继续"].tap()
-
-        XCTAssertTrue(app.staticTexts["左滑删除，右滑保留"].waitForExistence(timeout: 3))
-        app.buttons["继续"].tap()
-
-        XCTAssertTrue(app.staticTexts["找回更多空间"].waitForExistence(timeout: 3))
-        app.buttons["继续"].tap()
-
-        XCTAssertTrue(app.staticTexts["照片不会上传"].waitForExistence(timeout: 3))
-        XCTAssertFalse(app.staticTexts["整理"].exists)
-        app.buttons["选择照片访问权限"].tap()
-        _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
-
-        XCTAssertTrue(
-            app.staticTexts["整理"].waitForExistence(timeout: 10) ||
-                app.staticTexts["需要访问照片库"].waitForExistence(timeout: 2) ||
-                app.staticTexts["随机浏览"].waitForExistence(timeout: 2) ||
-                app.staticTexts["没有可整理的照片"].waitForExistence(timeout: 2)
-        )
-    }
-
-    @MainActor
     func testHomeShowsActionableLibraryState() throws {
-        let app = makeApp(completedOnboarding: true)
+        let app = makeApp()
         app.launch()
 
         XCTAssertTrue(app.staticTexts["整理"].waitForExistence(timeout: 10))
@@ -59,7 +30,7 @@ final class PhotoDeleteUITests: XCTestCase {
 
     @MainActor
     func testProPaywallOffersAnnualAndLifetimePlans() throws {
-        let app = makeApp(completedOnboarding: true)
+        let app = makeApp()
         app.launch()
 
         XCTAssertTrue(app.staticTexts["整理"].waitForExistence(timeout: 10))
@@ -95,7 +66,7 @@ final class PhotoDeleteUITests: XCTestCase {
     func testSeededAlbumsTabAndReviewAlbumFilingShortcut() throws {
         installPhotoLibraryInterruptionMonitor(allowDeletionConfirmation: true)
 
-        let app = makeApp(completedOnboarding: true, seedLibrary: true)
+        let app = makeApp(seedLibrary: true)
         app.launch()
         _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
         dismissMarketingSystemPrompts(app: app, allowDeletionConfirmation: true)
@@ -234,7 +205,7 @@ final class PhotoDeleteUITests: XCTestCase {
     func testReviewAlbumShortcutsLoadWithoutOpeningAlbumsTab() throws {
         installPhotoLibraryInterruptionMonitor(allowDeletionConfirmation: true)
 
-        let app = makeApp(completedOnboarding: true, seedLibrary: true)
+        let app = makeApp(seedLibrary: true)
         app.launch()
         _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
 
@@ -299,7 +270,7 @@ final class PhotoDeleteUITests: XCTestCase {
     func testSeededReviewCanRapidlyFileSeveralPhotosAcrossWritableAlbums() throws {
         installPhotoLibraryInterruptionMonitor(allowDeletionConfirmation: true)
 
-        let app = makeApp(completedOnboarding: true, seedLibrary: true)
+        let app = makeApp(seedLibrary: true)
         app.launch()
         _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
         dismissMarketingSystemPrompts(app: app, allowDeletionConfirmation: true)
@@ -459,7 +430,7 @@ final class PhotoDeleteUITests: XCTestCase {
     func testFavoriteButtonTogglesFavoriteStatus() throws {
         installPhotoLibraryInterruptionMonitor(allowDeletionConfirmation: true)
 
-        let app = makeApp(completedOnboarding: true, seedLibrary: true)
+        let app = makeApp(seedLibrary: true)
         app.launch()
         _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
 
@@ -514,7 +485,7 @@ final class PhotoDeleteUITests: XCTestCase {
     func testSimilarPhotoPreviewCanMarkCurrentAssetForDeletion() throws {
         installPhotoLibraryInterruptionMonitor(allowDeletionConfirmation: true)
 
-        let app = makeApp(completedOnboarding: true, seedLibrary: true, supporterTrialActive: true)
+        let app = makeApp(seedLibrary: true)
         app.launch()
         _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
 
@@ -593,7 +564,7 @@ final class PhotoDeleteUITests: XCTestCase {
     func testInlineVideoScrubberDoesNotBlockPlaybackControlsOrCardSwipe() throws {
         installPhotoLibraryInterruptionMonitor(allowDeletionConfirmation: true)
 
-        let app = makeApp(completedOnboarding: true, seedLibrary: true)
+        let app = makeApp(seedLibrary: true)
         app.launch()
         _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
 
@@ -665,7 +636,7 @@ final class PhotoDeleteUITests: XCTestCase {
     func testInlineVideoCanOpenFullPreviewWithPlaybackControls() throws {
         installPhotoLibraryInterruptionMonitor(allowDeletionConfirmation: true)
 
-        let app = makeApp(completedOnboarding: true, seedLibrary: true)
+        let app = makeApp(seedLibrary: true)
         app.launch()
         _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
 
@@ -749,7 +720,7 @@ final class PhotoDeleteUITests: XCTestCase {
 
     @MainActor
     func testSettingsTabShowsCoreControls() throws {
-        let app = makeApp(completedOnboarding: true)
+        let app = makeApp()
         app.launch()
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
@@ -779,7 +750,7 @@ final class PhotoDeleteUITests: XCTestCase {
 
     @MainActor
     func testGestureSettingsShowsHapticFeedbackToggle() throws {
-        let app = makeApp(completedOnboarding: true)
+        let app = makeApp()
         app.launch()
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
@@ -811,7 +782,7 @@ final class PhotoDeleteUITests: XCTestCase {
 
     @MainActor
     func testSettingsKeepsWeChatOutOfFeedbackSectionOutsideSimplifiedChinese() throws {
-        let app = makeApp(completedOnboarding: true, appLanguage: "en")
+        let app = makeApp(appLanguage: "en")
         app.launch()
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
@@ -826,7 +797,7 @@ final class PhotoDeleteUITests: XCTestCase {
 
     @MainActor
     func testAdvancedTabUpdatesAfterLanguageChangeInSettings() throws {
-        let app = makeApp(completedOnboarding: true)
+        let app = makeApp()
         app.launch()
 
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
@@ -885,10 +856,8 @@ final class PhotoDeleteUITests: XCTestCase {
         try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
 
         let app = makeApp(
-            completedOnboarding: true,
             appLanguage: appLanguage,
-            seedLibrary: shouldSeedLibrary,
-            supporterTrialActive: true
+            seedLibrary: shouldSeedLibrary
         )
         app.launch()
         _ = allowFullPhotoLibraryAccessIfNeeded(app: app)
@@ -1023,10 +992,8 @@ final class PhotoDeleteUITests: XCTestCase {
         try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
 
         let app = makeApp(
-            completedOnboarding: true,
             appLanguage: appLanguage,
-            seedLibrary: false,
-            supporterTrialActive: true
+            seedLibrary: false
         )
         app.launch()
         XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10))
@@ -1069,20 +1036,15 @@ final class PhotoDeleteUITests: XCTestCase {
     }
 
     private func makeApp(
-        completedOnboarding: Bool,
         appLanguage: String = "zh-Hans",
-        seedLibrary: Bool = false,
-        supporterTrialActive: Bool = false
+        seedLibrary: Bool = false
     ) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchEnvironment = [
             AppLaunchEnvironmentKey.isUITest: "1",
             AppLaunchEnvironmentKey.appLanguage: appLanguage,
             AppLaunchEnvironmentKey.appAppearance: "light",
-            AppLaunchEnvironmentKey.seedLibrary: seedLibrary ? "1" : "0",
-            AppLaunchEnvironmentKey.hasCompletedOnboarding: completedOnboarding ? "1" : "0",
-            AppLaunchEnvironmentKey.hasSeenIntro: completedOnboarding ? "1" : "0",
-            AppLaunchEnvironmentKey.supporterTrialActive: supporterTrialActive ? "1" : "0"
+            AppLaunchEnvironmentKey.seedLibrary: seedLibrary ? "1" : "0"
         ]
         return app
     }
@@ -1620,7 +1582,4 @@ private enum AppLaunchEnvironmentKey {
     static let appLanguage = "PHOTO_DELETE_UI_TEST_APP_LANGUAGE"
     static let appAppearance = "PHOTO_DELETE_UI_TEST_APP_APPEARANCE"
     static let seedLibrary = "PHOTO_DELETE_UI_TEST_SEED_LIBRARY"
-    static let hasCompletedOnboarding = "PHOTO_DELETE_UI_TEST_HAS_COMPLETED_ONBOARDING"
-    static let hasSeenIntro = "PHOTO_DELETE_UI_TEST_HAS_SEEN_INTRO"
-    static let supporterTrialActive = "PHOTO_DELETE_UI_TEST_SUPPORTER_TRIAL_ACTIVE"
 }
