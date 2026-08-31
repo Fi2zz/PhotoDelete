@@ -5010,26 +5010,19 @@ private struct PendingOperationCounter: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 5) {
+            HStack(spacing: 4) {
                 Image(systemName: "trash")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(isActive ? PhotoDeleteStyle.accent : PhotoDeleteStyle.tertiaryText)
 
                 Text("\(count)")
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(isActive ? PhotoDeleteStyle.primaryText : PhotoDeleteStyle.secondaryText)
+                    .monospacedDigit()
+                    .foregroundColor(isActive ? PhotoDeleteStyle.accent : PhotoDeleteStyle.tertiaryText)
                     .lineLimit(1)
                     .minimumScaleFactor(0.78)
             }
-            .frame(width: 50, height: 38)
-            .background(
-                Capsule(style: .continuous)
-                    .fill(isActive ? PhotoDeleteStyle.accent.opacity(0.12) : PhotoDeleteStyle.surface)
-                    .overlay(
-                        Capsule(style: .continuous)
-                            .stroke(isActive ? PhotoDeleteStyle.accent.opacity(0.26) : PhotoDeleteStyle.cardStroke, lineWidth: 1)
-                    )
-            )
+            .photoDeleteMinimumTapTarget()
         }
         .buttonStyle(PhotoDeletePressScaleButtonStyle())
         .disabled(!isActive)
