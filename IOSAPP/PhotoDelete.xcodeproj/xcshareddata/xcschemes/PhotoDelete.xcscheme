@@ -72,9 +72,6 @@
             ReferencedContainer = "container:PhotoDelete.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <StoreKitConfigurationFileReference
-         identifier = "container:PhotoDelete/PhotoDelete.storekit">
-      </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

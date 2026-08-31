@@ -24,7 +24,6 @@ struct PhotoDeleteApp: App {
             forKey: AppConstants.appThemeKey,
             fallback: PhotoDeleteTheme.defaultTheme.rawValue
         )
-    @StateObject private var purchaseManager = PurchaseManager()
 
     init() {
         SwipeGesturePreferences.migrateStoredDefaultsIfNeeded()
@@ -34,7 +33,6 @@ struct PhotoDeleteApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(purchaseManager)
                 .environment(\.locale, selectedLanguage.locale)
                 .modifier(AppLayoutDirectionModifier(language: selectedLanguage))
                 .environment(\.photoDeleteTheme, selectedTheme)
@@ -53,8 +51,7 @@ struct PhotoDeleteApp: App {
     }
 
     private var selectedTheme: PhotoDeleteTheme {
-        guard purchaseManager.isSupporter else { return .defaultTheme }
-        return PhotoDeleteTheme.normalized(appThemeValue)
+        PhotoDeleteTheme.normalized(appThemeValue)
     }
 }
 
@@ -110,12 +107,7 @@ private enum PhotoDeleteUITestDefaults {
             forKey: AppConstants.hasSeenIntroKey,
             defaults: defaults
         )
-
-        if environment["PHOTO_DELETE_UI_TEST_SUPPORTER_TRIAL_ACTIVE"] == "1" {
-            defaults.set(Date(), forKey: AppConstants.supporterTrialStartDateKey)
-        }
     }
-
     private static func reset(_ defaults: UserDefaults) {
         [
             AppConstants.appLanguageKey,
@@ -142,12 +134,7 @@ private enum PhotoDeleteUITestDefaults {
             AppConstants.reviewProgressByScopeKey,
             AppConstants.customAlbumOrderKey,
             AppConstants.appAppearanceKey,
-            AppConstants.appThemeKey,
-            AppConstants.supporterEntitlementKey,
-            AppConstants.supporterPurchaseDateKey,
-            AppConstants.supporterProductIDKey,
-            AppConstants.supporterExpirationDateKey,
-            AppConstants.supporterTrialStartDateKey
+            AppConstants.appThemeKey
         ].forEach(defaults.removeObject)
     }
 

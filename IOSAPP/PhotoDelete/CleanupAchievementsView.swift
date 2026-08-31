@@ -286,9 +286,9 @@ struct CleanupAchievementsView: View {
         VStack(spacing: 16) {
             RecentOrganizedPhotosSection(dataManager: dataManager)
 
-            SupporterMonthlySection(summaries: statsStore.monthlySummaries)
+            CleanupMonthlySummarySection(summaries: statsStore.monthlySummaries)
 
-            SupporterHistorySection(sessions: Array(statsStore.sessions.prefix(50)))
+            CleanupSessionHistorySection(sessions: Array(statsStore.sessions.prefix(50)))
 
             Button(role: .destructive) {
                 showingClearConfirmation = true

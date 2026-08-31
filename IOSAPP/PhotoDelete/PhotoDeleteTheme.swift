@@ -15,31 +15,12 @@ enum PhotoDeleteTheme: String, CaseIterable, Identifiable, Equatable {
     var id: String { rawValue }
 
     static var current: PhotoDeleteTheme {
-        guard hasStoredThemeAccess else { return defaultTheme }
-        return normalized(UserDefaults.standard.string(forKey: AppConstants.appThemeKey))
+        normalized(UserDefaults.standard.string(forKey: AppConstants.appThemeKey))
     }
 
     static func normalized(_ rawValue: String?) -> PhotoDeleteTheme {
         guard let rawValue else { return defaultTheme }
         return PhotoDeleteTheme(rawValue: rawValue) ?? defaultTheme
-    }
-
-    private static var hasStoredThemeAccess: Bool {
-        let defaults = UserDefaults.standard
-        if SupporterCachedEntitlementPolicy.isValid(
-            isUnlocked: defaults.bool(forKey: AppConstants.supporterEntitlementKey),
-            productID: defaults.string(forKey: AppConstants.supporterProductIDKey),
-            expirationDate: defaults.object(forKey: AppConstants.supporterExpirationDateKey) as? Date,
-            now: .now
-        ) {
-            return true
-        }
-
-        guard let trialStartDate = defaults.object(forKey: AppConstants.supporterTrialStartDateKey) as? Date else {
-            return false
-        }
-
-        return Date.now < trialStartDate.addingTimeInterval(AppConstants.supporterTrialDuration)
     }
 
     var title: String {
