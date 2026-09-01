@@ -701,6 +701,23 @@ private struct ImageCompressionOutput {
     let outputDimensions: CGSize
 }
 
+enum PhotoThumbnailQuality {
+    case fast
+    case precise
+
+    var deliveryMode: PHImageRequestOptionsDeliveryMode {
+        self == .fast ? .fastFormat : .highQualityFormat
+    }
+
+    var resizeMode: PHImageRequestOptionsResizeMode {
+        self == .fast ? .fast : .exact
+    }
+
+    var cachePurpose: String {
+        self == .fast ? "albumList" : "albumList.precise"
+    }
+}
+
 class PhotoLibraryManager: NSObject, ObservableObject {
     @Published var authorizationStatus: PHAuthorizationStatus = .notDetermined
     @Published var allPhotos: [PHAsset] = []
@@ -1418,9 +1435,10 @@ class PhotoLibraryManager: NSObject, ObservableObject {
     func loadAlbumListThumbnail(
         for asset: PHAsset,
         size: CGSize,
+        quality: PhotoThumbnailQuality = .fast,
         completion: @escaping (UIImage?) -> Void
     ) -> PHImageRequestID? {
-        let cacheKey = imageCacheKey(for: asset, purpose: "albumList", size: size)
+        let cacheKey = imageCacheKey(for: asset, purpose: quality.cachePurpose, size: size)
 
         if let cachedImage = imageCache.object(forKey: cacheKey) {
             completion(cachedImage)
@@ -1428,8 +1446,8 @@ class PhotoLibraryManager: NSObject, ObservableObject {
         }
 
         let options = PHImageRequestOptions()
-        options.deliveryMode = .fastFormat
-        options.resizeMode = .fast
+        options.deliveryMode = quality.deliveryMode
+        options.resizeMode = quality.resizeMode
         options.isNetworkAccessAllowed = false
         options.isSynchronous = false
 

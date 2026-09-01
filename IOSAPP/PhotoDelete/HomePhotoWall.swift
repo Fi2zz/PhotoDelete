@@ -7,10 +7,11 @@ import SwiftUI
 import Photos
 
 enum PhotoWallConfiguration {
-    static let maxAssets = 36
-    static let rowCount = 3
+    static let maxAssets = 48
+    static let rowCount = 4
     static let tileSide: CGFloat = 104
     static let tileGap: CGFloat = 1
+    static let pixelScale: CGFloat = 3
 
     static func columnCount(assetCount: Int) -> Int {
         guard assetCount > 0 else { return 0 }

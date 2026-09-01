@@ -14,8 +14,8 @@ struct HomePhotoWallTile: View {
 
     private var pixelSize: CGSize {
         CGSize(
-            width: PhotoWallConfiguration.tileSide * 2,
-            height: PhotoWallConfiguration.tileSide * 2
+            width: PhotoWallConfiguration.tileSide * PhotoWallConfiguration.pixelScale,
+            height: PhotoWallConfiguration.tileSide * PhotoWallConfiguration.pixelScale
         )
     }
 
@@ -38,7 +38,11 @@ struct HomePhotoWallTile: View {
     }
 
     private func loadThumbnail() {
-        photoLibraryManager.loadAlbumListThumbnail(for: asset, size: pixelSize) { loaded in
+        photoLibraryManager.loadAlbumListThumbnail(
+            for: asset,
+            size: pixelSize,
+            quality: .precise
+        ) { loaded in
             if let loaded {
                 image = loaded
             }

@@ -401,38 +401,16 @@ struct HomeView: View {
 
     // MARK: - 主整理入口
     private func startOrganizingSection(isCompact: Bool, pagePadding: CGFloat) -> some View {
-        VStack(alignment: .leading, spacing: isCompact ? 16 : 18) {
-            HStack(alignment: .top, spacing: 14) {
-                PhotoDeleteIconTile(
-                    icon: "photo.on.rectangle",
-                    size: isCompact ? 42 : 48,
-                    cornerRadius: 13,
-                    filled: false
-                )
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(L10n.string("整理全部照片"))
-                        .font(.system(size: isCompact ? 21 : 24, weight: .semibold))
-                        .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                    Text(L10n.string("从全部照片开始，按你的节奏逐张整理。"))
-                        .font(.system(size: 15, weight: .regular))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-
-            Button {
-                navigationPath.append(SwipeViewDestination.category(.all))
-            } label: {
-                HomePhotoWall(
-                    assets: recentWallAssets,
-                    photoLibraryManager: dataManager.photoLibraryManager
-                )
-            }
-            .buttonStyle(.plain)
-            .padding(.horizontal, isCompact ? 0 : -pagePadding)
+        Button {
+            navigationPath.append(SwipeViewDestination.category(.all))
+        } label: {
+            HomePhotoWall(
+                assets: recentWallAssets,
+                photoLibraryManager: dataManager.photoLibraryManager
+            )
         }
+        .buttonStyle(.plain)
+        .padding(.horizontal, isCompact ? 0 : -pagePadding)
     }
 
     private var recentWallAssets: [PHAsset] {
