@@ -10,11 +10,11 @@ The project is licensed under AGPL-3.0. Do not relicense it, and do not describe
 - When the work can be split cleanly, use independent subagents for non-overlapping read-only research or disjoint file scopes, then integrate and verify in the main thread.
 - Treat the worktree as shared. Check `git status --short` before edits, do not revert user changes, and keep staging/commits narrowly scoped when asked to commit.
 - Public UI text must be concise, user-facing, and localized through `L10n` / `Localizable.xcstrings`. Avoid leaking raw technical failures unless they are only for diagnostics.
-- The app is personal-use only and is not distributed on the App Store. There is no StoreKit IAP, no paywall, and no in-app feedback channel; all features are always unlocked.
+- The app is distributed on the App Store. There is no StoreKit IAP, no paywall, and no in-app feedback channel; all features are always unlocked.
 
 ## Project Overview
 
-PhotoDelete is an iOS 16+ SwiftUI app for organizing and cleaning a real Photos library. The app uses swipe gestures, a safe candidate library, batch confirmation, album management, local cleanup history, advanced statistics, and cleanup queues. All features are free and always unlocked; there is no StoreKit purchase flow.
+PhotoDelete is an iOS 26+ SwiftUI app for organizing and cleaning a real Photos library. The app uses swipe gestures, a safe candidate library, batch confirmation, album management, local cleanup history, advanced statistics, and cleanup queues. All features are free and always unlocked; there is no StoreKit purchase flow.
 
 Privacy positioning is part of the product: no account is required, photos are processed on-device, and the app does not upload photos, videos, library contents, or cleanup decisions.
 

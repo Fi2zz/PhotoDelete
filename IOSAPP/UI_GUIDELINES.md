@@ -26,8 +26,8 @@ HTML prototypes and visual explorations must not define current app behavior.
 - Prefer system `NavigationStack`, toolbar, tab bar, sheet, and button behavior
   before adding custom glass surfaces.
 - Use iOS 26 Liquid Glass APIs only for interactive controls or floating chrome
-  that genuinely need custom treatment, and always provide an `#available`
-  fallback for iOS 16-25.
+  that genuinely need custom treatment. The app targets iOS 26+ only, so native
+  glass APIs can be used directly without availability checks.
 - Do not layer opaque custom backgrounds over system bars unless there is a
   deliberate product reason.
 

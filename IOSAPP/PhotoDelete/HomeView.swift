@@ -376,29 +376,12 @@ struct HomeView: View {
     // MARK: - 空照片库区域
     private var emptyLibrarySection: some View {
         VStack(spacing: 16) {
-            if #available(iOS 17.0, *) {
-                ContentUnavailableView(
-                    L10n.string("没有可整理的照片"),
-                    systemImage: "photo.on.rectangle.angled",
-                    description: Text(L10n.string("当前授权范围内没有照片。您可以在系统设置里调整删图的照片访问范围。"))
-                )
-                .foregroundStyle(PhotoDeleteStyle.secondaryText)
-            } else {
-                VStack(spacing: 16) {
-                    Image(systemName: "photo.on.rectangle.angled")
-                        .font(.system(size: 52, weight: .medium))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-
-                    Text(L10n.string("没有可整理的照片"))
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                    Text(L10n.string("当前授权范围内没有照片。您可以在系统设置里调整删图的照片访问范围。"))
-                        .font(.system(size: 15, weight: .regular))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-                        .multilineTextAlignment(.center)
-                }
-            }
+            ContentUnavailableView(
+                L10n.string("没有可整理的照片"),
+                systemImage: "photo.on.rectangle.angled",
+                description: Text(L10n.string("当前授权范围内没有照片。您可以在系统设置里调整删图的照片访问范围。"))
+            )
+            .foregroundStyle(PhotoDeleteStyle.secondaryText)
 
             Button {
                 dataManager.managePhotoLibraryAccessSettings()

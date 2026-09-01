@@ -5348,31 +5348,12 @@ private struct AdvancedEmptyState: View {
 
     var body: some View {
         Group {
-            if #available(iOS 17.0, *) {
-                ContentUnavailableView(
-                    title,
-                    systemImage: icon,
-                    description: Text(subtitle)
-                )
-                .foregroundStyle(PhotoDeleteStyle.secondaryText)
-            } else {
-                VStack(spacing: 12) {
-                    Image(systemName: icon)
-                        .font(.system(size: 38, weight: .medium))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-
-                    VStack(spacing: 5) {
-                        Text(title)
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                        Text(subtitle)
-                            .font(.system(size: 13, weight: .regular))
-                            .foregroundColor(PhotoDeleteStyle.secondaryText)
-                            .multilineTextAlignment(.center)
-                    }
-                }
-            }
+            ContentUnavailableView(
+                title,
+                systemImage: icon,
+                description: Text(subtitle)
+            )
+            .foregroundStyle(PhotoDeleteStyle.secondaryText)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 42)

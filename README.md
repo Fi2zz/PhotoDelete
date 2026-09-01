@@ -10,7 +10,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg" alt="AGPL-3.0" />
-  <img src="https://img.shields.io/badge/iOS-16.0%2B-blue" alt="iOS 16.0+" />
+  <img src="https://img.shields.io/badge/iOS-26.0%2B-blue" alt="iOS 26.0+" />
   <img src="https://img.shields.io/badge/SwiftUI-✓-orange" alt="SwiftUI" />
   <img src="https://img.shields.io/badge/Privacy-本机处理-brightgreen" alt="本机处理" />
 </p>
@@ -78,8 +78,8 @@ Vibe coding 之后，同样的相册清理被重做了太多次。没有必要�
 
 要求：
 
-- Xcode 16.4+
-- iOS 16.0+
+- Xcode 26+
+- iOS 26.0+
 - 模拟器适合做界面；Photos、iCloud 照片、有限照片库、真实删除/收藏建议用真机验证
 
 ```bash

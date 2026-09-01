@@ -311,30 +311,12 @@ struct AlbumsView: View {
 
     private var emptyRow: some View {
         Group {
-            if #available(iOS 17.0, *) {
-                ContentUnavailableView(
-                    emptyTitle,
-                    systemImage: searchText.isEmpty ? "photo.stack" : "magnifyingglass",
-                    description: Text(emptyMessage)
-                )
-                .foregroundStyle(PhotoDeleteStyle.secondaryText)
-            } else {
-                VStack(spacing: 18) {
-                    Image(systemName: searchText.isEmpty ? "photo.stack" : "magnifyingglass")
-                        .font(.system(size: 44, weight: .medium))
-                        .foregroundColor(PhotoDeleteStyle.secondaryText)
-
-                    VStack(spacing: 6) {
-                        Text(emptyTitle)
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                        Text(emptyMessage)
-                            .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(PhotoDeleteStyle.secondaryText)
-                    }
-                }
-            }
+            ContentUnavailableView(
+                emptyTitle,
+                systemImage: searchText.isEmpty ? "photo.stack" : "magnifyingglass",
+                description: Text(emptyMessage)
+            )
+            .foregroundStyle(PhotoDeleteStyle.secondaryText)
         }
         .frame(maxWidth: .infinity)
         .padding(.top, 58)

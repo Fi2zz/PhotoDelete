@@ -10,7 +10,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg" alt="AGPL-3.0" />
-  <img src="https://img.shields.io/badge/iOS-16.0%2B-blue" alt="iOS 16.0+" />
+  <img src="https://img.shields.io/badge/iOS-26.0%2B-blue" alt="iOS 26.0+" />
   <img src="https://img.shields.io/badge/SwiftUI-✓-orange" alt="SwiftUI" />
   <img src="https://img.shields.io/badge/Privacy-On--Device-brightgreen" alt="On-device privacy" />
 </p>
@@ -78,8 +78,8 @@ If you want a structured path for building AI products, see [01MVP](https://01mv
 
 Requirements:
 
-- Xcode 16.4+
-- iOS 16.0+
+- Xcode 26+
+- iOS 26.0+
 - Simulator is fine for UI work. Use a real iPhone for Photos, iCloud Photos, limited library access, and real delete / favorite writes.
 
 ```bash
