@@ -136,19 +136,17 @@ struct HomeView: View {
                     in: geometry.size,
                     horizontalSizeClass: horizontalSizeClass
                 )
+                let pagePadding = PhotoDeleteAdaptiveLayout.homeHorizontalPadding(
+                    in: geometry.size,
+                    horizontalSizeClass: horizontalSizeClass
+                )
 
                 ZStack {
                     PhotoDeleteScreenBackground()
 
                     ScrollView {
-                        homeContent(isLandscape: usesExpandedLayout)
-                            .padding(
-                                .horizontal,
-                                PhotoDeleteAdaptiveLayout.homeHorizontalPadding(
-                                    in: geometry.size,
-                                    horizontalSizeClass: horizontalSizeClass
-                                )
-                            )
+                        homeContent(isLandscape: usesExpandedLayout, pagePadding: pagePadding)
+                            .padding(.horizontal, pagePadding)
                             .padding(
                                 .top,
                                 PhotoDeleteAdaptiveLayout.homeTopPadding(
@@ -225,12 +223,12 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    private func homeContent(isLandscape: Bool) -> some View {
+    private func homeContent(isLandscape: Bool, pagePadding: CGFloat) -> some View {
         if libraryContentState != .needsAuthorization {
             if isLandscape {
                 HStack(alignment: .top, spacing: 22) {
                     VStack(spacing: 18) {
-                                primaryOrganizeSection(isCompact: true)
+                                primaryOrganizeSection(isCompact: true, pagePadding: pagePadding)
                         locationOrganizeSection
                         albumListSection
                     }
@@ -244,7 +242,7 @@ struct HomeView: View {
                 }
             } else {
                 VStack(spacing: PhotoDeleteStyle.sectionSpacing) {
-                        primaryOrganizeSection(isCompact: false)
+                        primaryOrganizeSection(isCompact: false, pagePadding: pagePadding)
                     locationOrganizeSection
                     albumListSection
                     secondaryEntrySection
@@ -273,14 +271,14 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    private func primaryOrganizeSection(isCompact: Bool) -> some View {
+    private func primaryOrganizeSection(isCompact: Bool, pagePadding: CGFloat) -> some View {
         switch libraryContentState {
         case .preparing:
             libraryScanningSection
         case .empty:
             emptyLibrarySection
         case .available:
-            startOrganizingSection(isCompact: isCompact)
+            startOrganizingSection(isCompact: isCompact, pagePadding: pagePadding)
         case .needsAuthorization:
             EmptyView()
         }
@@ -402,7 +400,7 @@ struct HomeView: View {
     }
 
     // MARK: - 主整理入口
-    private func startOrganizingSection(isCompact: Bool) -> some View {
+    private func startOrganizingSection(isCompact: Bool, pagePadding: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: isCompact ? 16 : 18) {
             HStack(alignment: .top, spacing: 14) {
                 PhotoDeleteIconTile(
@@ -433,6 +431,7 @@ struct HomeView: View {
                 )
             }
             .buttonStyle(.plain)
+            .padding(.horizontal, isCompact ? 0 : -pagePadding)
         }
     }
 
