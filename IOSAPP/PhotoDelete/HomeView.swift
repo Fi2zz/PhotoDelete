@@ -140,13 +140,18 @@ struct HomeView: View {
                     in: geometry.size,
                     horizontalSizeClass: horizontalSizeClass
                 )
+                let pageWidth = geometry.size.width
 
                 ZStack {
                     PhotoDeleteScreenBackground()
 
                     ScrollView {
-                        homeContent(isLandscape: usesExpandedLayout, pagePadding: pagePadding)
-                            .padding(.horizontal, pagePadding)
+                        homeContent(
+                            isLandscape: usesExpandedLayout,
+                            pagePadding: pagePadding,
+                            pageWidth: pageWidth
+                        )
+                        .padding(.horizontal, pagePadding)
                             .padding(
                                 .top,
                                 PhotoDeleteAdaptiveLayout.homeTopPadding(
@@ -223,12 +228,16 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    private func homeContent(isLandscape: Bool, pagePadding: CGFloat) -> some View {
+    private func homeContent(isLandscape: Bool, pagePadding: CGFloat, pageWidth: CGFloat) -> some View {
         if libraryContentState != .needsAuthorization {
             if isLandscape {
                 HStack(alignment: .top, spacing: 22) {
                     VStack(spacing: 18) {
-                                primaryOrganizeSection(isCompact: true, pagePadding: pagePadding)
+                                primaryOrganizeSection(
+                                    isCompact: true,
+                                    pagePadding: pagePadding,
+                                    pageWidth: pageWidth
+                                )
                         locationOrganizeSection
                         albumListSection
                     }
@@ -242,7 +251,11 @@ struct HomeView: View {
                 }
             } else {
                 VStack(spacing: PhotoDeleteStyle.sectionSpacing) {
-                        primaryOrganizeSection(isCompact: false, pagePadding: pagePadding)
+                        primaryOrganizeSection(
+                            isCompact: false,
+                            pagePadding: pagePadding,
+                            pageWidth: pageWidth
+                        )
                     locationOrganizeSection
                     albumListSection
                     secondaryEntrySection
@@ -271,14 +284,14 @@ struct HomeView: View {
     }
 
     @ViewBuilder
-    private func primaryOrganizeSection(isCompact: Bool, pagePadding: CGFloat) -> some View {
+    private func primaryOrganizeSection(isCompact: Bool, pagePadding: CGFloat, pageWidth: CGFloat) -> some View {
         switch libraryContentState {
         case .preparing:
             libraryScanningSection
         case .empty:
             emptyLibrarySection
         case .available:
-            startOrganizingSection(isCompact: isCompact, pagePadding: pagePadding)
+            startOrganizingSection(isCompact: isCompact, pagePadding: pagePadding, pageWidth: pageWidth)
         case .needsAuthorization:
             EmptyView()
         }
@@ -400,17 +413,28 @@ struct HomeView: View {
     }
 
     // MARK: - 主整理入口
-    private func startOrganizingSection(isCompact: Bool, pagePadding: CGFloat) -> some View {
+    private func startOrganizingSection(isCompact: Bool, pagePadding: CGFloat, pageWidth: CGFloat) -> some View {
         Button {
             navigationPath.append(SwipeViewDestination.category(.all))
         } label: {
             HomePhotoWall(
                 assets: recentWallAssets,
+                containerWidth: wallContainerWidth(
+                    isCompact: isCompact,
+                    pagePadding: pagePadding,
+                    pageWidth: pageWidth
+                ),
                 photoLibraryManager: dataManager.photoLibraryManager
             )
         }
         .buttonStyle(.plain)
         .padding(.horizontal, isCompact ? 0 : -pagePadding)
+    }
+
+    private func wallContainerWidth(isCompact: Bool, pagePadding: CGFloat, pageWidth: CGFloat) -> CGFloat {
+        guard isCompact else { return pageWidth }
+        let columnSpacing: CGFloat = 22
+        return (pageWidth - pagePadding * 2 - columnSpacing) / 2
     }
 
     private var recentWallAssets: [PHAsset] {

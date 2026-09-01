@@ -11,4 +11,14 @@ struct PhotoWallConfigurationTests {
     @Test func columnCountForEmptyLibraryIsZero() {
         #expect(PhotoWallConfiguration.columnCount(assetCount: 0) == 0)
     }
+
+    @Test func tileSideFitsThreeVisibleColumns() {
+        let side = PhotoWallConfiguration.tileSide(for: 393)
+        #expect(abs(side - 130.333) < 0.01)
+    }
+
+    @Test func tileSideClampsToSaneBounds() {
+        #expect(PhotoWallConfiguration.tileSide(for: 100) == 72)
+        #expect(PhotoWallConfiguration.tileSide(for: 900) == 150)
+    }
 }
