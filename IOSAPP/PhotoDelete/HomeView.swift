@@ -487,6 +487,7 @@ struct HomeView: View {
                                 showsChevron: true
                             )
                             .equatable()
+                            .padding(.horizontal, 16)
                             .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
