@@ -5,6 +5,7 @@
 //  Created by PhotoDelete Team on 11/7/25.
 //
 
+import Photos
 import SwiftUI
 
 enum SwipeViewDestination: Hashable {
@@ -426,16 +427,25 @@ struct HomeView: View {
             Button {
                 navigationPath.append(SwipeViewDestination.category(.all))
             } label: {
-                HStack(spacing: 9) {
-                    Image(systemName: "photo.on.rectangle")
-                        .font(.system(size: 15, weight: .semibold))
-                    Text(L10n.string("开始整理"))
-                }
+                HomePhotoWall(
+                    assets: recentWallAssets,
+                    photoLibraryManager: dataManager.photoLibraryManager
+                )
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(height: PhotoWallConfiguration.tileHeight)
+                .clipped()
             }
-            .photoDeletePrimaryButton()
+            .buttonStyle(.plain)
         }
         .padding(isCompact ? 18 : 20)
         .photoDeleteCard()
+    }
+
+    private var recentWallAssets: [PHAsset] {
+        Array(
+            dataManager.photoLibraryManager.allPhotos
+                .prefix(PhotoWallConfiguration.maxAssets)
+        )
     }
 
     // MARK: - 相册列表
