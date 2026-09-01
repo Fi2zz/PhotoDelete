@@ -14,8 +14,8 @@ struct HomePhotoWallTile: View {
 
     private var pixelSize: CGSize {
         CGSize(
-            width: PhotoWallConfiguration.tileWidth * 2,
-            height: PhotoWallConfiguration.tileHeight * 2
+            width: PhotoWallConfiguration.tileSide * 2,
+            height: PhotoWallConfiguration.tileSide * 2
         )
     }
 
@@ -30,10 +30,10 @@ struct HomePhotoWallTile: View {
             }
         }
         .frame(
-            width: PhotoWallConfiguration.tileWidth,
-            height: PhotoWallConfiguration.tileHeight
+            width: PhotoWallConfiguration.tileSide,
+            height: PhotoWallConfiguration.tileSide
         )
-        .clipShape(RoundedRectangle(cornerRadius: PhotoWallConfiguration.tileCornerRadius))
+        .clipped()
         .task(id: asset.localIdentifier) { loadThumbnail() }
     }
 

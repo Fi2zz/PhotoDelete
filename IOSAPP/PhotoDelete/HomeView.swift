@@ -432,7 +432,7 @@ struct HomeView: View {
                     photoLibraryManager: dataManager.photoLibraryManager
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .frame(height: PhotoWallConfiguration.tileHeight)
+                .frame(height: PhotoWallConfiguration.wallHeight)
                 .clipped()
             }
             .buttonStyle(.plain)

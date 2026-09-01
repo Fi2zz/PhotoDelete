@@ -2,67 +2,69 @@ import Testing
 @testable import PhotoDelete
 
 struct PhotoWallScrollMathTests {
-    private let tileWidth = Double(PhotoWallConfiguration.tileWidth)
-    private let spacing = Double(PhotoWallConfiguration.tileSpacing)
+    private let tileSide = Double(PhotoWallConfiguration.tileSide)
+    private let gap = Double(PhotoWallConfiguration.tileGap)
 
-    private func setWidth(for count: Int) -> Double {
-        PhotoWallConfiguration.setWidth(assetCount: count)
+    private func setWidth(columns: Int) -> Double {
+        PhotoWallConfiguration.setWidth(columnCount: columns)
     }
 
-    @Test func setWidthCoversTilesAndSpacing() {
-        let width = setWidth(for: 4)
-        #expect(width == 4 * (tileWidth + spacing))
+    @Test func columnCountFillsThreeRowsPerColumn() {
+        #expect(PhotoWallConfiguration.columnCount(assetCount: 36) == 12)
+        #expect(PhotoWallConfiguration.columnCount(assetCount: 37) == 13)
+        #expect(PhotoWallConfiguration.columnCount(assetCount: 3) == 1)
     }
 
-    @Test func setWidthForEmptyLibraryIsZero() {
-        #expect(setWidth(for: 0) == 0)
+    @Test func columnCountForEmptyLibraryIsZero() {
+        #expect(PhotoWallConfiguration.columnCount(assetCount: 0) == 0)
+    }
+
+    @Test func setWidthCoversColumnsIncludingGap() {
+        #expect(setWidth(columns: 4) == 4 * (tileSide + gap))
     }
 
     @Test func offsetStartsAtPhaseAndMovesLeft() {
-        let offset = PhotoWallScrollMath.offsetX(
-            elapsed: 1,
-            speed: 30,
-            setWidth: 1000,
-            phase: 0
-        )
+        let offset = PhotoWallScrollMath.offsetX(elapsed: 1, speed: 30, setWidth: 1000, phase: 0)
         #expect(offset == -30)
     }
 
-    @Test func offsetWrapsWithinOneSetWidth() {
-        let width = setWidth(for: 28)
-        let offset = PhotoWallScrollMath.offsetX(
-            elapsed: 1_000,
-            speed: 1_000,
-            setWidth: width,
-            phase: 0
-        )
+    @Test func offsetStaysWithinOneSetWidth() {
+        let width = setWidth(columns: 12)
+        let offset = PhotoWallScrollMath.offsetX(elapsed: 1_000, speed: 1_000, setWidth: width, phase: 0)
         #expect(offset > -width)
         #expect(offset <= 0)
     }
 
     @Test func offsetIsContinuousAcrossWrap() {
-        let width = setWidth(for: 28)
+        let width = setWidth(columns: 12)
         let before = PhotoWallScrollMath.offsetX(elapsed: 10.0, speed: 30, setWidth: width, phase: 0)
         let after = PhotoWallScrollMath.offsetX(elapsed: 10.001, speed: 30, setWidth: width, phase: 0)
-        let jump = abs(before - after)
-        #expect(jump < 1)
+        #expect(abs(before - after) < 1)
     }
 
     @Test func offsetHandlesZeroSetWidthSafely() {
-        let offset = PhotoWallScrollMath.offsetX(elapsed: 5, speed: 30, setWidth: 0, phase: 0)
-        #expect(offset == 0)
+        #expect(PhotoWallScrollMath.offsetX(elapsed: 5, speed: 30, setWidth: 0, phase: 0) == 0)
     }
 
-    @Test func offsetResumesFromPhaseWithoutJump() {
-        let width = setWidth(for: 28)
-        let pausedOffset = PhotoWallScrollMath.offsetX(elapsed: 3, speed: 30, setWidth: width, phase: 0)
-        let resumePhase = -pausedOffset
+    @Test func normalizeKeepsValueInNegativeHalfOpenRange() {
+        let width = setWidth(columns: 12)
+        #expect(PhotoWallScrollMath.normalize(-width, setWidth: width) == 0)
+        #expect(PhotoWallScrollMath.normalize(0, setWidth: width) == 0)
+        #expect(PhotoWallScrollMath.normalize(width + 5, setWidth: width) == -width + 5)
+        #expect(PhotoWallScrollMath.normalize(-width - 5, setWidth: width) == -5)
+        #expect(PhotoWallScrollMath.normalize(5, setWidth: width) == 5 - width)
+    }
+
+    @Test func dragCommitContinuesFromDraggedPosition() {
+        let width = setWidth(columns: 12)
+        let autoOffset = PhotoWallScrollMath.offsetX(elapsed: 3, speed: 30, setWidth: width, phase: 0)
+        let draggedOffset = PhotoWallScrollMath.normalize(autoOffset + 120, setWidth: width)
         let resumedOffset = PhotoWallScrollMath.offsetX(
             elapsed: 0.5,
             speed: 30,
             setWidth: width,
-            phase: resumePhase
+            phase: -draggedOffset
         )
-        #expect(resumedOffset == pausedOffset - 15)
+        #expect(resumedOffset == PhotoWallScrollMath.normalize(draggedOffset - 15, setWidth: width))
     }
 }
