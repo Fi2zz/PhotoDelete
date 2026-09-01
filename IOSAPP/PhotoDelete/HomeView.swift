@@ -441,27 +441,13 @@ struct HomeView: View {
     // MARK: - 相册列表
     private var albumListSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(L10n.string("相册"))
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-                Spacer()
-
-                Button {
-                    navigationPath.append(SwipeViewDestination.albumManager)
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "slider.horizontal.3")
-                            .font(.system(size: 12, weight: .semibold))
-                        Text(L10n.string("管理相册"))
-                            .font(.system(size: 13, weight: .semibold))
-                    }
-                    .foregroundColor(PhotoDeleteStyle.accent)
-                }
-                .buttonStyle(.plain)
-                .photoDeleteMinimumTapTarget()
+            SectionHeader(
+                title: L10n.string("相册"),
+                actionTitle: L10n.string("管理相册"),
+                actionIcon: "slider.horizontal.3"
+            ) {
+                navigationPath.append(SwipeViewDestination.albumManager)
             }
-            .padding(.horizontal, 2)
 
             if dataManager.userAlbums.isEmpty {
                 Text(L10n.string("还没有自建相册"))
@@ -507,13 +493,7 @@ struct HomeView: View {
     // MARK: - 地点整理入口
     private var locationOrganizeSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(L10n.string("按地点整理"))
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-                Spacer()
-            }
-            .padding(.horizontal, 2)
+            SectionHeader(title: L10n.string("按地点整理"))
 
             HomeEntryRow(
                 icon: "mappin.and.ellipse",
@@ -583,13 +563,7 @@ struct HomeView: View {
     private var timelineSection: some View {
         if !isLibraryPreparing && !dataManager.timeGroups.isEmpty {
             VStack(alignment: .leading, spacing: 10) {
-                HStack {
-                    Text(L10n.string("按时间整理"))
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(PhotoDeleteStyle.primaryText)
-                    Spacer()
-                }
-                .padding(.horizontal, 2)
+                SectionHeader(title: L10n.string("按时间整理"))
 
                 VStack(spacing: 0) {
                     if dataManager.historicalTodayPhotoCount > 0 {
@@ -817,9 +791,4 @@ struct CategorySkeletonCard: View {
         .padding(14)
         .frame(minHeight: PhotoDeleteStyle.rowMinHeight)
     }
-}
-
-#Preview {
-    HomeView()
-        .environmentObject(DataManager())
 }

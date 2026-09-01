@@ -113,15 +113,10 @@ struct AdvancedView: View {
         queues: [AdvancedCleanupQueue]
     ) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            VStack(alignment: .leading, spacing: 3) {
-                Text(L10n.string("高效清理"))
-                    .font(.system(size: 17, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                Text(L10n.string("集中处理相似照片、大文件、图片和视频压缩。"))
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-            }
+            SectionHeader(
+                title: L10n.string("高效清理"),
+                subtitle: L10n.string("集中处理相似照片、大文件、图片和视频压缩。")
+            )
 
             if dataManager.imageCompressionJob.isCompressing {
                 AdvancedVideoCompressionProgressCard(
@@ -892,21 +887,15 @@ private struct AdvancedAssetListView: View {
 
     private func addSelectedAssetsToDeleteCandidates() {
         let assets = selectedAssets
-        guard !assets.isEmpty, !isExecutingBatch else { return }
+        guard !assets.isEmpty else { return }
         dataManager.addToDeleteCandidates(assets)
         HapticManager.notify(.warning)
 
-        isExecutingBatch = true
-        BatchCleanupExecutor.execute(
+        AdvancedAssetDeletionFlow(
             dataManager: dataManager,
-            deleteAssets: assets,
-            favoriteAssets: []
-        ) { outcome in
-            isExecutingBatch = false
-            syncSelectionWithPendingDeleteCandidates()
-            reloadAssets()
-            HapticManager.notify(outcome.success ? .success : .error)
-        }
+            isExecuting: $isExecutingBatch,
+            reload: { reloadAssets(); syncSelectionWithPendingDeleteCandidates() }
+        ).run(assets)
     }
 
     private func syncSelectionWithPendingDeleteCandidates() {
@@ -949,7 +938,6 @@ private struct AdvancedImageCompressionView: View {
     @State private var selectedAssetIDs: Set<String> = []
     @State private var compressionPlan: ImageCompressionPlan = .default
     @State private var showingCompressionComparison = false
-    @State private var dismissCompressionResultAfterBatch = false
     @State private var previewAsset: AdvancedPreviewAsset?
     @State private var isExecutingBatch = false
     @State private var compressionOptionsContext: AdvancedImageCompressionOptionsContext?
@@ -1271,35 +1259,22 @@ private struct AdvancedImageCompressionView: View {
         compressionOptionsContext = AdvancedImageCompressionOptionsContext(assets: images)
     }
 
+    private var imageDeletionFlow: AdvancedAssetDeletionFlow {
+        AdvancedAssetDeletionFlow(
+            dataManager: dataManager,
+            isExecuting: $isExecutingBatch,
+            reload: reloadAssets,
+            onSuccess: { dataManager.markImageCompressionOriginalsDeleted(assetIdentifiers: $0) },
+            onResultDismissed: { dataManager.clearImageCompressionResult() }
+        )
+    }
+
     private func deleteSelectedImages() {
         let images = selectedAssets
         guard !images.isEmpty, !isCompressing else { return }
         dataManager.addToDeleteCandidates(images)
         HapticManager.notify(.warning)
-        executeImageDeletion(images, clearResultAfter: false)
-    }
-
-    private func executeImageDeletion(_ assets: [PHAsset], clearResultAfter: Bool) {
-        guard !isExecutingBatch else { return }
-        isExecutingBatch = true
-        BatchCleanupExecutor.execute(
-            dataManager: dataManager,
-            deleteAssets: assets,
-            favoriteAssets: []
-        ) { outcome in
-            isExecutingBatch = false
-            if outcome.success {
-                dataManager.markImageCompressionOriginalsDeleted(assetIdentifiers: outcome.deletedAssetIDs)
-                if clearResultAfter {
-                    dataManager.clearImageCompressionResult()
-                    dismissCompressionResultAfterBatch = false
-                }
-                HapticManager.notify(.success)
-            } else {
-                HapticManager.notify(.error)
-            }
-            reloadAssets()
-        }
+        imageDeletionFlow.run(images)
     }
 
     private func compressSelectedImages(images: [PHAsset], plan: ImageCompressionPlan) {
@@ -1324,11 +1299,7 @@ private struct AdvancedImageCompressionView: View {
         }
 
         let originalIDs = Set(compressionResult.items.map(\.originalAssetIdentifier))
-        let fetchedOriginals = PHAsset.fetchAssets(withLocalIdentifiers: Array(originalIDs), options: nil)
-        var originalAssets: [PHAsset] = []
-        fetchedOriginals.enumerateObjects { asset, _, _ in
-            originalAssets.append(asset)
-        }
+        let originalAssets = PHAssetFetcher.assets(withLocalIdentifiers: Array(originalIDs))
         guard !originalAssets.isEmpty else {
             dataManager.setImageCompressionError(L10n.string("暂时找不到原图。"))
             return
@@ -1336,18 +1307,14 @@ private struct AdvancedImageCompressionView: View {
 
         dataManager.addToDeleteCandidates(originalAssets)
         HapticManager.notify(.warning)
-        executeImageDeletion(originalAssets, clearResultAfter: true)
+        imageDeletionFlow.run(originalAssets, clearResultAfter: true)
     }
 
     private func queueCompressedHistoryOriginalImagesForDeletion() {
         let originalIDs = Set(dataManager.imageCompressionHistoryStore.sessions.flatMap { session in
             session.items.map(\.originalAssetIdentifier)
         })
-        let fetchedOriginals = PHAsset.fetchAssets(withLocalIdentifiers: Array(originalIDs), options: nil)
-        var originalAssets: [PHAsset] = []
-        fetchedOriginals.enumerateObjects { asset, _, _ in
-            originalAssets.append(asset)
-        }
+        let originalAssets = PHAssetFetcher.assets(withLocalIdentifiers: Array(originalIDs))
         guard !originalAssets.isEmpty else {
             dataManager.setImageCompressionError(L10n.string("暂时找不到原图。"))
             return
@@ -1355,7 +1322,7 @@ private struct AdvancedImageCompressionView: View {
 
         dataManager.addToDeleteCandidates(originalAssets)
         HapticManager.notify(.warning)
-        executeImageDeletion(originalAssets, clearResultAfter: false)
+        imageDeletionFlow.run(originalAssets)
     }
 
     private func keepOriginalImages() {
@@ -2178,7 +2145,6 @@ private struct AdvancedVideoCompressionView: View {
     @State private var compressionPlan: VideoCompressionPlan = .default
     @State private var showingCompressionComparison = false
     @State private var showingICloudVideoInfo = false
-    @State private var dismissCompressionResultAfterBatch = false
     @State private var previewAsset: AdvancedPreviewAsset?
     @State private var isExecutingBatch = false
     @State private var compressionOptionsContext: AdvancedVideoCompressionOptionsContext?
@@ -2769,35 +2735,22 @@ private struct AdvancedVideoCompressionView: View {
         compressionOptionsContext = AdvancedVideoCompressionOptionsContext(assets: videos)
     }
 
+    private var videoDeletionFlow: AdvancedAssetDeletionFlow {
+        AdvancedAssetDeletionFlow(
+            dataManager: dataManager,
+            isExecuting: $isExecutingBatch,
+            reload: reloadAssets,
+            onSuccess: { dataManager.markVideoCompressionOriginalsDeleted(assetIdentifiers: $0) },
+            onResultDismissed: { dataManager.clearVideoCompressionResult() }
+        )
+    }
+
     private func deleteSelectedVideos() {
         let videos = selectedAssets
         guard !videos.isEmpty, !isCompressing else { return }
         dataManager.addToDeleteCandidates(videos)
         HapticManager.notify(.warning)
-        executeVideoDeletion(videos, clearResultAfter: false)
-    }
-
-    private func executeVideoDeletion(_ assets: [PHAsset], clearResultAfter: Bool) {
-        guard !isExecutingBatch else { return }
-        isExecutingBatch = true
-        BatchCleanupExecutor.execute(
-            dataManager: dataManager,
-            deleteAssets: assets,
-            favoriteAssets: []
-        ) { outcome in
-            isExecutingBatch = false
-            if outcome.success {
-                dataManager.markVideoCompressionOriginalsDeleted(assetIdentifiers: outcome.deletedAssetIDs)
-                if clearResultAfter {
-                    dataManager.clearVideoCompressionResult()
-                    dismissCompressionResultAfterBatch = false
-                }
-                HapticManager.notify(.success)
-            } else {
-                HapticManager.notify(.error)
-            }
-            reloadAssets()
-        }
+        videoDeletionFlow.run(videos)
     }
 
     private func compressSelectedVideos(videos: [PHAsset], plan: VideoCompressionPlan) {
@@ -2826,11 +2779,7 @@ private struct AdvancedVideoCompressionView: View {
         }
 
         let originalIDs = Set(compressionResult.items.map(\.originalAssetIdentifier))
-        let fetchedOriginals = PHAsset.fetchAssets(withLocalIdentifiers: Array(originalIDs), options: nil)
-        var originalAssets: [PHAsset] = []
-        fetchedOriginals.enumerateObjects { asset, _, _ in
-            originalAssets.append(asset)
-        }
+        let originalAssets = PHAssetFetcher.assets(withLocalIdentifiers: Array(originalIDs))
         guard !originalAssets.isEmpty else {
             dataManager.setVideoCompressionError(L10n.string("暂时找不到原视频。"))
             return
@@ -2838,18 +2787,14 @@ private struct AdvancedVideoCompressionView: View {
 
         dataManager.addToDeleteCandidates(originalAssets)
         HapticManager.notify(.warning)
-        executeVideoDeletion(originalAssets, clearResultAfter: true)
+        videoDeletionFlow.run(originalAssets, clearResultAfter: true)
     }
 
     private func queueCompressedHistoryOriginalVideosForDeletion() {
         let originalIDs = Set(dataManager.videoCompressionHistoryStore.sessions.flatMap { session in
             session.items.map(\.originalAssetIdentifier)
         })
-        let fetchedOriginals = PHAsset.fetchAssets(withLocalIdentifiers: Array(originalIDs), options: nil)
-        var originalAssets: [PHAsset] = []
-        fetchedOriginals.enumerateObjects { asset, _, _ in
-            originalAssets.append(asset)
-        }
+        let originalAssets = PHAssetFetcher.assets(withLocalIdentifiers: Array(originalIDs))
         guard !originalAssets.isEmpty else {
             dataManager.setVideoCompressionError(L10n.string("暂时找不到原视频。"))
             return
@@ -2857,7 +2802,7 @@ private struct AdvancedVideoCompressionView: View {
 
         dataManager.addToDeleteCandidates(originalAssets)
         HapticManager.notify(.warning)
-        executeVideoDeletion(originalAssets, clearResultAfter: false)
+        videoDeletionFlow.run(originalAssets)
     }
 
     private func keepOriginalVideos() {
@@ -4136,21 +4081,15 @@ private struct AdvancedSimilarPhotoGroupsView: View {
 
     private func addSelectedAssetsToDeleteCandidates() {
         let assets = selectedAssets
-        guard !assets.isEmpty, !isExecutingBatch else { return }
+        guard !assets.isEmpty else { return }
         dataManager.addToDeleteCandidates(assets)
         HapticManager.notify(.warning)
 
-        isExecutingBatch = true
-        BatchCleanupExecutor.execute(
+        AdvancedAssetDeletionFlow(
             dataManager: dataManager,
-            deleteAssets: assets,
-            favoriteAssets: []
-        ) { outcome in
-            isExecutingBatch = false
-            syncSelectionWithPendingDeleteCandidates()
-            reloadGroups()
-            HapticManager.notify(outcome.success ? .success : .error)
-        }
+            isExecuting: $isExecutingBatch,
+            reload: { reloadGroups(); syncSelectionWithPendingDeleteCandidates() }
+        ).run(assets)
     }
 
     private func syncSelectionWithPendingDeleteCandidates() {
