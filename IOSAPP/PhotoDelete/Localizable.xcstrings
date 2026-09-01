@@ -42,6 +42,36 @@
         }
       }
     },
+    "%@ %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@ %@/%@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@/%3$@"
+          }
+        }
+      }
+    },
+    "%@ %lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$lld"
+          }
+        }
+      }
+    },
     "%@ → %@" : {
       "localizations" : {
         "ar" : {
@@ -120,6 +150,16 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@, %2$@"
+          }
+        }
+      }
+    },
+    "%@, %@, %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@, %2$@, %3$@"
           }
         }
       }
@@ -1227,7 +1267,9 @@
         }
       }
     },
-    "RTL" : {},
+    "RTL" : {
+
+    },
     "一个免费的相册整理工具。滑动判断照片去留，完成后再统一确认。" : {
       "localizations" : {
         "ar" : {
@@ -2232,6 +2274,9 @@
           }
         }
       }
+    },
+    "位置" : {
+
     },
     "使用统计" : {
       "localizations" : {
@@ -8379,6 +8424,9 @@
         }
       }
     },
+    "已删除 %lld 张" : {
+
+    },
     "已加入待删除" : {
       "localizations" : {
         "ar" : {
@@ -8413,7 +8461,9 @@
         }
       }
     },
-    "已加入收藏" : {},
+    "已加入收藏" : {
+
+    },
     "已压缩" : {
       "localizations" : {
         "ar" : {
@@ -8777,6 +8827,9 @@
           }
         }
       }
+    },
+    "已收藏 %lld 张" : {
+
     },
     "已整理" : {
       "localizations" : {
@@ -11219,7 +11272,9 @@
         }
       }
     },
-    "所属相册：%@" : {},
+    "所属相册：%@" : {
+
+    },
     "手势" : {
       "localizations" : {
         "ar" : {
@@ -11374,7 +11429,9 @@
         }
       }
     },
-    "打开待确认列表" : {},
+    "打开待确认列表" : {
+
+    },
     "打开相册页管理相册" : {
       "localizations" : {
         "ar" : {
@@ -12322,7 +12379,9 @@
         }
       }
     },
-    "收藏失败，请再试一次" : {},
+    "收藏失败，请再试一次" : {
+
+    },
     "放大的照片" : {
       "localizations" : {
         "ar" : {
@@ -12358,6 +12417,7 @@
       }
     },
     "数据与权限" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -16456,7 +16516,9 @@
         }
       }
     },
-    "点按整理这个相册" : {},
+    "点按整理这个相册" : {
+
+    },
     "照片" : {
       "localizations" : {
         "ar" : {
@@ -20000,6 +20062,47 @@
         }
       }
     },
+    "还没有自建相册" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا توجد ألبومات منشأة بعد"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine eigenen Alben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No custom albums yet"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自作アルバムはまだありません"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有自建相册"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還沒有自建相簿"
+          }
+        }
+      }
+    },
     "这个相册不支持删除。" : {
       "localizations" : {
         "ar" : {
@@ -20542,7 +20645,9 @@
         }
       }
     },
-    "进阶功能需要读取本机照片库，才能生成清理队列。" : {},
+    "进阶功能需要读取本机照片库，才能生成清理队列。" : {
+
+    },
     "连拍" : {
       "localizations" : {
         "ar" : {
@@ -20900,6 +21005,9 @@
           }
         }
       }
+    },
+    "释放 %@" : {
+
     },
     "重试识别地名" : {
       "localizations" : {
@@ -21708,47 +21816,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "默認跟隨 iPhone 系統語言。也可以在這裡固定刪圖的顯示語言。"
-          }
-        }
-      }
-    },
-    "还没有自建相册" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "لا توجد ألبومات منشأة بعد"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noch keine eigenen Alben"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No custom albums yet"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自作アルバムはまだありません"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "还没有自建相册"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "還沒有自建相簿"
           }
         }
       }
