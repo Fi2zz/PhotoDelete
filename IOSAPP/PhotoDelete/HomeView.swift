@@ -431,14 +431,9 @@ struct HomeView: View {
                     assets: recentWallAssets,
                     photoLibraryManager: dataManager.photoLibraryManager
                 )
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .frame(height: PhotoWallConfiguration.wallHeight)
-                .clipped()
             }
             .buttonStyle(.plain)
         }
-        .padding(isCompact ? 18 : 20)
-        .photoDeleteCard()
     }
 
     private var recentWallAssets: [PHAsset] {
