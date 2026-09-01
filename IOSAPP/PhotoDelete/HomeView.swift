@@ -473,8 +473,6 @@ struct HomeView: View {
                                 showsChevron: true
                             )
                             .equatable()
-                            .padding(.horizontal, 16)
-                            .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
 
@@ -676,30 +674,17 @@ struct HomeEntryRow: View {
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 12) {
-                PhotoDeleteIconTile(icon: icon, tint: tint)
-
-                Text(title.appLocalized)
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-                    .lineLimit(1)
-
-                Spacer()
-
-                Text(detail.appLocalized)
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-                    .lineLimit(1)
-
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.tertiaryText)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .frame(minHeight: PhotoDeleteStyle.rowMinHeight)
-            .contentShape(Rectangle())
+            PhotoDeleteListRow(
+                title: title.appLocalized,
+                showsChevron: true,
+                leading: { PhotoDeleteIconTile(icon: icon, tint: tint) },
+                accessory: {
+                    Text(detail.appLocalized)
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundColor(PhotoDeleteStyle.secondaryText)
+                        .lineLimit(1)
+                }
+            )
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)

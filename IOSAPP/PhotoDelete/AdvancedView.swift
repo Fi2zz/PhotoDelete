@@ -208,34 +208,19 @@ private struct AdvancedCleanupEntryRow: View {
     let queue: AdvancedCleanupQueue
 
     var body: some View {
-        HStack(spacing: 12) {
-            PhotoDeleteIconTile(
-                icon: queue.kind.icon,
-                tint: queue.kind.tint,
-                size: 38,
-                cornerRadius: 11
-            )
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text(queue.kind.title)
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-
-                Text(detailText)
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.72)
+        PhotoDeleteListRow(
+            title: queue.kind.title,
+            subtitle: detailText,
+            showsChevron: true,
+            leading: {
+                PhotoDeleteIconTile(
+                    icon: queue.kind.icon,
+                    tint: queue.kind.tint,
+                    size: 38,
+                    cornerRadius: 11
+                )
             }
-
-            Spacer()
-
-            Image(systemName: "chevron.right")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(PhotoDeleteStyle.tertiaryText)
-        }
-        .padding(14)
-        .contentShape(Rectangle())
+        )
     }
 
     private var detailText: String {

@@ -747,50 +747,28 @@ struct AlbumInfoRow: View, Equatable {
     }
 
     var body: some View {
-        rowContent
-            .contentShape(Rectangle())
-            .accessibilityElement(children: .combine)
-            .accessibilityAddTraits(.isButton)
-            .accessibilityLabel("\(title), \(L10n.photoCount(photosCount))")
-            .task(id: thumbnailAssetID) {
-                await loadAlbumThumbnail()
+        PhotoDeleteListRow(
+            title: title,
+            subtitle: L10n.photoCount(photosCount),
+            showsChevron: showsChevron,
+            leading: { albumThumbnail },
+            accessory: {
+                if let progressText {
+                    Text(progressText)
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundColor(progress?.tint ?? PhotoDeleteStyle.tertiaryText)
+                        .monospacedDigit()
+                        .accessibilityLabel(L10n.string("照片数据整理进度"))
+                        .accessibilityValue(progressText)
+                }
             }
-    }
-
-    private var rowContent: some View {
-        HStack(spacing: 9) {
-            albumThumbnail
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-                    .lineLimit(1)
-
-                Text(L10n.photoCount(photosCount))
-                    .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(PhotoDeleteStyle.secondaryText)
-            }
-
-            Spacer(minLength: 8)
-
-            if let progressText {
-                Text(progressText)
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundColor(progress?.tint ?? PhotoDeleteStyle.tertiaryText)
-                    .monospacedDigit()
-                    .accessibilityLabel(L10n.string("照片数据整理进度"))
-                    .accessibilityValue(progressText)
-            }
-
-            if showsChevron {
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(PhotoDeleteStyle.tertiaryText)
-            }
+        )
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel("\(title), \(L10n.photoCount(photosCount))")
+        .task(id: thumbnailAssetID) {
+            await loadAlbumThumbnail()
         }
-        .padding(.vertical, 4)
-        .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
     }
 
     @ViewBuilder

@@ -166,34 +166,17 @@ private struct TimePeriodRow: View {
     let summary: PhotoPeriodSummary
 
     var body: some View {
-        HStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 6) {
-                Text(TimeOrganizeFormatter.title(for: summary))
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(PhotoDeleteStyle.primaryText)
-                    .lineLimit(1)
-
-                Text(TimeOrganizeFormatter.subtitle(for: summary))
-                    .font(.system(size: 12, weight: .medium))
+        PhotoDeleteListRow(
+            title: TimeOrganizeFormatter.title(for: summary),
+            subtitle: TimeOrganizeFormatter.subtitle(for: summary),
+            showsChevron: true,
+            accessory: {
+                Text(L10n.shortPhotoCount(summary.assetCount))
+                    .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(PhotoDeleteStyle.secondaryText)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.78)
             }
-
-            Spacer(minLength: 8)
-
-            Text(L10n.shortPhotoCount(summary.assetCount))
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(PhotoDeleteStyle.secondaryText)
-                .lineLimit(1)
-
-            Image(systemName: "chevron.right")
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundColor(PhotoDeleteStyle.tertiaryText)
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
-        .contentShape(Rectangle())
+        )
         .accessibilityElement(children: .combine)
     }
 }

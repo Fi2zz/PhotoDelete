@@ -458,57 +458,17 @@ struct SettingRow: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 12) {
-                PhotoDeleteIconTile(icon: icon, tint: iconColor)
-
-                ViewThatFits(in: .horizontal) {
-                    HStack(spacing: 12) {
-                        titleLabel
-                        Spacer(minLength: 8)
-                        subtitleLabel
-                    }
-
-                    VStack(alignment: .leading, spacing: 3) {
-                        titleLabel
-                        subtitleLabel
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                if showsChevron {
-                    Image(systemName: "chevron.right")
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(PhotoDeleteStyle.tertiaryText)
-                }
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .frame(minHeight: PhotoDeleteStyle.rowMinHeight)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
+            PhotoDeleteListRow(
+                title: title.appLocalized,
+                subtitle: subtitle.isEmpty ? nil : subtitle.appLocalized,
+                showsChevron: showsChevron,
+                leading: { PhotoDeleteIconTile(icon: icon, tint: iconColor) }
+            )
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(title.appLocalized))
         .accessibilityValue(Text(subtitle.appLocalized))
-    }
-
-    private var titleLabel: some View {
-        Text(title.appLocalized)
-            .photoDeletePrimaryLabel()
-            .lineLimit(1)
-    }
-
-    @ViewBuilder
-    private var subtitleLabel: some View {
-        if !subtitle.isEmpty {
-            Text(subtitle.appLocalized)
-                .photoDeleteSecondaryLabel()
-                .lineLimit(1)
-                .minimumScaleFactor(0.84)
-                .multilineTextAlignment(.trailing)
-                .truncationMode(.tail)
-        }
     }
 }
 
@@ -522,25 +482,13 @@ struct SettingToggleRow: View {
 
     var body: some View {
         Toggle(isOn: $isOn) {
-            HStack(spacing: 12) {
-                PhotoDeleteIconTile(icon: icon, tint: iconColor)
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(title.appLocalized)
-                        .photoDeletePrimaryLabel()
-                        .lineLimit(1)
-
-                    Text(subtitle.appLocalized)
-                        .photoDeleteSecondaryLabel(.caption)
-                        .lineLimit(2)
-                }
-            }
+            PhotoDeleteListRow(
+                title: title.appLocalized,
+                subtitle: subtitle.appLocalized,
+                leading: { PhotoDeleteIconTile(icon: icon, tint: iconColor) }
+            )
         }
         .tint(theme.selectionTint)
-        .padding(.horizontal, 14)
-        .padding(.vertical, 12)
-        .frame(minHeight: PhotoDeleteStyle.rowMinHeight)
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -564,30 +512,16 @@ struct ReviewSortOrderSettingRow: View {
                 }
             }
         } label: {
-            HStack(spacing: 12) {
-                PhotoDeleteIconTile(icon: "arrow.up.arrow.down")
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(L10n.string("照片顺序"))
-                        .photoDeletePrimaryLabel()
-                        .lineLimit(1)
-
-                    Text(selectedOrder.title)
-                        .photoDeleteSecondaryLabel(.caption)
-                        .lineLimit(1)
+            PhotoDeleteListRow(
+                title: L10n.string("照片顺序"),
+                subtitle: selectedOrder.title,
+                leading: { PhotoDeleteIconTile(icon: "arrow.up.arrow.down") },
+                accessory: {
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(PhotoDeleteStyle.tertiaryText)
                 }
-
-                Spacer(minLength: 12)
-
-                Image(systemName: "chevron.up.chevron.down")
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(PhotoDeleteStyle.tertiaryText)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .frame(minHeight: PhotoDeleteStyle.rowMinHeight)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
+            )
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .ignore)
