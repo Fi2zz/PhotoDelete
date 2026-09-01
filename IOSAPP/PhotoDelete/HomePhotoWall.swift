@@ -7,7 +7,8 @@ import SwiftUI
 import Photos
 
 enum PhotoWallConfiguration {
-    static let maxAssets = 48
+    static let initialBatch = 48
+    static let batchSize = 48
     static let rowCount = 4
     static let visibleColumns = 3
     static let tileGap: CGFloat = 1
@@ -23,24 +24,35 @@ enum PhotoWallConfiguration {
         guard assetCount > 0 else { return 0 }
         return Int(ceil(Double(assetCount) / Double(rowCount)))
     }
+
+    static func nextBatchCount(displayed: Int, total: Int) -> Int {
+        guard displayed < total else { return displayed }
+        return min(displayed + batchSize, total)
+    }
 }
 
 struct HomePhotoWall: View {
-    let assets: [PHAsset]
+    let allAssets: [PHAsset]
     let containerWidth: CGFloat
     let photoLibraryManager: PhotoLibraryManager
+
+    @State private var displayedCount = PhotoWallConfiguration.initialBatch
+
+    private var displayedAssets: [PHAsset] {
+        Array(allAssets.prefix(displayedCount))
+    }
 
     private var tileSide: CGFloat {
         PhotoWallConfiguration.tileSide(for: containerWidth)
     }
 
     private var columnCount: Int {
-        PhotoWallConfiguration.columnCount(assetCount: assets.count)
+        PhotoWallConfiguration.columnCount(assetCount: displayedAssets.count)
     }
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(alignment: .top, spacing: PhotoWallConfiguration.tileGap) {
+            LazyHStack(alignment: .top, spacing: PhotoWallConfiguration.tileGap) {
                 ForEach(0..<columnCount, id: \.self) { column in
                     wallColumn(column)
                 }
@@ -59,12 +71,29 @@ struct HomePhotoWall: View {
                     )
                 }
             }
+
+            if column == columnCount - 1 {
+                loadMoreProbe
+            }
         }
     }
 
+    private var loadMoreProbe: some View {
+        Color.clear
+            .frame(width: 1, height: 1)
+            .onAppear(perform: loadMorePhotos)
+    }
+
     private func asset(atColumn column: Int, row: Int) -> PHAsset? {
-        guard !assets.isEmpty else { return nil }
+        guard !displayedAssets.isEmpty else { return nil }
         let index = column * PhotoWallConfiguration.rowCount + row
-        return assets[index % assets.count]
+        return displayedAssets[index % displayedAssets.count]
+    }
+
+    private func loadMorePhotos() {
+        displayedCount = PhotoWallConfiguration.nextBatchCount(
+            displayed: displayedCount,
+            total: allAssets.count
+        )
     }
 }

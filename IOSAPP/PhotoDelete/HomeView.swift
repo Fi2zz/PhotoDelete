@@ -418,7 +418,7 @@ struct HomeView: View {
             navigationPath.append(SwipeViewDestination.category(.all))
         } label: {
             HomePhotoWall(
-                assets: recentWallAssets,
+                allAssets: dataManager.photoLibraryManager.allPhotos,
                 containerWidth: wallContainerWidth(
                     isCompact: isCompact,
                     pagePadding: pagePadding,
@@ -435,13 +435,6 @@ struct HomeView: View {
         guard isCompact else { return pageWidth }
         let columnSpacing: CGFloat = 22
         return (pageWidth - pagePadding * 2 - columnSpacing) / 2
-    }
-
-    private var recentWallAssets: [PHAsset] {
-        Array(
-            dataManager.photoLibraryManager.allPhotos
-                .prefix(PhotoWallConfiguration.maxAssets)
-        )
     }
 
     // MARK: - 相册列表

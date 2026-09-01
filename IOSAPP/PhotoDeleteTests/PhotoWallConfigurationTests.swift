@@ -21,4 +21,11 @@ struct PhotoWallConfigurationTests {
         #expect(PhotoWallConfiguration.tileSide(for: 100) == 72)
         #expect(PhotoWallConfiguration.tileSide(for: 900) == 150)
     }
+
+    @Test func nextBatchCountAppendsUntilTotalReached() {
+        #expect(PhotoWallConfiguration.nextBatchCount(displayed: 0, total: 200) == 48)
+        #expect(PhotoWallConfiguration.nextBatchCount(displayed: 48, total: 200) == 96)
+        #expect(PhotoWallConfiguration.nextBatchCount(displayed: 96, total: 100) == 100)
+        #expect(PhotoWallConfiguration.nextBatchCount(displayed: 100, total: 100) == 100)
+    }
 }
