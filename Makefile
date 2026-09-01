@@ -10,7 +10,7 @@
 DEVICE_ID ?= 14EDD430-3B6F-5969-B920-F1C427404CA4
 PROJECT := IOSAPP/PhotoDelete.xcodeproj
 SCHEME := PhotoDelete
-BUNDLE_ID := com.01mvp.photodelete
+BUNDLE_ID := com.fitz.photo.cleaner
 DERIVED_DATA := IOSAPP/DerivedData
 APP_PATH := $(DERIVED_DATA)/Build/Products/Debug-iphoneos/$(SCHEME).app
 
